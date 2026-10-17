@@ -3,6 +3,7 @@
 (() => {
   'use strict';
   let activeGraphTooltip = null;
+  let activeProofPeek = null;
   let graphTooltipFrame;
   const PROOF_SELECTION_SCALE = 1.2;
   const PROOF_FOCUS_DURATION = 900;
@@ -168,6 +169,7 @@
   }
 
   function refreshGraphTooltip() {
+    activeProofPeek?.position();
     if (!activeGraphTooltip) return;
     cancelAnimationFrame(graphTooltipFrame);
     graphTooltipFrame = requestAnimationFrame(() => {
@@ -335,7 +337,7 @@
     close.addEventListener('click', () => {
       const trigger = controller.selectionTrigger;
       clearProofSelection(controller);
-      trigger?.focus?.();
+      restoreProofFocus(controller, trigger);
     });
     appendText(panel, 'div', 'graph-detail-scroll', '');
     figure.append(panel);
@@ -661,6 +663,7 @@
 
   function detailForInfo(controller, info) {
     if (!info) return null;
+    if (info.detailConcept) return controller.details[`concept:${info.detailConcept}`] || null;
     if (info.kind === 'proof') return controller.details[`proof:${info.semanticId}`] || null;
     if (info.kind === 'concept') return controller.details[`concept:${info.semanticId}`] || null;
     return Object.values(controller.details).find((detail) => detail.kind === 'concept' &&
@@ -722,6 +725,8 @@
   }
 
   function focusProofSelection(controller) {
+    // The card may have been dismissed before this animation frame runs.
+    if (!controller.selection) return;
     const edge = controller.selection.type === 'edge'
       ? controller.interaction.edges[controller.selection.id] : null;
     const node = controller.selection.type === 'node'
@@ -804,6 +809,7 @@
 
   function clearProofSelection(controller, restoreScale = true) {
     if (!controller?.selection) return;
+    controller.suspendProofPeek?.();
     stopCameraAnimation(controller);
     clearProofHighlightClasses(controller);
     const baseScale = controller.selectionBaseScale;
@@ -831,6 +837,12 @@
     if (activeProofController === controller) activeProofController = null;
   }
 
+  function restoreProofFocus(controller, trigger) {
+    controller.restoringProofFocus = true;
+    try { trigger?.focus?.({ preventScroll: true }); }
+    finally { controller.restoringProofFocus = false; }
+  }
+
   function selectProofItem(controller, descriptor, trigger, view) {
     if (activeProofController && activeProofController !== controller)
       clearProofSelection(activeProofController);
@@ -851,6 +863,7 @@
     event.preventDefault();
     event.stopPropagation();
     hideTooltip(controller.container);
+    controller.suspendProofPeek?.();
     if (figure.classList.contains('graph-expanded')) {
       select();
       return;
@@ -873,8 +886,14 @@
       const detail = detailForInfo(controller, info);
       if (!detail) continue;
       const activate = (event) => {
+        if (info.detailView && event.pointerType === 'touch') {
+          event.preventDefault(); event.stopPropagation();
+          controller.openProofPeek?.(element, info);
+          return;
+        }
         const trigger = event.currentTarget;
-        const eyebrow = info.kind === 'proof' ? 'Proof'
+        const eyebrow = info.detailConcept && info.kind === 'proof' ? 'Proofs'
+          : info.kind === 'proof' ? 'Proof'
           : detail.type ? detail.type.charAt(0).toUpperCase() + detail.type.slice(1) : 'Claim';
         activateProofItem(controller, event, () => {
           selectProofItem(controller, { type: 'node', id: element.dataset.nodeId }, trigger, {
@@ -882,7 +901,7 @@
             focusStatement: ['statement', 'dock'].includes(info.kind) ? info.semanticId : undefined,
             href: info.kind === 'proof' ? (info.href || detail.href) :
               (detail.href || info.href?.split('#')[0]),
-            actionLabel: info.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+            actionLabel: info.kind === 'proof' && !info.detailConcept ? 'Open proof page' : 'Open concept page',
           });
         });
       };
@@ -918,13 +937,14 @@
             detail: claimDetail,
             eyebrow: assumption ? 'Assumption link' : 'Conclusion link',
             name: claimDetail.name,
-            relation: assumption
-              ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
-              : `${proofDetail.name} establishes ${claimDetail.name}.`,
-            proofDetail,
+            relation: proofInfo.detailConcept
+              ? assumption ? `Proofs in ${proofDetail.name} use ${claimDetail.name}.` : `Proofs of the statements in ${claimDetail.name}.`
+              : assumption ? `${claimDetail.name} is used as an assumption of ${proofDetail.name}.`
+                : `${proofDetail.name} establishes ${claimDetail.name}.`,
+            proofDetail: proofInfo.detailConcept ? undefined : proofDetail,
             focusStatement: assumption ? edge.sourceSemanticId : edge.targetSemanticId,
             href: proofDetail.href,
-            actionLabel: 'Open proof page',
+            actionLabel: proofInfo.detailConcept ? 'Open concept page' : 'Open proof page',
           });
         });
       };
@@ -968,6 +988,250 @@
   const controllers = new Map();
   let expandedFigure = null;
   const previousAttributes = new WeakMap();
+
+  async function preparedView(controller, state) {
+    const view = controller.data.views[state];
+    if (!view) throw new Error('This local proof view is unavailable.');
+    if (view.svg) return view;
+    if (!view.src) throw new Error('This export does not contain the selected view.');
+    controller.pendingViews ??= new Map();
+    if (!controller.pendingViews.has(state)) {
+      const request = (async () => {
+        const url = new URL(view.src, location.href);
+        if (url.origin !== location.origin) throw new Error('Graph geometry must be served from this site.');
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('This graph view could not be loaded.');
+        const loaded = { ...view, ...await response.json() };
+        controller.data.views[state] = loaded;
+        return loaded;
+      })().finally(() => controller.pendingViews.delete(state));
+      controller.pendingViews.set(state, request);
+    }
+    return controller.pendingViews.get(state);
+  }
+
+  function installProofPeek(container, controller, interaction) {
+    if (container.id !== 'proof-network') return;
+    controller.closeProofPeek?.();
+    container.closest('.graph-figure').querySelector('.graph-proof-peek')?.remove();
+    const panel = document.createElement('section');
+    panel.className = 'graph-proof-peek'; panel.hidden = true;
+    panel.id = `${container.id}-statements`;
+    panel.setAttribute('aria-label', 'Statements and proofs');
+    const figure = container.closest('.graph-figure');
+    figure.append(panel);
+    let anchor = null, timer = null, request = 0, diagramWidth = 0, diagramHeight = 0;
+    let scrollbarWidth = 0, scrollbarHeight = 0;
+    let pinned = false, popupDrag = null, hoverSuspended = false;
+    const cancel = () => { clearTimeout(timer); timer = null; };
+    const close = () => {
+      cancel(); request++;
+      if (anchor) anchor.setAttribute('aria-expanded', 'false');
+      anchor = null; panel.hidden = true; panel.replaceChildren();
+      pinned = false; popupDrag = null;
+      panel.classList.remove('is-pinned', 'is-dragging');
+      if (activeProofPeek?.panel === panel) activeProofPeek = null;
+    };
+    controller.closeProofPeek = close;
+    controller.suspendProofPeek = () => { hoverSuspended = true; close(); };
+    const pin = () => {
+      if (panel.hidden) return;
+      cancel(); pinned = true;
+      panel.classList.add('is-pinned');
+      if (activeProofPeek?.panel === panel) activeProofPeek.pinned = true;
+    };
+    const position = () => {
+      if (!anchor || panel.hidden) return;
+      const box = anchor.getBoundingClientRect(), plot = container.getBoundingClientRect();
+      if (!pinned && (box.bottom < Math.max(0, plot.top) || box.top > Math.min(innerHeight, plot.bottom) ||
+          box.right < Math.max(0, plot.left) || box.left > Math.min(innerWidth, plot.right))) { close(); return; }
+      const gap = 10, inset = 12, style = getComputedStyle(panel);
+      const trim = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth) +
+        parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const verticalTrim = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth) +
+        parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+      const maxWidth = innerWidth - 2 * inset, maxHeight = innerHeight - 2 * inset;
+      let width, height, vertical = false;
+      // Include a needed scrollbar in the outer size when screen space
+      // permits, so it does not unnecessarily force the other scrollbar.
+      for (let pass = 0; pass < 3; pass++) {
+        width = Math.min(maxWidth, Math.max(320, diagramWidth + trim + (vertical ? scrollbarWidth : 0)));
+        panel.style.width = `${width}px`;
+        const horizontal = diagramWidth > width - trim - (vertical ? scrollbarWidth : 0);
+        const naturalHeight = panel.querySelector('.graph-proof-peek-header').offsetHeight +
+          diagramHeight + verticalTrim + (horizontal ? scrollbarHeight : 0);
+        height = Math.min(naturalHeight, maxHeight);
+        vertical ||= naturalHeight > maxHeight;
+      }
+      let left, top, availableHeight;
+      if (pinned) {
+        left = parseFloat(panel.style.left); top = parseFloat(panel.style.top);
+        top = Math.max(inset, Math.min(top, innerHeight - 80));
+        availableHeight = innerHeight - 2 * inset;
+      } else if (box.right + gap + width <= innerWidth - inset) { left = box.right + gap; top = box.top; }
+      else if (box.left - gap - width >= inset) { left = box.left - gap - width; top = box.top; }
+      else {
+        left = (box.left + box.right - width) / 2;
+        const below = innerHeight - inset - box.bottom - gap, above = box.top - gap - inset;
+        if (height <= below || below >= above) {
+          top = Math.max(inset, box.bottom + gap); availableHeight = Math.max(1, innerHeight - inset - top);
+        } else {
+          top = Math.max(inset, box.top - gap - Math.min(height, Math.max(1, above)));
+          availableHeight = innerHeight - top - inset;
+        }
+      }
+      if (availableHeight === undefined) {
+        top = Math.max(inset, Math.min(top, innerHeight - height - inset));
+        availableHeight = innerHeight - top - inset;
+      }
+      if (!pinned) {
+        // Keep even small diagrams away from the bottom edge of the screen.
+        const readingHeight = Math.max(height, Math.min(320, (innerHeight - 2 * inset) / 2));
+        top = Math.max(inset, Math.min(top, innerHeight - inset - readingHeight));
+        availableHeight = innerHeight - top - inset;
+      }
+      panel.style.left = `${pinned ? Math.max(120 - width, Math.min(left, innerWidth - 120))
+        : Math.max(inset, Math.min(left, innerWidth - width - inset))}px`;
+      panel.style.top = `${top}px`;
+      panel.style.height = `${Math.min(height, availableHeight)}px`;
+      panel.style.maxHeight = `${availableHeight}px`;
+    };
+    const leave = () => {
+      cancel();
+      if (pinned) return;
+      timer = setTimeout(() => {
+        if (panel.matches(':hover') || panel.contains(document.activeElement) || anchor?.matches(':hover') || anchor === document.activeElement) return;
+        close();
+      }, 180);
+    };
+    const open = async (element, info, fromHover = false) => {
+      if (controller.selection || controller.restoringProofFocus || controller.dragging ||
+          (fromHover && hoverSuspended) || activeProofPeek?.pinned) return;
+      cancel();
+      if (anchor === element && !panel.hidden) return;
+      activeProofPeek?.close();
+      anchor = element; element.setAttribute('aria-expanded', 'true');
+      const token = ++request;
+      hideTooltip(container);
+      panel.replaceChildren();
+      diagramWidth = 0; diagramHeight = 0;
+      panel.style.height = ''; panel.style.maxHeight = ''; panel.scrollTop = 0; panel.scrollLeft = 0;
+      const detail = detailForInfo(controller, info);
+      const header = document.createElement('div'); header.className = 'graph-proof-peek-header';
+      panel.append(header);
+      const heading = document.createElement('h3');
+      if (detail?.nameHtml) heading.innerHTML = detail.nameHtml;
+      else heading.textContent = detail?.name || info.label;
+      header.append(heading);
+      heading.title = 'Drag to move; click to pin';
+      appendText(header, 'p', 'graph-proof-peek-status', 'Loading statements and proofs…');
+      panel.hidden = false;
+      const dismiss = appendText(panel, 'button', 'graph-proof-peek-close', '×');
+      dismiss.type = 'button'; dismiss.setAttribute('aria-label', 'Close statements and proofs');
+      dismiss.addEventListener('click', (event) => { event.stopPropagation(); element.focus(); close(); });
+      activeProofPeek = { panel, anchor: element, position, close };
+      position();
+      try {
+        const view = await preparedView(controller, info.detailView);
+        if (request !== token) return;
+        panel.querySelector('.graph-proof-peek-status').textContent = view.status;
+        const plot = document.createElement('div'); plot.className = 'graph-proof-peek-plot';
+        // Both archive and local hosts prepare and validate this SVG. Hover
+        // never lays out the overview or constructs new routes in the browser.
+        plot.innerHTML = view.svg;
+        panel.append(plot);
+        for (const node of plot.querySelectorAll('[data-node-id]')) {
+          const localInfo = view.interaction.nodes[node.dataset.nodeId];
+          if (!localInfo) continue;
+          const localDetail = detailForInfo(controller, localInfo);
+          if (localDetail) node.addEventListener('click', (event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            activateProofItem(controller, event, () => selectProofItem(controller,
+              { type: 'node', id: element.dataset.nodeId }, element, {
+                detail: localDetail, eyebrow: localInfo.kind === 'proof' ? 'Proof' : 'Statement',
+                focusStatement: localInfo.semanticId,
+                href: localInfo.href || localDetail.href,
+                actionLabel: localInfo.kind === 'proof' ? 'Open proof page' : 'Open concept page',
+              }));
+          });
+        }
+        diagramWidth = Math.ceil(plot.querySelector('svg').viewBox.baseVal.width);
+        diagramHeight = Math.ceil(plot.querySelector('svg').viewBox.baseVal.height);
+        const measure = document.createElement('div');
+        measure.style.cssText = 'position:absolute;width:100px;height:100px;overflow:scroll;visibility:hidden';
+        panel.append(measure);
+        scrollbarWidth = measure.offsetWidth - measure.clientWidth;
+        scrollbarHeight = measure.offsetHeight - measure.clientHeight;
+        measure.remove();
+        position();
+      } catch (error) {
+        if (request === token) panel.querySelector('.graph-proof-peek-status').textContent = error.message;
+      }
+    };
+    controller.openProofPeek = open;
+    panel.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.target.closest('a, button, [data-node-id]')) return;
+      // Leave native scrollbar thumbs available; blank diagram space and
+      // the whole header can grab the popup without selecting its text.
+      const scroll = event.target.closest('.graph-proof-peek-plot');
+      if (scroll) {
+        const box = scroll.getBoundingClientRect();
+        if (event.clientX >= box.left + scroll.clientWidth || event.clientY >= box.top + scroll.clientHeight) return;
+      }
+      event.preventDefault(); pin();
+      const box = panel.getBoundingClientRect();
+      popupDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: box.left, top: box.top };
+      panel.setPointerCapture(event.pointerId); panel.classList.add('is-dragging');
+    });
+    panel.addEventListener('pointermove', (event) => {
+      if (!popupDrag || popupDrag.id !== event.pointerId) return;
+      panel.style.left = `${popupDrag.left + event.clientX - popupDrag.x}px`;
+      panel.style.top = `${popupDrag.top + event.clientY - popupDrag.y}px`;
+      // A large popup can be dragged partly offscreen while retaining a
+      // reachable section of its header, rather than being locked in place.
+      const left = Math.max(120 - panel.offsetWidth, Math.min(parseFloat(panel.style.left), innerWidth - 120));
+      const top = Math.max(12, Math.min(parseFloat(panel.style.top), innerHeight - 80));
+      panel.style.left = `${left}px`; panel.style.top = `${top}px`;
+    });
+    const releasePopup = (event) => {
+      if (popupDrag?.id !== event.pointerId) return;
+      popupDrag = null; panel.classList.remove('is-dragging');
+      if (panel.hasPointerCapture(event.pointerId)) panel.releasePointerCapture(event.pointerId);
+    };
+    panel.addEventListener('pointerup', releasePopup);
+    panel.addEventListener('pointercancel', releasePopup);
+    panel.addEventListener('lostpointercapture', releasePopup);
+    panel.addEventListener('click', pin, { capture: true });
+    container.addEventListener('pointermove', () => { hoverSuspended = false; });
+    panel.addEventListener('mouseenter', cancel); panel.addEventListener('mouseleave', leave);
+    panel.addEventListener('focusin', cancel); panel.addEventListener('focusout', leave);
+    const escape = (event) => {
+      if (event.key !== 'Escape' || panel.hidden) return;
+      event.preventDefault(); event.stopPropagation();
+      const restore = anchor;
+      // Restore first: the focus event can reuse this already-open panel.
+      if (panel.contains(document.activeElement)) restore?.focus();
+      close();
+    };
+    panel.addEventListener('keydown', escape);
+    for (const element of container.querySelectorAll('[data-node-id]')) {
+      const info = interaction.nodes[element.dataset.nodeId];
+      if (!info?.detailView) continue;
+      element.setAttribute('aria-expanded', 'false');
+      element.setAttribute('aria-controls', panel.id);
+      element.addEventListener('mouseenter', () => { cancel(); timer = setTimeout(() => open(element, info, true), GRAPH_HOVER_DELAY); });
+      element.addEventListener('mouseleave', leave);
+      element.addEventListener('focus', () => open(element, info));
+      element.addEventListener('blur', leave);
+      element.addEventListener('keydown', (event) => {
+        escape(event);
+        if (event.key === 'ArrowDown' && anchor === element && !panel.hidden) {
+          const first = panel.querySelector('a[href], [tabindex="0"]');
+          if (first) { event.preventDefault(); first.focus(); }
+        }
+      });
+    }
+  }
 
   function bindView(container, controller, interaction) {
     const svg = container.querySelector('svg');
@@ -1022,27 +1286,30 @@
     };
     let frame;
     let paintedScale;
-    const constrainVertical = () => {
-      if (!container.clientHeight || getComputedStyle(container).overflowY !== 'hidden') return;
-      // Hidden overflow can retain a native scroll offset after zoom/focus.
-      // When the drawing fits, its full published bounds (including margins)
-      // must remain between the controls and legend, even while dragging.
-      container.scrollTop = 0;
+    const constrainCamera = () => {
+      if (!container.clientWidth || !container.clientHeight) return;
+      const style = getComputedStyle(container);
+      if (style.overflowX === 'hidden') container.scrollLeft = 0;
+      if (style.overflowY === 'hidden') container.scrollTop = 0;
       const matrix = svg.getScreenCTM();
-      if (!matrix || matrix.d <= 0) return;
-      const bounds = svg.viewBox.baseVal, camera = controller.camera;
-      const height = bounds.height * camera.scale;
-      const available = container.clientHeight / matrix.d;
-      if (height > available + 1 / matrix.d) return;
-      const top = (container.getBoundingClientRect().top + container.clientTop - matrix.f) / matrix.d;
-      const minimum = top - bounds.y * camera.scale;
-      const maximum = minimum + Math.max(0, available - height);
-      camera.y = Math.max(minimum, Math.min(maximum, camera.y));
+      if (!matrix || matrix.a <= 0 || matrix.d <= 0) return;
+      const bounds = svg.viewBox.baseVal, camera = controller.camera, box = container.getBoundingClientRect();
+      // The published viewBox encloses every node and route with its layout
+      // margin. Large drawings cover the viewport up to either end; small
+      // drawings stay wholly inside it. Neither axis has unbounded overscroll.
+      for (const [axis, start, length, available, origin, unit] of [
+        ['x', bounds.x, bounds.width, container.clientWidth, box.left + container.clientLeft - matrix.e, matrix.a],
+        ['y', bounds.y, bounds.height, container.clientHeight, box.top + container.clientTop - matrix.f, matrix.d],
+      ]) {
+        const first = origin / unit - start * camera.scale;
+        const last = first + available / unit - length * camera.scale;
+        camera[axis] = Math.max(Math.min(first, last), Math.min(Math.max(first, last), camera[axis]));
+      }
     };
     const paint = () => {
       frame = null;
       if (controller.camera.scale !== paintedScale) { controller.fitScrollbars(); paintedScale = controller.camera.scale; }
-      constrainVertical();
+      constrainCamera();
       const { x, y, scale } = controller.camera;
       cameraGroup.setAttribute('transform', `translate(${x},${y}) scale(${scale})`);
       const output = container.closest('.graph-figure').querySelector('[data-graph-zoom-status]');
@@ -1128,43 +1395,98 @@
       attachDelayedHover(element, hot, cold);
       element.addEventListener('focus', hot);
       element.addEventListener('blur', cold);
-      attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
+      if (!info.detailView) attachTooltip(element, container, info.tooltipRows ?? info.label, info.tooltipHtml);
     }
     installProofSelection(container, controller, interaction);
-    let drag = null;
+    installProofPeek(container, controller, interaction);
+    let drag = null, dragFrame = null;
+    const pan = () => {
+      dragFrame = null;
+      if (!drag) return;
+      const dx = drag.nextX - drag.x, dy = drag.nextY - drag.y;
+      const left = container.scrollLeft, top = container.scrollTop;
+      if (drag.scrollX) container.scrollLeft = left - dx;
+      if (drag.scrollY) container.scrollTop = top - dy;
+      // Apply native scrolling and its remaining camera translation in the
+      // same frame. Pointer events only supply the latest position, avoiding
+      // repeated style/layout work and a one-frame lag at scrollbar limits.
+      controller.camera.x += (dx + container.scrollLeft - left) / drag.scale;
+      controller.camera.y += (dy + container.scrollTop - top) / drag.scale;
+      drag.x = drag.nextX; drag.y = drag.nextY;
+      if (frame) cancelAnimationFrame(frame);
+      paint();
+    };
     svg.addEventListener('pointerdown', (event) => {
       // Native one-finger page/viewport scrolling remains available on touch.
       if (event.pointerType === 'touch' || event.button !== 0 ||
           event.target.closest('a, [data-edge-hit]')) return;
       stopCameraAnimation(controller);
       controller.autoFrame = false;
-      const matrix = svg.getScreenCTM();
-      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, scale: matrix.a };
+      controller.dragging = true;
+      controller.suspendProofPeek?.();
+      const matrix = svg.getScreenCTM(), style = getComputedStyle(container);
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY,
+        nextX: event.clientX, nextY: event.clientY, scale: matrix.a,
+        scrollX: style.overflowX !== 'hidden', scrollY: style.overflowY !== 'hidden' };
       svg.setPointerCapture(event.pointerId); svg.classList.add('graph-dragging');
       hideTooltip(container);
     });
     svg.addEventListener('pointermove', (event) => {
       if (!drag || event.pointerId !== drag.id) return;
-      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
-      const style = getComputedStyle(container);
-      const left = container.scrollLeft, top = container.scrollTop;
-      if (style.overflowX !== 'hidden') container.scrollLeft = left - dx;
-      if (style.overflowY !== 'hidden') container.scrollTop = top - dy;
-      // Native scrollbars and grab-to-pan now move the same viewport. Camera
-      // translation handles only the portion beyond a scrollbar's limits, or
-      // an axis whose drawing already fits and therefore has no scrollbar.
-      controller.camera.x += (dx + container.scrollLeft - left) / drag.scale;
-      controller.camera.y += (dy + container.scrollTop - top) / drag.scale;
-      drag.x = event.clientX; drag.y = event.clientY; controller.paint();
+      drag.nextX = event.clientX; drag.nextY = event.clientY;
+      if (!dragFrame) dragFrame = requestAnimationFrame(pan);
     });
-    const release = () => { drag = null; svg.classList.remove('graph-dragging'); };
+    const release = (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      if (dragFrame) { cancelAnimationFrame(dragFrame); pan(); }
+      drag = null; controller.dragging = false; svg.classList.remove('graph-dragging');
+      if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+    };
     svg.addEventListener('pointerup', release); svg.addEventListener('pointercancel', release);
-    svg.addEventListener('wheel', (event) => {
-      const expanded = container.closest('.graph-figure')?.classList.contains('graph-expanded');
-      if (!expanded && !event.ctrlKey && !event.metaKey) return;
+    svg.addEventListener('lostpointercapture', release);
+    let wheelFrame = null, wheelX = 0, wheelY = 0, gestureScale = null;
+    const panWheel = () => {
+      wheelFrame = null;
+      const style = getComputedStyle(container), scale = svg.getScreenCTM().a;
+      const left = container.scrollLeft, top = container.scrollTop;
+      if (style.overflowX !== 'hidden') container.scrollLeft = left + wheelX;
+      if (style.overflowY !== 'hidden') container.scrollTop = top + wheelY;
+      controller.camera.x += (-wheelX + container.scrollLeft - left) / scale;
+      controller.camera.y += (-wheelY + container.scrollTop - top) / scale;
+      wheelX = 0; wheelY = 0;
+      if (frame) cancelAnimationFrame(frame);
+      paint();
+    };
+    if (controller.wheelHandler) container.removeEventListener('wheel', controller.wheelHandler);
+    controller.wheelHandler = (event) => {
       event.preventDefault();
-      controller.zoom(Math.exp(-Math.max(-120, Math.min(120, event.deltaY)) / 250), { x: event.clientX, y: event.clientY });
-    }, { passive: false });
+      stopCameraAnimation(controller); controller.autoFrame = false;
+      hideTooltip(container);
+      if (!activeProofPeek?.pinned) controller.suspendProofPeek?.();
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? container.clientHeight : 1;
+      if (event.ctrlKey || event.metaKey) {
+        if (wheelFrame) { cancelAnimationFrame(wheelFrame); panWheel(); }
+        if (gestureScale === null) controller.zoom(Math.exp(-Math.max(-120, Math.min(120, event.deltaY * unit)) / 250),
+          { x: event.clientX, y: event.clientY });
+      } else {
+        wheelX += event.deltaX * unit; wheelY += event.deltaY * unit;
+        if (!wheelFrame) wheelFrame = requestAnimationFrame(panWheel);
+      }
+    };
+    container.addEventListener('wheel', controller.wheelHandler, { passive: false });
+    // Safari exposes trackpad pinches as gesture events. Avoid counting the
+    // same pinch twice on hosts that also send Ctrl-wheel events.
+    for (const [name, handler] of controller.gestureHandlers || []) container.removeEventListener(name, handler);
+    controller.gestureHandlers = [['gesturestart', (event) => {
+      event.preventDefault(); gestureScale = event.scale;
+      if (wheelFrame) { cancelAnimationFrame(wheelFrame); panWheel(); }
+    }], ['gesturechange', (event) => {
+      event.preventDefault();
+      if (gestureScale !== null && gestureScale > 0 && event.scale > 0)
+        controller.zoom(event.scale / gestureScale, { x: event.clientX, y: event.clientY });
+      gestureScale = event.scale;
+    }], ['gestureend', (event) => { event.preventDefault(); gestureScale = null; }]];
+    for (const [name, handler] of controller.gestureHandlers) container.addEventListener(name, handler, { passive: false });
     controller.reset();
   }
 
@@ -1229,6 +1551,7 @@
   function setExpanded(button, expanded) {
     const figure = button.closest('.graph-figure');
     const container = figure.querySelector('.figure-container'), controller = controllers.get(container.id);
+    controller?.closeProofPeek?.();
     if (expanded && expandedFigure && expandedFigure !== figure) setExpanded(expandedFigure.querySelector('[data-graph-expand]'), false);
     if (!expanded && controller) clearProofSelection(controller, false);
     if (expanded) {
@@ -1269,7 +1592,7 @@
       fitDetailPanel(controller);
     }).observe(container);
     container.addEventListener('scroll', () => {
-      if (container.scrollTop && getComputedStyle(container).overflowY === 'hidden') controller.paint();
+      controller.paint();
     }, { passive: true });
     updateControls(container, controller);
     for (const button of figure.querySelectorAll('[data-graph-zoom]')) {
@@ -1307,13 +1630,16 @@
       used.textContent = `${list.hidden ? 'Show' : 'Hide'} referenced concepts`;
     });
     window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeProofPeek) {
+        event.preventDefault(); activeProofPeek.close(); return;
+      }
       if (!expandedFigure) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         if (activeProofController?.selection) {
-          const trigger = activeProofController.selectionTrigger;
-          clearProofSelection(activeProofController);
-          trigger?.focus?.();
+          const controller = activeProofController, trigger = controller.selectionTrigger;
+          clearProofSelection(controller);
+          restoreProofFocus(controller, trigger);
           return;
         }
         const button = expandedFigure.querySelector('[data-graph-expand]'); setExpanded(button, false); button.focus();
@@ -1328,6 +1654,9 @@
     window.addEventListener('resize', refreshGraphTooltip, { passive: true });
     window.addEventListener('pointerdown', (event) => {
       if (!(event.target instanceof Node)) return;
+      if (activeProofPeek && !activeProofPeek.panel.contains(event.target) &&
+          (activeProofPeek.pinned || !activeProofPeek.anchor.contains(event.target)))
+        activeProofPeek.close();
       for (const item of document.querySelectorAll('.graph-detail-open-assumption-item.is-open')) {
         if (item.contains(event.target)) continue;
         item.classList.remove('is-open');

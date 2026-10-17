@@ -4035,6 +4035,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax263307.IndependentSetEncoding",
+          "title": "Canonical representations of weighted graphs and vertex sets",
+          "type": "definition"
+        },
+        {
           "id": "Lax263307.InducedEmbeddingWidth",
           "title": "A class width bound obstructs induced route sampling",
           "type": "lemma"
@@ -4241,7 +4246,7 @@
         },
         {
           "id": "Lax263307.WeightedIndependentSet",
-          "title": "Maximum-weight independent set and its encoding",
+          "title": "Weighted independent sets",
           "type": "definition"
         },
         {
