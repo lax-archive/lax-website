@@ -1109,6 +1109,9 @@
           (fromHover && hoverSuspended) || activeProofPeek?.pinned) return;
       cancel();
       if (anchor === element && !panel.hidden) return;
+      // WebKit dispatches SVG focus before scrolling the node into view.
+      // Position against its visible location, not the old clipped position.
+      if (!fromHover) element.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       activeProofPeek?.close();
       anchor = element; element.setAttribute('aria-expanded', 'true');
       const token = ++request;
