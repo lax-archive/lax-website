@@ -4035,11 +4035,6 @@
           "type": "definition"
         },
         {
-          "id": "Lax263307.IndependentSetProblem",
-          "title": "Maximum-weight independent set as an optimization problem",
-          "type": "definition"
-        },
-        {
           "id": "Lax263307.InducedEmbeddingWidth",
           "title": "A class width bound obstructs induced route sampling",
           "type": "lemma"
@@ -4063,6 +4058,11 @@
           "id": "Lax263307.MainTheorem",
           "title": "QPTAS for maximum-weight independent set",
           "type": "theorem"
+        },
+        {
+          "id": "Lax263307.MaxWeightIndependentSet",
+          "title": "Maximum-weight independent set as an optimization problem",
+          "type": "definition"
         },
         {
           "id": "Lax263307.MomentLP",
