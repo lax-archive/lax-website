@@ -9626,6 +9626,759 @@
       ]
     },
     {
+      "id": "lax-434175",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Scheduling problems assembled from constraint modules",
+      "concepts": [
+        {
+          "id": "Lax434175.Assembly",
+          "title": "Assembling problems from fields",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.BatchFamily",
+          "title": "One family for serial and parallel batching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Batching",
+          "title": "Batch scheduling on a single machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.BatchingZeroSetup",
+          "title": "Scheduling on one machine as batching",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.BatchProblems",
+          "title": "Batching problems in three-field notation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Bounded",
+          "title": "Problems with bounds on parameters",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.CommunicationDelays",
+          "title": "Communication delays",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ComplexityClasses",
+          "title": "Complexity classes along special cases",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Counts",
+          "title": "Bounds on the number of machines and jobs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Deadlines",
+          "title": "Deadlines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.DeadlineSteps",
+          "title": "Maximum lateness against deadlines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Domination",
+          "title": "Results between parameters of one problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Encodings",
+          "title": "Relations of the Scheduling Zoo that need an encoding",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.EncodingsEligibility",
+          "title": "Machine sets encoded by long processing times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.FineGrained",
+          "title": "Fine-grained hypotheses and reductions on short words",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ForbiddenTimes",
+          "title": "Forbidden times and input encodings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.HighMultiplicity",
+          "title": "Standard words into high-multiplicity words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Interruption",
+          "title": "Interruption as a field of parallel-machine scheduling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.IsemLink",
+          "title": "Interval scheduling with eligible machine sets as a zoo problem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.IsemStandard",
+          "title": "Hardness of P | M_j | Σ w_j Z_j under the standard reading",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.IsemStrong",
+          "title": "P | M_j | Σ w_j Z_j is strongly W[1]-hard for the number of machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.JitFlowShop",
+          "title": "Just-in-time flow shops of lax-496464 as zoo instances",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.JitFlowShopStandard",
+          "title": "FF(1,m)||ΣZj is strongly NP-hard under the standard reading",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.JitFlowShopTimes",
+          "title": "The running times of FF(1,m)||ΣwjZj",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.JitFlowShopW2",
+          "title": "FF(1,m)||ΣZj is strongly W[2]-hard for the number of machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.JitHardness",
+          "title": "Hardness of P | M_j | Σ w_j Z_j",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Kernels",
+          "title": "Scheduling kernels",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.MachineCovering",
+          "title": "Maximizing the minimum machine load",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.MachineSets",
+          "title": "Machine sets and multiprocessor tasks",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.McNaughton",
+          "title": "Preemption does not help the total weighted completion time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Modules",
+          "title": "Constraint modules and objectives",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.Nonpreemptive",
+          "title": "Non-preemptive scheduling on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Objectives",
+          "title": "Completion-time objectives",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Online",
+          "title": "Online scheduling as a game",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Operations",
+          "title": "Scheduling with operations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.OperationsFamily",
+          "title": "One family for parallel machines and shops",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ParallelFamily",
+          "title": "One family for parallel machines with and without preemption",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ParallelMachines",
+          "title": "Parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ParallelProblems",
+          "title": "Problems on parallel machines in three-field notation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Parameters",
+          "title": "Parameters along embeddings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Precedence",
+          "title": "Precedence constraints and time lags",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.PrecedenceReversal",
+          "title": "Reversing precedence constraints",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.PreemptionUseless",
+          "title": "Preemption does not help on a single machine",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Preemptive",
+          "title": "Preemptive scheduling on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.PreemptiveShopProblems",
+          "title": "Preemptive shop problems in three-field notation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.PreemptiveShops",
+          "title": "Preemptive shop scheduling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Problems",
+          "title": "Optimization problems and embeddings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Propagation",
+          "title": "Results along special cases",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.PropagationParameters",
+          "title": "Parameters along special cases",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Rejection",
+          "title": "Single-machine scheduling with rejection",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ReleaseDates",
+          "title": "Release dates",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Restarts",
+          "title": "Preemption with restarts on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ResultParameters",
+          "title": "Parameters of the zoo's results",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.Results",
+          "title": "The kinds of results on scheduling problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ResultTransfer",
+          "title": "From exact running times to complexity classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Sanity",
+          "title": "Two tests from the words up: NP-hardness of 1|r_j|L_max and Smith's rule",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.SanityParams",
+          "title": "1|r_j|L_max is para-NP-hard for the largest and the number of processing times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Servers",
+          "title": "A single server with setup times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ShopExtras",
+          "title": "No-idle shops and batch setup times",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ShopFamily",
+          "title": "One family for shops with and without preemption",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ShopProblems",
+          "title": "Shop problems in three-field notation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Shops",
+          "title": "Shop scheduling",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.StandardReading",
+          "title": "The standard reading of scheduling instances and schedules",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.StrongHardness",
+          "title": "Strong and plain hardness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ThresholdParams",
+          "title": "Para-NP-hardness along the steps between objectives",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Thresholds",
+          "title": "Threshold reductions between objectives",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ThresholdWords",
+          "title": "The steps between objectives on words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.TimeReversal",
+          "title": "Time reversal",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Transportation",
+          "title": "Transportation delays and a transport robot",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.WordProblems",
+          "title": "Scheduling problems as parameterized problems on words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.Wrappers",
+          "title": "At most k scheduled jobs, and prescribed machine loads",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooOpen",
+          "title": "Open questions of The Scheduling Zoo",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooOpenParams",
+          "title": "Open parameters of The Scheduling Zoo",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooParallel",
+          "title": "The Scheduling Zoo, non-preemptive problems on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooParallelBatching",
+          "title": "The Scheduling Zoo, parallel batching problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooParallelBatchingResults",
+          "title": "Results of The Scheduling Zoo, parallel batching problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooParallelResults",
+          "title": "Results of The Scheduling Zoo, non-preemptive problems on parallel machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooParameters",
+          "title": "Parameters of scheduling problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooPreemptive",
+          "title": "The Scheduling Zoo, preemptive problems on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooPreemptiveResults",
+          "title": "Results of The Scheduling Zoo, preemptive problems on parallel machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooPreemptiveShops",
+          "title": "The Scheduling Zoo, preemptive shop problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooPreemptiveShopsResults",
+          "title": "Results of The Scheduling Zoo, preemptive shop problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooRestarts",
+          "title": "The Scheduling Zoo, problems with restarts on parallel machines",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooRestartsResults",
+          "title": "Results of The Scheduling Zoo, problems with restarts on parallel machines",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooSerialBatching",
+          "title": "The Scheduling Zoo, serial batching problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooSerialBatchingResults",
+          "title": "Results of The Scheduling Zoo, serial batching problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooShops",
+          "title": "The Scheduling Zoo, shop problems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax434175.ZooShopsResults",
+          "title": "Results of The Scheduling Zoo, shop problems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax434175.ZooStandaloneResults",
+          "title": "Results of The Scheduling Zoo, problems outside the families",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax434175Proofs.Assembly.lift_sound",
+        "Lax434175Proofs.BatchFamily.faithful",
+        "Lax434175Proofs.BatchFamily.family_sound",
+        "Lax434175Proofs.BatchFamily.reducible_of_reduces",
+        "Lax434175Proofs.BatchFamily.specialCase_of_le",
+        "Lax434175Proofs.Batching.capacity_sound",
+        "Lax434175Proofs.Batching.processingTimes_sound",
+        "Lax434175Proofs.BatchingZeroSetup.reducible_of_reducesToBatching",
+        "Lax434175Proofs.BatchProblems.family_sound",
+        "Lax434175Proofs.BatchProblems.reducible_of_reduces",
+        "Lax434175Proofs.BatchProblems.specialCase_of_le",
+        "Lax434175Proofs.Bounded.bounded_mono",
+        "Lax434175Proofs.Bounded.bounded_specialCase",
+        "Lax434175Proofs.Bounded.specialCase_bounded",
+        "Lax434175Proofs.Bounded.weightedJustInTime_zeroSlack",
+        "Lax434175Proofs.CommunicationDelays.sound",
+        "Lax434175Proofs.ComplexityClasses.fpt_of_refines",
+        "Lax434175Proofs.ComplexityClasses.hard_of_refines",
+        "Lax434175Proofs.ComplexityClasses.inP_of_refines",
+        "Lax434175Proofs.ComplexityClasses.npHard_of_refines",
+        "Lax434175Proofs.ComplexityClasses.paraNPHard_of_refines",
+        "Lax434175Proofs.ComplexityClasses.refines_of_le_field",
+        "Lax434175Proofs.ComplexityClasses.refines_of_le_kernel",
+        "Lax434175Proofs.ComplexityClasses.xp_of_refines",
+        "Lax434175Proofs.Counts.sound",
+        "Lax434175Proofs.Deadlines.sound",
+        "Lax434175Proofs.DeadlineSteps.batch_reducible",
+        "Lax434175Proofs.DeadlineSteps.ops_reducible",
+        "Lax434175Proofs.Determined.batch_determined",
+        "Lax434175Proofs.Determined.ops_determined",
+        "Lax434175Proofs.Domination.inPFixed_of_dominated",
+        "Lax434175Proofs.Domination.isFPT_of_dominated",
+        "Lax434175Proofs.Domination.left_tplus",
+        "Lax434175Proofs.Domination.ops_numP_pmax",
+        "Lax434175Proofs.Domination.paraNPHard_of_dominated",
+        "Lax434175Proofs.Domination.right_tplus",
+        "Lax434175Proofs.Domination.wHard_of_dominated",
+        "Lax434175Proofs.Encodings.justInTime_onTime",
+        "Lax434175Proofs.Encodings.weightedJustInTime_onTime",
+        "Lax434175Proofs.EncodingsEligibility.machineSets_makespan",
+        "Lax434175Proofs.EncodingsEligibility.machineSets_sumC",
+        "Lax434175Proofs.EncodingsEligibility.machineSets_sumWC",
+        "Lax434175Proofs.EncodingsEligibility.machineSets_sumWZ",
+        "Lax434175Proofs.EncodingsEligibilityWords.npHard_makespan",
+        "Lax434175Proofs.EncodingsEligibilityWords.npHard_sumC",
+        "Lax434175Proofs.EncodingsEligibilityWords.npHard_sumWC",
+        "Lax434175Proofs.EncodingsEligibilityWords.npHard_sumWZ",
+        "Lax434175Proofs.EncodingsEligibilityWords.stronglyNPHard_makespan",
+        "Lax434175Proofs.EncodingsEligibilityWords.stronglyNPHard_sumC",
+        "Lax434175Proofs.EncodingsEligibilityWords.stronglyNPHard_sumWC",
+        "Lax434175Proofs.EncodingsEligibilityWords.stronglyNPHard_sumWZ",
+        "Lax434175Proofs.EncodingsEligibilityWords.wHard_m_makespan",
+        "Lax434175Proofs.EncodingsEligibilityWords.wHard_m_sumC",
+        "Lax434175Proofs.EncodingsEligibilityWords.wHard_m_sumWC",
+        "Lax434175Proofs.EncodingsEligibilityWords.wHard_m_sumWZ",
+        "Lax434175Proofs.EncodingsFlexible.identical_flexibleFlow",
+        "Lax434175Proofs.EncodingsFlexible.identical_flexibleFlow_weighted",
+        "Lax434175Proofs.EncodingsFlow.flow2_flexibleFlow",
+        "Lax434175Proofs.EncodingsFlow.flow2_flexibleFlow_weighted",
+        "Lax434175Proofs.EncodingsShops.single_flow2",
+        "Lax434175Proofs.EncodingsShops.single_flow2_weighted",
+        "Lax434175Proofs.ForbiddenTimes.encoding_sound",
+        "Lax434175Proofs.ForbiddenTimes.sound",
+        "Lax434175Proofs.HighMultiplicityDetermined.determined",
+        "Lax434175Proofs.HighMultiplicityTransfer.inP_down",
+        "Lax434175Proofs.HighMultiplicityTransfer.isFPT_down",
+        "Lax434175Proofs.HighMultiplicityTransfer.isFPT_numP_makespan",
+        "Lax434175Proofs.HighMultiplicityTransfer.npHard_makespan",
+        "Lax434175Proofs.HighMultiplicityTransfer.npHard_up",
+        "Lax434175Proofs.HighMultiplicityTransfer.wHard_m_makespan",
+        "Lax434175Proofs.HighMultiplicityTransfer.wHard_up",
+        "Lax434175Proofs.Interruption.sound",
+        "Lax434175Proofs.Interruption.startsBeforeCompletion",
+        "Lax434175Proofs.IsemBridge.paraNPHard_pmax",
+        "Lax434175Proofs.IsemBridge.wHard_m",
+        "Lax434175Proofs.IsemLink.allEligible_pad",
+        "Lax434175Proofs.IsemLink.fpt_jitByMachinesAndPmax",
+        "Lax434175Proofs.IsemLink.hasWeight_iff",
+        "Lax434175Proofs.IsemLink.hasWeight_iff_zoo",
+        "Lax434175Proofs.IsemLink.hasWeight_pad",
+        "Lax434175Proofs.IsemStrong.p200_r0_holds",
+        "Lax434175Proofs.JitFlowShop.hasWeight_iff",
+        "Lax434175Proofs.JitFlowShop.hasWeight_iff_unit",
+        "Lax434175Proofs.JitHardness.mcc_fptReduces_jitByMachines",
+        "Lax434175Proofs.JitHardness.npHardOn_jit_pmax_le",
+        "Lax434175Proofs.JitHardness.w1Hard_jitByMachines",
+        "Lax434175Proofs.JitStrong.p315_r0_holds",
+        "Lax434175Proofs.JitStrong.wordMap",
+        "Lax434175Proofs.JitTimes.p316_r1_holds",
+        "Lax434175Proofs.JitTimes.p316_r2_holds",
+        "Lax434175Proofs.JitTimes.p316_r3_holds",
+        "Lax434175Proofs.JitW2.p315_r1_holds",
+        "Lax434175Proofs.JitW2.wHard_m",
+        "Lax434175Proofs.MachineSets.sound",
+        "Lax434175Proofs.McNaughton.preemption_useless_except_interruption",
+        "Lax434175Proofs.McNaughton.zoo_any_reducible",
+        "Lax434175Proofs.McNaughton.zoo_two_reducible",
+        "Lax434175Proofs.Nonpreemptive.startsBeforeCompletion",
+        "Lax434175Proofs.Objectives.sound",
+        "Lax434175Proofs.Online.adversaryWins_iff",
+        "Lax434175Proofs.Online.adversaryWins_of_embedding",
+        "Lax434175Proofs.Online.randomized_of_competitive",
+        "Lax434175Proofs.Online.schedulerWins_of_embedding",
+        "Lax434175Proofs.Online.yao",
+        "Lax434175Proofs.Operations.batchSetups_sound",
+        "Lax434175Proofs.Operations.environment_sound",
+        "Lax434175Proofs.Operations.interruption_sound",
+        "Lax434175Proofs.Operations.jobStructure_sound",
+        "Lax434175Proofs.Operations.machineSets_sound",
+        "Lax434175Proofs.Operations.noIdle_sound",
+        "Lax434175Proofs.Operations.noWait_sound",
+        "Lax434175Proofs.Operations.processingTimes_sound",
+        "Lax434175Proofs.Operations.server_sound",
+        "Lax434175Proofs.Operations.startsBeforeCompletion",
+        "Lax434175Proofs.Operations.transportation_sound",
+        "Lax434175Proofs.OperationsFamily.family_sound",
+        "Lax434175Proofs.OperationsFamily.reducible_of_reduces",
+        "Lax434175Proofs.OperationsFamily.reducible_of_reducesThroughFlow",
+        "Lax434175Proofs.OperationsFamily.specialCase_of_le",
+        "Lax434175Proofs.OperationsParallel.parallel_faithful",
+        "Lax434175Proofs.OperationsShops.shop_faithful",
+        "Lax434175Proofs.P200Bridge.fpt_mPmax",
+        "Lax434175Proofs.PadReduction.byMachines_fptReduces_jitByMachines",
+        "Lax434175Proofs.ParallelFamily.family_sound",
+        "Lax434175Proofs.ParallelFamily.nonpreemptive_faithful",
+        "Lax434175Proofs.ParallelFamily.preemptive_faithful",
+        "Lax434175Proofs.ParallelFamily.reducible_of_reduces",
+        "Lax434175Proofs.ParallelFamily.reducible_of_reducesThroughFlow",
+        "Lax434175Proofs.ParallelFamily.restarts_faithful",
+        "Lax434175Proofs.ParallelFamily.specialCase_of_le",
+        "Lax434175Proofs.ParallelMachines.environment_sound",
+        "Lax434175Proofs.ParallelMachines.processingTimes_sound",
+        "Lax434175Proofs.ParallelProblems.family_sound",
+        "Lax434175Proofs.ParallelProblems.reducible_of_reduces",
+        "Lax434175Proofs.ParallelProblems.reducible_of_reducesThroughFlow",
+        "Lax434175Proofs.ParallelProblems.single_sumC_specialCase",
+        "Lax434175Proofs.ParallelProblems.specialCase_of_le",
+        "Lax434175Proofs.Parameters.lift_ofField",
+        "Lax434175Proofs.Parameters.lift_ofKernel",
+        "Lax434175Proofs.Parameters.reducible_of_reducibleWith",
+        "Lax434175Proofs.Parameters.reducibleWith_of_embedding",
+        "Lax434175Proofs.Parameters.reducibleWith_trans",
+        "Lax434175Proofs.Precedence.oneMachine_sound",
+        "Lax434175Proofs.Precedence.sound",
+        "Lax434175Proofs.PrecedenceReversal.inClass_reverse",
+        "Lax434175Proofs.PrecedenceReversal.lags_admits_reverse",
+        "Lax434175Proofs.PrecedenceReversal.lags_view_reverse",
+        "Lax434175Proofs.PrecedenceReversal.view_reverse",
+        "Lax434175Proofs.PreemptionUseless.reducible_of_reducesByPreemption",
+        "Lax434175Proofs.Preemptive.startsBeforeCompletion",
+        "Lax434175Proofs.PreemptiveShopProblems.family_sound",
+        "Lax434175Proofs.PreemptiveShopProblems.reducible_of_reduces",
+        "Lax434175Proofs.PreemptiveShopProblems.specialCase_of_le",
+        "Lax434175Proofs.PreemptiveShops.machineSets_sound",
+        "Lax434175Proofs.PreemptiveShops.processingTimes_sound",
+        "Lax434175Proofs.PreemptiveShops.shopType_sound",
+        "Lax434175Proofs.Problems.comp_sound",
+        "Lax434175Proofs.Problems.reducible_of_specialCase",
+        "Lax434175Proofs.Problems.reducible_trans",
+        "Lax434175Proofs.Propagation.approxKept_down",
+        "Lax434175Proofs.Propagation.approxWithin_down",
+        "Lax434175Proofs.Propagation.decidesExact_down",
+        "Lax434175Proofs.Propagation.decidesWithin_down",
+        "Lax434175Proofs.Propagation.decidesWithinWide_down",
+        "Lax434175Proofs.Propagation.decidesWithinWide_restrict_down",
+        "Lax434175Proofs.Propagation.eptasKept_down",
+        "Lax434175Proofs.Propagation.fptasKept_down",
+        "Lax434175Proofs.Propagation.inP_down",
+        "Lax434175Proofs.Propagation.inPFixed_down",
+        "Lax434175Proofs.Propagation.isFPT_down",
+        "Lax434175Proofs.Propagation.npHard_up",
+        "Lax434175Proofs.Propagation.oneSidedDecidesWithin_down",
+        "Lax434175Proofs.Propagation.paraNPHard_up",
+        "Lax434175Proofs.Propagation.pseudoPoly_down",
+        "Lax434175Proofs.Propagation.ptasKept_down",
+        "Lax434175Proofs.Propagation.randomApproxWithin_down",
+        "Lax434175Proofs.Propagation.randomDecidesWithin_down",
+        "Lax434175Proofs.Propagation.schemeWithin_down",
+        "Lax434175Proofs.Propagation.stronglyNPHard_up",
+        "Lax434175Proofs.Propagation.wHard_up",
+        "Lax434175Proofs.Propagation.yes_iff",
+        "Lax434175Proofs.Propagation.zeroErrorDecidesWithin_down",
+        "Lax434175Proofs.PropagationParameters.batch_n",
+        "Lax434175Proofs.PropagationParameters.batch_numD",
+        "Lax434175Proofs.PropagationParameters.batch_numP",
+        "Lax434175Proofs.PropagationParameters.batch_numR",
+        "Lax434175Proofs.PropagationParameters.batch_numW",
+        "Lax434175Proofs.PropagationParameters.batch_pmax",
+        "Lax434175Proofs.PropagationParameters.batch_wmax",
+        "Lax434175Proofs.PropagationParameters.isFPT_down_eq",
+        "Lax434175Proofs.PropagationParameters.ops_chi",
+        "Lax434175Proofs.PropagationParameters.ops_cmax",
+        "Lax434175Proofs.PropagationParameters.ops_kinds",
+        "Lax434175Proofs.PropagationParameters.ops_m",
+        "Lax434175Proofs.PropagationParameters.ops_n",
+        "Lax434175Proofs.PropagationParameters.ops_numD",
+        "Lax434175Proofs.PropagationParameters.ops_numP",
+        "Lax434175Proofs.PropagationParameters.ops_numR",
+        "Lax434175Proofs.PropagationParameters.ops_numW",
+        "Lax434175Proofs.PropagationParameters.ops_pmax",
+        "Lax434175Proofs.PropagationParameters.ops_pw",
+        "Lax434175Proofs.PropagationParameters.ops_qmax",
+        "Lax434175Proofs.PropagationParameters.ops_rank",
+        "Lax434175Proofs.PropagationParameters.ops_slackmax",
+        "Lax434175Proofs.PropagationParameters.ops_width",
+        "Lax434175Proofs.PropagationParameters.ops_wmax",
+        "Lax434175Proofs.PropagationParameters.wordEq_tplus",
+        "Lax434175Proofs.PropagationStandard.batch_lifts",
+        "Lax434175Proofs.PropagationStandard.ops_lifts",
+        "Lax434175Proofs.ReleaseDates.sound",
+        "Lax434175Proofs.Restarts.startsBeforeCompletion",
+        "Lax434175Proofs.ResultTransfer.decidesWithin_of_exact",
+        "Lax434175Proofs.ResultTransfer.decidesWithinWide_of_decidesWithin",
+        "Lax434175Proofs.ResultTransfer.inP_of_decidesWithin",
+        "Lax434175Proofs.ResultTransfer.inPFixed_of_decidesWithin",
+        "Lax434175Proofs.ResultTransfer.isFPT_of_decidesWithin",
+        "Lax434175Proofs.ResultTransfer.pseudoPoly_of_decidesWithin",
+        "Lax434175Proofs.Sanity.npHard_rjLmax",
+        "Lax434175Proofs.SanityParams.p158_r1_holds",
+        "Lax434175Proofs.SanityParams.p158_r2_holds",
+        "Lax434175Proofs.SanityParams.p158_r3_holds",
+        "Lax434175Proofs.SanityParams.paraNPHard_numP",
+        "Lax434175Proofs.SanityParams.paraNPHard_pmax",
+        "Lax434175Proofs.SanityStrong.p158_r0_holds",
+        "Lax434175Proofs.Servers.parallel_sound",
+        "Lax434175Proofs.Servers.shop_sound",
+        "Lax434175Proofs.ShopExtras.batchSetups_sound",
+        "Lax434175Proofs.ShopExtras.noIdle_sound",
+        "Lax434175Proofs.ShopFamily.family_sound",
+        "Lax434175Proofs.ShopFamily.preemptiveShop_faithful",
+        "Lax434175Proofs.ShopFamily.reducible_of_reduces",
+        "Lax434175Proofs.ShopFamily.shop_faithful",
+        "Lax434175Proofs.ShopFamily.specialCase_of_le",
+        "Lax434175Proofs.ShopProblems.family_sound",
+        "Lax434175Proofs.ShopProblems.flow2_makespan_specialCase",
+        "Lax434175Proofs.ShopProblems.reducible_of_reduces",
+        "Lax434175Proofs.ShopProblems.specialCase_of_le",
+        "Lax434175Proofs.Shops.machineSets_sound",
+        "Lax434175Proofs.Shops.noWait_sound",
+        "Lax434175Proofs.Shops.processingTimes_sound",
+        "Lax434175Proofs.Shops.shopType_sound",
+        "Lax434175Proofs.Smith.smith",
+        "Lax434175Proofs.StrongHardness.exclusive_weak",
+        "Lax434175Proofs.StrongHardness.npHard_of_strongly",
+        "Lax434175Proofs.StrongHardness.paraNPHard_of_strongly",
+        "Lax434175Proofs.StrongHardness.wHard_of_strongly",
+        "Lax434175Proofs.ThresholdParams.base_kinds",
+        "Lax434175Proofs.ThresholdParams.base_m",
+        "Lax434175Proofs.ThresholdParams.base_n",
+        "Lax434175Proofs.ThresholdParams.base_numP",
+        "Lax434175Proofs.ThresholdParams.base_numR",
+        "Lax434175Proofs.ThresholdParams.base_pmax",
+        "Lax434175Proofs.ThresholdParams.base_rank",
+        "Lax434175Proofs.ThresholdParams.paraNPHard_step",
+        "Lax434175Proofs.ThresholdProgram.stepWord_polytime",
+        "Lax434175Proofs.Thresholds.fmax_iff_lmax",
+        "Lax434175Proofs.Thresholds.inPlace_of_reduces",
+        "Lax434175Proofs.Thresholds.inPlace_of_reducesThroughFlow",
+        "Lax434175Proofs.Thresholds.lmax_iff_sumT",
+        "Lax434175Proofs.Thresholds.lmax_iff_sumU",
+        "Lax434175Proofs.Thresholds.makespan_iff_sumU",
+        "Lax434175Proofs.Thresholds.reducible_of_reduces",
+        "Lax434175Proofs.Thresholds.reducible_of_reducesThroughFlow",
+        "Lax434175Proofs.Thresholds.sumC_iff_sumF",
+        "Lax434175Proofs.Thresholds.sumF_iff_sumT",
+        "Lax434175Proofs.Thresholds.sumWC_iff_sumWF",
+        "Lax434175Proofs.Thresholds.sumWF_iff_sumWT",
+        "Lax434175Proofs.ThresholdWords.npHard_step",
+        "Lax434175Proofs.ThresholdWords.stepWord_correct",
+        "Lax434175Proofs.ThresholdWords.stronglyNPHard_step",
+        "Lax434175Proofs.TimeReversal.reducible_of_reducesByReversal",
+        "Lax434175Proofs.Transportation.sound",
+        "Lax434175Proofs.WordProblems.fpt_of_le_kernel",
+        "Lax434175Proofs.WordProblems.fptReduces_of_le",
+        "Lax434175Proofs.WordProblems.fptReduces_of_le_field",
+        "Lax434175Proofs.WordProblems.fptReduces_of_le_kernel",
+        "Lax434175Proofs.WordProblems.hard_of_le_kernel",
+        "Lax434175Proofs.ZooOpen.exclusive_fpt",
+        "Lax434175Proofs.ZooOpenParams.exclusive_xp",
+        "Lax434175Proofs.ZooParallel.flowReductions_hold",
+        "Lax434175Proofs.ZooParallel.specialCases_hold",
+        "Lax434175Proofs.ZooParallel.thresholdReductions_hold",
+        "Lax434175Proofs.ZooParallelBatching.specialCases_hold",
+        "Lax434175Proofs.ZooParallelBatching.thresholdReductions_hold",
+        "Lax434175Proofs.ZooParameters.dueDates_embed",
+        "Lax434175Proofs.ZooParameters.weights_embed",
+        "Lax434175Proofs.ZooPreemptive.flowReductions_hold",
+        "Lax434175Proofs.ZooPreemptive.specialCases_hold",
+        "Lax434175Proofs.ZooPreemptive.thresholdReductions_hold",
+        "Lax434175Proofs.ZooPreemptiveShops.specialCases_hold",
+        "Lax434175Proofs.ZooPreemptiveShops.thresholdReductions_hold",
+        "Lax434175Proofs.ZooRestarts.flowReductions_hold",
+        "Lax434175Proofs.ZooRestarts.specialCases_hold",
+        "Lax434175Proofs.ZooRestarts.thresholdReductions_hold",
+        "Lax434175Proofs.ZooSerialBatching.specialCases_hold",
+        "Lax434175Proofs.ZooSerialBatching.thresholdReductions_hold",
+        "Lax434175Proofs.ZooShops.specialCases_hold",
+        "Lax434175Proofs.ZooShops.thresholdReductions_hold"
+      ]
+    },
+    {
       "id": "lax-434930",
       "state": "registered",
       "environment": "v4.33.0",
