@@ -26,13 +26,18 @@ export interface DeclarationAction extends SourceRange { name: string; href: str
 
 export const CONE_VERSION = 1;
 export const CONE_EXTRACTION_VERSION = 3;
-export const CONE_EXPORT_VERSION = 5;
+export const CONE_EXPORT_VERSION = 6;
 const SHA256 = /^[0-9a-f]{64}$/;
 export const coneDigest = (source: string): string => createHash("sha256").update(source).digest("hex");
 export const coneCacheFile = (cache: string, digest: string): string => {
   if (!SHA256.test(digest)) throw new Error("invalid dependency cone digest");
   return path.join(cache, "cones", `${digest}.lean`);
 };
+
+// Mathlib's `lemma` is ordinary theorem syntax. Keeping its source lets Lean
+// generate lazy equation lemmas itself, without redeclaring reserved names.
+const commandExpansion = (command: ConeCommand): string | undefined =>
+  command.kind === "lemma" ? undefined : command.expanded;
 
 const sourceInventories = new WeakMap<SiteModel, Map<string, {
   source: string; namespaces: Set<string>; declaredNamespaces: Set<string>; identifiers: Map<number, number>;
@@ -61,14 +66,26 @@ function sourceInventory(model: SiteModel, module: string, source: string) {
   // disappear from kernel dependencies, while the original source still
   // needs them. Include explicit, attributed and deriving instance commands.
   const instanceCommands = new Set<number>();
+  const identifiers = new Map(scanned.tokens.filter(t => t.name?.length === 1).map(t => [t.start, t.end]));
   let command = 0;
-  if (data) for (const token of scanned.tokens) {
-    if (token.text !== "instance") continue;
+  if (data) for (let i = 0; i < scanned.tokens.length; i++) {
+    const token = scanned.tokens[i]!;
+    if (token.text !== "instance" && token.text !== "open") continue;
     while (data.commands[command] && data.commands[command]!.end <= token.start) command++;
-    if (data.commands[command] && data.commands[command]!.start <= token.start) instanceCommands.add(command);
+    const current = data.commands[command];
+    if (!current || current.start > token.start) continue;
+    if (token.text === "instance") instanceCommands.add(command);
+    else {
+      // Names in `open N (f)` are relative to N, not term references. For
+      // `open N in ...`, the body after `in` remains eligible for qualification.
+      for (let j = i + 1; j < scanned.tokens.length; j++) {
+        const next = scanned.tokens[j]!;
+        if (next.start >= current.end || next.text === "in") break;
+        identifiers.delete(next.start);
+      }
+    }
   }
-  inventory = { source, namespaces, declaredNamespaces,
-    identifiers: new Map(scanned.tokens.filter(t => t.name?.length === 1).map(t => [t.start, t.end])), instanceCommands };
+  inventory = { source, namespaces, declaredNamespaces, identifiers, instanceCommands };
   modules.set(module, inventory); return inventory;
 }
 
@@ -193,7 +210,7 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
   // generates for recursion. Let Lean retain their mathematical definitions
   // without requiring those compiler-only implementations downstream.
   const section = [...included].some(([module, commands]) => [...commands].some(i =>
-    model.leanCode.get(module)!.cones!.commands[i]!.expanded)) ? "noncomputable section" : "section";
+    commandExpansion(model.leanCode.get(module)!.cones!.commands[i]!))) ? "noncomputable section" : "section";
   for (const module of ordered) {
     const { concept } = model.conceptHome.get(module)!;
     for (const imported of concept.mathlibImports ?? []) imports.add(imported);
@@ -218,7 +235,8 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
       .map(n => `namespace ${n}\nend ${n}`);
     const commands = [...selected ?? []].sort((a, b) => a - b).map(i => {
       const command = data.commands[i]!;
-      if (command.expanded) return `-- Expanded from ${command.kind}\n${command.expanded}`;
+      const expanded = commandExpansion(command);
+      if (expanded) return `-- Expanded from ${command.kind}\n${expanded}`;
       let text = concept.sourceText.slice(command.start, command.end);
       // Combining import environments can change resolution of a bare name
       // (e.g. FirstOrder.Language versus the global language-of-words type).
