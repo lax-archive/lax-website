@@ -6,7 +6,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { identifierComponents, leanHoverTokens, scanLeanSource } from "./sitegen/lean-source.js";
 import { leanCodeInputs, parseLeanCode, requireCones, type LeanCodeData, type SourceHover } from "./sitegen/lean-code.js";
-import { coneCacheFile, coneDeclarations, coneDigest, dependencyCone, validateConeModule, verifiedConeFile, type ConeModule } from "./sitegen/dependency-cones.js";
+import { CONE_EXPORT_VERSION, CONE_EXTRACTION_VERSION, coneCacheFile, coneDeclarations, coneDigest, dependencyCone, validateConeModule, verifiedConeFile, type ConeModule } from "./sitegen/dependency-cones.js";
 import type { SiteModel } from "./sitegen/model.js";
 
 export function hoverType(result: unknown): string | undefined {
@@ -43,7 +43,8 @@ export class LeanHoverClient {
   private errors = new Map<string, string[]>();
   private checkedDocument?: { uri: string; text: string; version: number };
   constructor(private lean: string, private root: string, private leanPath: string) {
-    this.process = spawn(lean, ["--server"], { cwd: root, env: { ...process.env, LEAN_PATH: leanPath } });
+    this.process = spawn(lean, ["--server"], { cwd: root, env: { ...process.env, LEAN_PATH: leanPath,
+      LEAN_SRC_PATH: [root, process.env.LEAN_SRC_PATH].filter(Boolean).join(path.delimiter) } });
     let stderr = "";
     this.process.stderr.on("data", data => { stderr = (stderr + data.toString()).slice(-4096); });
     const fail = (error: Error) => {
@@ -67,7 +68,8 @@ export class LeanHoverClient {
           // Server requests have their own IDs, which may match our requests.
           if (message.id !== undefined) this.send({ id: message.id, result: null });
           if (message.method === "textDocument/publishDiagnostics")
-            this.errors.set(message.params.uri, message.params.diagnostics.filter((d: any) => d.severity === 1).map((d: any) => d.message));
+            this.errors.set(message.params.uri, message.params.diagnostics.filter((d: any) => d.severity === 1)
+              .map((d: any) => `${d.range.start.line + 1}:${d.range.start.character + 1}: ${d.message}`));
         } else {
           const pending = this.pending.get(message.id);
           if (!pending) continue;
@@ -130,9 +132,11 @@ export class LeanHoverClient {
         };
         const data: ConeModule = {
           version: 1,
+          extractionVersion: CONE_EXTRACTION_VERSION,
           namespaces: raw.namespaces,
           references: raw.references.map((r: any) => ({ name: r.name, start: offset(r.start), end: offset(r.stop) })),
-          commands: raw.commands.map((cmd: any) => ({ start: offset(cmd.start), end: offset(cmd.stop), kind: cmd.kind, uses: cmd.uses })),
+          commands: raw.commands.map((cmd: any) => ({ start: offset(cmd.start), end: offset(cmd.stop), kind: cmd.kind, uses: cmd.uses,
+            ...(cmd.expanded ? { expanded: cmd.expanded } : {}) })),
           declarations: raw.declarations.map((d: any) => ({ name: d.name, command: d.command, dependencies: d.dependencies,
             ...(d.start && d.stop ? { selection: { start: offset(d.start), end: offset(d.stop) } } : {}) })),
         };
@@ -289,9 +293,8 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       let cached: LeanCodeData | undefined;
       try { cached = parseLeanCode(fs.readFileSync(cacheFile, "utf8"), input.digest, source); } catch { /* Rebuild missing/corrupt cache. */ }
       let cones = cached?.cones;
-      if (cones?.references) { model.leanCode.set(id, cached!); done++; return; }
+      if (cones?.references && cones.extractionVersion === CONE_EXTRACTION_VERSION) { model.leanCode.set(id, cached!); done++; return; }
       const hovers = await client.hovers(file, source, data => { cones = data; }, cached?.hovers);
-      if (cones && cached?.cones?.exports) cones.exports = cached.cones.exports;
       const data: LeanCodeData = { version: 1, projectionHovers: 1, numericHovers: 1, digest: input.digest, hovers, cones };
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       model.leanCode.set(id, data);
@@ -338,6 +341,7 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
           options.log?.(`${options.version}: ${id}: ${entries.length}/${declarations.length} checked dependency cones`);
       }
       data.cones!.exports = entries;
+      data.cones!.exportVersion = CONE_EXPORT_VERSION;
       const cacheFile = path.join(options.cache, `${data.digest}.json`);
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       options.log?.(`${options.version}: ${id}: ${entries.length} checked dependency cones`);

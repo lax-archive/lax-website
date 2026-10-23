@@ -6,7 +6,7 @@ import { leanDeclarations, nameKey, nameParts, scanLeanSource, type SourceRange 
 
 /** Compiler commands are indivisible: a structure, mutual block, or command
  * macro can define several constants, including generated helpers. */
-export interface ConeCommand extends SourceRange { kind: string; uses: string[] }
+export interface ConeCommand extends SourceRange { kind: string; uses: string[]; expanded?: string }
 export interface ConeDeclaration {
   name: string; command: number; dependencies: string[]; selection?: SourceRange;
 }
@@ -15,14 +15,18 @@ export interface ConeModule {
   commands: ConeCommand[];
   declarations: ConeDeclaration[];
   namespaces: string[];
-  /** Older, already checked exports need no re-extraction. */
+  /** Resolved source identifiers used when combined imports change name resolution. */
   references?: (SourceRange & { name: string })[];
+  extractionVersion?: number;
   /** Only files successfully elaborated in the pinned environment appear here. */
   exports?: { name: string; digest: string }[];
+  exportVersion?: number;
 }
 export interface DeclarationAction extends SourceRange { name: string; href: string }
 
 export const CONE_VERSION = 1;
+export const CONE_EXTRACTION_VERSION = 3;
+export const CONE_EXPORT_VERSION = 2;
 const SHA256 = /^[0-9a-f]{64}$/;
 export const coneDigest = (source: string): string => createHash("sha256").update(source).digest("hex");
 export const coneCacheFile = (cache: string, digest: string): string => {
@@ -31,7 +35,7 @@ export const coneCacheFile = (cache: string, digest: string): string => {
 };
 
 const sourceInventories = new WeakMap<SiteModel, Map<string, {
-  source: string; namespaces: Set<string>; identifiers: Map<number, number>;
+  source: string; namespaces: Set<string>; declaredNamespaces: Set<string>; identifiers: Map<number, number>;
 }>>();
 
 /** A module can contain thousands of roots. Scan its source once, not once
@@ -45,7 +49,14 @@ function sourceInventory(model: SiteModel, module: string, source: string) {
   leanDeclarations(scanned, undefined, ref => {
     if (ref.kind === "namespace") namespaces.add(nameKey(ref.namespace));
   });
-  inventory = { source, namespaces,
+  const declaredNamespaces = new Set(namespaces);
+  const data = model.leanCode.get(module)?.cones;
+  if (data) for (const declaration of coneDeclarations(data, source)) {
+    if (declaration.name.startsWith("_private.")) continue;
+    const parts = nameParts(declaration.name);
+    for (let n = 1; n <= parts.length; n++) declaredNamespaces.add(nameKey(parts.slice(0, n)));
+  }
+  inventory = { source, namespaces, declaredNamespaces,
     identifiers: new Map(scanned.tokens.filter(t => t.name?.length === 1).map(t => [t.start, t.end])) };
   modules.set(module, inventory); return inventory;
 }
@@ -58,7 +69,8 @@ export function validateConeModule(value: ConeModule, source: string): void {
     throw new Error("unsupported dependency cone metadata");
   let end = 0;
   for (const command of value.commands) {
-    if (!range(command) || command.start < end || typeof command.kind !== "string" || !names(command.uses))
+    if (!range(command) || command.start < end || typeof command.kind !== "string" || !names(command.uses) ||
+        (command.expanded !== undefined && typeof command.expanded !== "string"))
       throw new Error("invalid dependency cone command");
     end = command.end;
   }
@@ -108,8 +120,8 @@ export function declarationActions(model: SiteModel, module: string, rootRel: st
   });
 }
 
-/** Assemble original source commands rather than pretty-printing kernel
- * expressions. This retains notation, implicit binders and readable bodies. */
+/** Preserve source commands, using checked expansions for custom commands
+ * whose elaborators may rely on separate module initialization. */
 export function dependencyCone(model: SiteModel, rootModule: string, rootName: string, qualify = false): string {
   const ordered: string[] = [], modules = new Set<string>();
   const visitModule = (id: string) => {
@@ -136,6 +148,7 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
   if (!names.has(rootName)) throw new Error(`missing dependency cone root ${rootName}`);
   const included = new Map<string, Set<number>>();
   const pending = [rootName];
+  const environmentCommand = (kind: string) => /^Lean\.Parser\.Command\.(?:syntax|macro|macro_rules|elab|elab_rules|initialize|notation|infixl?|infixr|prefix|postfix|declare_syntax_cat|register_option|attribute|export)$/.test(kind);
   const select = (module: string, index: number) => {
     const selected = included.get(module) ?? new Set<number>();
     if (selected.has(index)) return;
@@ -144,12 +157,16 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
     const data = model.leanCode.get(module)!.cones!;
     pending.push(...data.commands[index]!.uses);
     for (const decl of units.get(module)!.get(index) ?? []) pending.push(...decl.dependencies);
-    // Scopes and elaboration context are commands too. Their references
-    // participate in closure, so retained notation/attributes never dangle.
     if (first) data.commands.forEach((cmd, i) => {
       if (!units.get(module)!.has(i) && !/(?:moduleDoc|check|eval|print|example|run_cmd|runTermElab)/.test(cmd.kind)) select(module, i);
     });
   };
+  // Imported syntax and elaborators affect parsing even when their generated
+  // constants do not occur in the resulting kernel expressions. Retain their
+  // commands and dependencies, together with each module's scope context.
+  for (const module of ordered) model.leanCode.get(module)!.cones!.commands.forEach((cmd, i) => {
+    if (environmentCommand(cmd.kind)) select(module, i);
+  });
   while (pending.length) {
     const name = pending.pop()!, found = names.get(name);
     if (found) select(found.module, found.declaration.command);
@@ -157,6 +174,11 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
   }
   const imports = new Set<string>();
   const bodies: string[] = [];
+  // Kernel expansions do not carry the separate runtime implementations Lean
+  // generates for recursion. Let Lean retain their mathematical definitions
+  // without requiring those compiler-only implementations downstream.
+  const section = [...included].some(([module, commands]) => [...commands].some(i =>
+    model.leanCode.get(module)!.cones!.commands[i]!.expanded)) ? "noncomputable section" : "section";
   for (const module of ordered) {
     const { concept } = model.conceptHome.get(module)!;
     for (const imported of concept.mathlibImports ?? []) imports.add(imported);
@@ -172,18 +194,26 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
         for (let n = 1; n <= parts.length; n++) provided.add(nameKey(parts.slice(0, n)));
       }
     }
-    const namespaces = data.namespaces.filter(n => !provided.has(nameKey(nameParts(n))))
+    // Namespace stubs come from written names, never compiler-generated
+    // helper namespaces (which can contain process-specific source paths).
+    const namespaces = data.namespaces.filter(n => {
+      const key = nameKey(nameParts(n));
+      return inventory.declaredNamespaces.has(key) && !provided.has(key);
+    })
       .map(n => `namespace ${n}\nend ${n}`);
     const commands = [...selected ?? []].sort((a, b) => a - b).map(i => {
       const command = data.commands[i]!;
+      if (command.expanded) return `-- Expanded from ${command.kind}\n${command.expanded}`;
       let text = concept.sourceText.slice(command.start, command.end);
       // Combining import environments can change resolution of a bare name
       // (e.g. FirstOrder.Language versus the global language-of-words type).
       // On validation failure, retry using the compiler's original names.
-      if (qualify) {
+      if (qualify && !environmentCommand(command.kind)) {
         const refs = new Map<number, { end: number; name: string }>();
         for (const ref of data.references ?? []) {
-          if (ref.start < command.start || ref.end > command.end || names.has(ref.name) || ref.name.startsWith("_private.")) continue;
+          if (ref.start < command.start || ref.end > command.end || names.has(ref.name) ||
+              ref.name.startsWith("_private.") || ref.name.startsWith("Lean.Parser.Category.")) continue;
+          if (nameParts(ref.name).at(-1) !== nameParts(concept.sourceText.slice(ref.start, ref.end)).at(-1)) continue;
           if (inventory.identifiers.get(ref.start) === ref.end && concept.sourceText[ref.start - 1] !== ".") refs.set(ref.start, ref);
         }
         for (const [start, ref] of [...refs].sort(([a], [b]) => b - a))
@@ -192,7 +222,7 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
       return text;
     });
     if (namespaces.length || commands.length)
-      bodies.push(`-- ${module}\nsection\n${[...namespaces, ...commands].join("\n\n")}\nend`);
+      bodies.push(`-- ${module}\n${section}\n${[...namespaces, ...commands].join("\n\n")}\nend`);
   }
   const { manifest } = model.conceptHome.get(rootModule)!.output;
   return `-- Lax dependency cone\n-- Lean: ${manifest.leanVersion}\n-- Mathlib: ${manifest.mathlibVersion}\n\n` +

@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { dottedIdentifierPrefix, identifierComponents, leanHoverTokens, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
-import { validateConeModule, verifiedConeFile, coneDeclarations, type ConeModule } from "./dependency-cones.js";
+import { CONE_EXPORT_VERSION, CONE_EXTRACTION_VERSION, validateConeModule, verifiedConeFile, coneDeclarations, type ConeModule } from "./dependency-cones.js";
 
 export interface SourceHover extends SourceRange {
   text: string;
@@ -76,7 +76,8 @@ export function parseLeanCode(json: string, digest: string, source: string): Lea
 }
 
 export function requireCones(data: LeanCodeData, source: string, directory: string): void {
-  if (!data.cones?.exports) throw new Error("missing dependency cones");
+  if (!data.cones?.exports || data.cones.exportVersion !== CONE_EXPORT_VERSION || data.cones.extractionVersion !== CONE_EXTRACTION_VERSION)
+    throw new Error("missing or stale dependency cones");
   const exports = new Map(data.cones.exports.map(entry => [entry.name, entry.digest]));
   for (const declaration of coneDeclarations(data.cones, source)) {
     const digest = exports.get(declaration.name);

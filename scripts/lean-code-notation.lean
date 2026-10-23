@@ -61,6 +61,7 @@ structure Command where
   stop : Lsp.Position
   kind : String
   uses : Array String
+  expanded : Option String := none
   deriving FromJson, ToJson
 
 structure Reference where
@@ -100,7 +101,7 @@ private partial def infoReferences (text : FileMap) (tree : InfoTree)
   | .node info children =>
     let mut refs := refs
     if let .ofTermInfo ti := info then
-      if !ti.isBinder && ti.stx.isIdent then
+      if !ti.isBinder && ti.stx.isIdent && (ti.stx.getHeadInfo matches .original ..) then
         if let .const name _ := ti.expr.getAppFn then
           if let some range := ti.stx.getRange? then
             refs := refs.push {
@@ -109,6 +110,45 @@ private partial def infoReferences (text : FileMap) (tree : InfoTree)
               stop := text.utf8PosToLspPos range.stop }
     return children.foldl (fun rs child => infoReferences text child rs) refs
   | .hole _ => return refs
+
+/-- A command elaborator may depend on initializers from a different module.
+It cannot necessarily run after its implementation is inlined into this file.
+For generated definitions, export the checked expressions instead. -/
+private def expandDefinitions (names : Array Name) : MetaM (Option String) := do
+  if names.isEmpty || names.any isPrivateName then return none
+  let env ← getEnv
+  -- The compiler adds a self-recursive runtime implementation to some safe
+  -- definitions. It is not part of their kernel bodies and need not be emitted.
+  let mut pending := names.filter fun name => match env.find? name with
+    | some (.defnInfo { safety := .partial, .. }) => false
+    | _ => true
+  let omitted := names.filter (!pending.contains ·)
+  if pending.any (fun name => (env.find? name).any fun ci =>
+      ci.getUsedConstantsAsSet.toArray.any omitted.contains) then return none
+  let mut result := #[]
+  while !pending.isEmpty do
+    let some name := pending.find? (fun name =>
+      match env.find? name with
+      | some ci => !ci.getUsedConstantsAsSet.toArray.any pending.contains
+      | none => false) | return none
+    let some ci := env.find? name | return none
+    let (keyword, value) ← match ci with
+      | .defnInfo v =>
+        match v.safety with
+        | .safe => pure ("noncomputable def", v.value)
+        | .unsafe => pure ("unsafe def", v.value)
+        | .partial => return none
+      | .thmInfo v => pure ("theorem", v.value)
+      | _ => return none
+    let levels := if ci.levelParams.isEmpty then "" else
+      ".{" ++ String.intercalate ", " (ci.levelParams.map Name.toString) ++ "}"
+    let type := (← ppExpr ci.type).pretty
+    let body := (← ppExpr value).pretty
+    if type.contains '⋯' || body.contains '⋯' then
+      throwError "expanded dependency declaration {name} exceeds the pretty-printer limit"
+    result := result.push s!"{keyword} _root_.{name}{levels} :\n  {type.replace "\n" "\n  "} :=\n  {body.replace "\n" "\n  "}"
+    pending := pending.filter (· != name)
+  return some (String.intercalate "\n\n" result.toList)
 
 /-- Record command boundaries and both kernel and source dependencies. The
 source edges retain names used by tactics even if absent from the final term.
@@ -135,8 +175,8 @@ def moduleInfo (_ : Lsp.Position) : RequestM (RequestTask Module) := do
       let uses := trees.foldl (fun names tree => infoConstants tree names) ({} : NameSet)
       references := trees.foldl (fun refs tree => infoReferences doc.meta.text tree refs) references
       let names := snap.env.checked.get.constants.foldStage2 (fun ns n _ => ns.push n) #[]
-      for name in names.qsort Name.lt do
-        if seen.contains name then continue
+        |>.filter (fun n => !seen.contains n) |>.qsort Name.lt
+      for name in names do
         seen := seen.insert name
         let some ci := env.find? name | continue
         let (range, _) ← (findDeclarationRanges? (m := CoreM) name).toIO coreCtx { env }
@@ -146,11 +186,20 @@ def moduleInfo (_ : Lsp.Position) : RequestM (RequestTask Module) := do
           start := range.map (fun r => doc.meta.text.leanPosToLspPos r.selectionRange.pos)
           stop := range.map (fun r => doc.meta.text.leanPosToLspPos r.selectionRange.endPos)
           dependencies := (constants ci).toArray.qsort Name.lt |>.map Name.toString }
+      let mut expanded := none
+      if snap.stx.getKind.getRoot != `Lean then
+        let options := ({} : Options).setBool `pp.all true |>.setBool `pp.notation false
+          |>.setBool `pp.fieldNotation false |>.setBool `pp.match false
+          |>.set `pp.maxSteps (1000000 : Nat)
+        let (value, _) ← (MetaM.run' <| expandDefinitions names).toIO
+          { coreCtx with options } { env }
+        expanded := value
       commands := commands.push {
         start := doc.meta.text.utf8PosToLspPos range.start
         stop := doc.meta.text.utf8PosToLspPos range.stop
         kind := snap.stx.getKind.toString
-        uses := uses.toArray.qsort Name.lt |>.map Name.toString }
+        uses := uses.toArray.qsort Name.lt |>.map Name.toString
+        expanded }
     return { declarations, commands, namespaces, references }
 
 end LaxWebsiteCones
