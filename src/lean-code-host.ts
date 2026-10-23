@@ -330,23 +330,31 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       const entries: NonNullable<ConeModule["exports"]> = [];
       const declarations = coneDeclarations(data.cones!, source);
       for (const declaration of declarations) {
-        let text = dependencyCone(model, id, declaration.name), digest = coneDigest(text);
+        const text = dependencyCone(model, id, declaration.name), digest = coneDigest(text);
         let task = validations.get(digest);
         if (!task) {
           task = (async () => {
-            try { verifiedConeFile(options.cache, digest); return digest; } catch { /* Validate before publishing. */ }
             try {
               const fileToCheck = path.join(options.work, `LaxWebsiteCone${clients.indexOf(client)}.lean`);
-              try { await client.check(fileToCheck, text); }
-              catch (error) {
-                const qualified = dependencyCone(model, id, declaration.name, true);
-                if (qualified === text) throw error;
-                await client.check(fileToCheck, qualified);
-                text = qualified; digest = coneDigest(text);
+              const attempted = new Set<string>();
+              let failure: unknown;
+              // Prefer the smaller cone. Some source-level coercions need
+              // instances that reduced away from the kernel dependencies.
+              // Reuse checked files for every variant before invoking Lean.
+              for (const [qualify, instances] of [[false, false], [true, false], [false, true], [true, true]]) {
+                const candidate = !qualify && !instances ? text : dependencyCone(model, id, declaration.name, qualify, instances);
+                const candidateDigest = coneDigest(candidate);
+                if (attempted.has(candidateDigest)) continue;
+                attempted.add(candidateDigest);
+                try { verifiedConeFile(options.cache, candidateDigest); return candidateDigest; } catch { /* Validate before publishing. */ }
+                try {
+                  await client.check(fileToCheck, candidate);
+                  const file = coneCacheFile(options.cache, candidateDigest);
+                  fs.writeFileSync(`${file}.tmp`, candidate); fs.renameSync(`${file}.tmp`, file);
+                  return candidateDigest;
+                } catch (error) { failure = error; }
               }
-              const file = coneCacheFile(options.cache, digest);
-              fs.writeFileSync(`${file}.tmp`, text); fs.renameSync(`${file}.tmp`, file);
-              return digest;
+              throw failure;
             } catch (error) {
               throw new Error(`${declaration.name}: dependency cone does not elaborate: ${error instanceof Error ? error.message : error}`);
             }

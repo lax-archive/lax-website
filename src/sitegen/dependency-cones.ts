@@ -26,7 +26,7 @@ export interface DeclarationAction extends SourceRange { name: string; href: str
 
 export const CONE_VERSION = 1;
 export const CONE_EXTRACTION_VERSION = 3;
-export const CONE_EXPORT_VERSION = 4;
+export const CONE_EXPORT_VERSION = 5;
 const SHA256 = /^[0-9a-f]{64}$/;
 export const coneDigest = (source: string): string => createHash("sha256").update(source).digest("hex");
 export const coneCacheFile = (cache: string, digest: string): string => {
@@ -133,7 +133,7 @@ export function declarationActions(model: SiteModel, module: string, rootRel: st
 
 /** Preserve source commands, using checked expansions for custom commands
  * whose elaborators may rely on separate module initialization. */
-export function dependencyCone(model: SiteModel, rootModule: string, rootName: string, qualify = false): string {
+export function dependencyCone(model: SiteModel, rootModule: string, rootName: string, qualify = false, retainInstances = false): string {
   const ordered: string[] = [], modules = new Set<string>();
   const visitModule = (id: string) => {
     if (modules.has(id)) return;
@@ -179,7 +179,7 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
     const source = model.conceptHome.get(module)!.concept.sourceText;
     const instances = sourceInventory(model, module, source).instanceCommands;
     model.leanCode.get(module)!.cones!.commands.forEach((cmd, i) => {
-      if (environmentCommand(cmd.kind) || instances.has(i)) select(module, i);
+      if (environmentCommand(cmd.kind) || (retainInstances && instances.has(i))) select(module, i);
     });
   }
   while (pending.length) {
