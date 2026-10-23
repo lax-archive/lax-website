@@ -1,0 +1,66 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.Order.Field.Rat
+
+-- Lax434175.Problems
+section
+namespace Lax434175.Problems.DecisionReduction
+end Lax434175.Problems.DecisionReduction
+
+namespace Lax434175.Problems.Embedding
+end Lax434175.Problems.Embedding
+
+namespace Lax434175.Problems.Embedding.Sound
+end Lax434175.Problems.Embedding.Sound
+
+namespace Lax434175.Problems
+
+/-- A minimization problem. -/
+structure Problem where
+  /-- The instances. -/
+  Inst : Type
+  /-- The candidate solutions of an instance. -/
+  Sched : Inst → Type
+  /-- Which candidate solutions are feasible. -/
+  feasible : (x : Inst) → Sched x → Prop
+  /-- The cost of a candidate solution. -/
+  cost : (x : Inst) → Sched x → ℚ
+
+end Lax434175.Problems
+end
+
+-- Lax434175.Online
+section
+namespace Lax434175.Online.Causal
+end Lax434175.Online.Causal
+
+namespace Lax434175.Online.Randomized
+end Lax434175.Online.Randomized
+
+namespace Lax434175.Online.Revelation
+end Lax434175.Online.Revelation
+
+namespace Lax434175.Online
+
+open Lax434175.Problems
+
+variable {P : Problem}
+
+/-- A deterministic algorithm: a schedule for every instance. -/
+abbrev Algorithm (P : Problem) := (x : P.Inst) → P.Sched x
+
+/-- A finite distribution over instances, each with a feasible witness
+schedule. -/
+structure Hard (P : Problem) where
+  instances : List (ℚ × (x : P.Inst) × P.Sched x)
+  nonneg : ∀ a ∈ instances, 0 ≤ a.1
+  feasible : ∀ a ∈ instances, P.feasible a.2.1 a.2.2
+
+/-- The expected excess of an algorithm over `ρ` times the witnesses plus `α`. -/
+def Hard.excess (H : Hard P) (A : Algorithm P) (ρ α : ℚ) : ℚ :=
+  (H.instances.map fun a => a.1 * (P.cost a.2.1 (A a.2.1) - ρ * P.cost a.2.1 a.2.2 - α)).sum
+
+end Lax434175.Online
+end

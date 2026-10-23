@@ -1,0 +1,150 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Data.List.Basic
+
+-- Lax796640.Declarations
+section
+namespace Lax796640
+end Lax796640
+
+namespace Lax796640.Declarations
+end Lax796640.Declarations
+
+namespace Lax796640.Declarations.Claim
+end Lax796640.Declarations.Claim
+
+namespace Lax796640.Declarations.Comparison
+end Lax796640.Declarations.Comparison
+
+namespace Lax796640.Declarations.Declaration
+end Lax796640.Declarations.Declaration
+
+namespace Lax796640.Declarations.DeclarationKind
+end Lax796640.Declarations.DeclarationKind
+
+namespace Lax796640.Declarations.Package
+end Lax796640.Declarations.Package
+
+namespace Lax796640.Declarations.PackageRole
+end Lax796640.Declarations.PackageRole
+
+namespace Lax796640.Declarations.Snapshot
+end Lax796640.Declarations.Snapshot
+
+namespace Lax796640.Declarations.DeclarationKind.axiomDecl
+end Lax796640.Declarations.DeclarationKind.axiomDecl
+
+namespace Lax796640.Declarations.DeclarationKind.other
+end Lax796640.Declarations.DeclarationKind.other
+
+namespace Lax796640.Declarations.DeclarationKind.theoremDecl
+end Lax796640.Declarations.DeclarationKind.theoremDecl
+
+namespace Lax796640.Declarations.PackageRole.background
+end Lax796640.Declarations.PackageRole.background
+
+namespace Lax796640.Declarations.PackageRole.concepts
+end Lax796640.Declarations.PackageRole.concepts
+
+namespace Lax796640.Declarations.PackageRole.proofs
+end Lax796640.Declarations.PackageRole.proofs
+end
+
+-- Lax796640.ProofNetworks
+section
+namespace Lax796640.ProofNetworks.closeFor
+end Lax796640.ProofNetworks.closeFor
+
+namespace Lax796640.ProofNetworks
+
+open Declarations
+
+/-- One conditional proof, identified by its theorem declaration. -/
+structure Rule where
+  proofId : Nat
+  assumptions : List Nat
+  conclusion : Nat
+  deriving DecidableEq, BEq, Repr
+
+/-- Statements and the available rules for establishing them. -/
+structure Network where
+  statements : List Nat
+  rules : List Rule
+  deriving DecidableEq, BEq, Repr
+
+/-- Establish a statement from designated assumptions using finitely many rules. -/
+inductive Derivable (n : Network) (initial : List Nat) : Nat → Prop where
+  | assumption {statement : Nat} :
+      statement ∈ initial → Derivable n initial statement
+  | apply {r : Rule} : r ∈ n.rules →
+      (∀ a ∈ r.assumptions, Derivable n initial a) →
+      Derivable n initial r.conclusion
+
+end Lax796640.ProofNetworks
+end
+
+-- Lax796640.Certificates
+section
+namespace Lax796640.Certificates
+end Lax796640.Certificates
+
+namespace Lax796640.Certificates.Step
+end Lax796640.Certificates.Step
+
+namespace Lax796640.Certificates.check
+end Lax796640.Certificates.check
+
+namespace Lax796640.Certificates.checkSteps
+end Lax796640.Certificates.checkSteps
+end
+
+-- Lax796640.Dependencies
+section
+namespace Lax796640.Dependencies
+end Lax796640.Dependencies
+
+namespace Lax796640.Dependencies.Reaches
+end Lax796640.Dependencies.Reaches
+
+namespace Lax796640.Dependencies.expandFor
+end Lax796640.Dependencies.expandFor
+end
+
+-- Lax796640.Validation
+section
+namespace Lax796640.Validation
+end Lax796640.Validation
+
+namespace Lax796640.Validation.DeclarationValid
+end Lax796640.Validation.DeclarationValid
+
+namespace Lax796640.Validation.checkClaim
+end Lax796640.Validation.checkClaim
+
+namespace Lax796640.Validation.checkDeclaration
+end Lax796640.Validation.checkDeclaration
+end
+
+-- Lax796640.RelativeSoundness
+section
+namespace Lax796640.RelativeSoundness.KernelContract
+end Lax796640.RelativeSoundness.KernelContract
+
+namespace Lax796640.RelativeSoundness
+
+open Declarations Dependencies ProofNetworks Validation Certificates
+
+/-- Each recorded rule preserves truth when all of its assumptions hold. -/
+def RulesSound (n : Network) (meaning : Nat → Prop) : Prop :=
+  ∀ r ∈ n.rules, (∀ a ∈ r.assumptions, meaning a) → meaning r.conclusion
+
+/-- Finite derivations compose sound rules without introducing new assumptions. -/
+axiom derivation_sound (n : Network) (meaning : Nat → Prop)
+    (rules : RulesSound n meaning) (initial : List Nat)
+    (assumptions : ∀ a ∈ initial, meaning a) (a : Nat)
+    (derived : Derivable n initial a) : meaning a
+
+end Lax796640.RelativeSoundness
+end

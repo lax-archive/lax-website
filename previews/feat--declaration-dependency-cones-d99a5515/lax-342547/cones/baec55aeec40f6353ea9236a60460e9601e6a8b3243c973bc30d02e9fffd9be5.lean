@@ -1,0 +1,27 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.Field.ZMod
+import Mathlib.Data.Finset.Powerset
+import Mathlib.Data.Fintype.Powerset
+import Mathlib.Data.ZMod.Basic
+import Mathlib.LinearAlgebra.Matrix.BilinearForm
+
+-- Lax342547.MomentSpace
+section
+namespace Lax342547.MomentSpace
+
+abbrev Binary := ZMod 2
+
+variable {Label Coord Base : Type}
+
+def baseEval (z : Base → Binary) : Option Base → Binary
+  | none => 1
+  | some i => z i
+
+def point (p : Label → Coord → Binary) (s : Label) (z : Base → Binary)
+    (i : Coord × Option Base) : Binary := p s i.1 * baseEval z i.2
+
+end Lax342547.MomentSpace
+end

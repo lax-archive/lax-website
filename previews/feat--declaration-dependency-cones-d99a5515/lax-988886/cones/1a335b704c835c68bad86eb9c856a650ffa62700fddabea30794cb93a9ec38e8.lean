@@ -1,0 +1,92 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Data.Fin.Tuple.Basic
+import Mathlib.Data.List.FinRange
+
+-- Lax751879.OrderedStructures
+section
+namespace Lax751879.OrderedStructures
+
+abbrev Vocabulary := List Nat
+
+/-- Relation symbols are numbered in the order of the vocabulary. -/
+abbrev Symbol (σ : Vocabulary) := Fin σ.length
+
+structure OrderedStructure (σ : Vocabulary) where
+  size : Nat
+  relation : (r : Symbol σ) → (Fin (σ.get r) → Fin size) → Bool
+
+structure PointedStructure (σ : Vocabulary) (k : Nat) where
+  structureValue : OrderedStructure σ
+  tuple : Fin k → Fin structureValue.size
+
+end Lax751879.OrderedStructures
+end
+
+-- Lax751879.StructureEncoding
+section
+namespace Lax751879.StructureEncoding
+
+open Lax751879.OrderedStructures
+
+/-- All tuples, with the first coordinate varying slowest. -/
+def tuples (n : Nat) : (k : Nat) → List (Fin k → Fin n)
+  | 0 => [Fin.elim0]
+  | k + 1 => (List.finRange n).flatMap fun a =>
+      (tuples n k).map (Fin.cons a)
+
+def unary (n : Nat) : List Bool := List.replicate n true ++ [false]
+
+def encode {σ : Vocabulary} {k : Nat} (A : PointedStructure σ k) : List Bool :=
+  unary A.structureValue.size ++
+    (List.finRange σ.length).flatMap (fun r =>
+      (tuples A.structureValue.size (σ.get r)).map (A.structureValue.relation r)) ++
+    (List.finRange k).flatMap (fun i => unary (A.tuple i).val)
+
+end Lax751879.StructureEncoding
+end
+
+-- Lax988886.FiniteStructures
+section
+namespace Lax988886.FiniteStructures.Isomorphism
+end Lax988886.FiniteStructures.Isomorphism
+
+namespace Lax988886.FiniteStructures
+
+abbrev Vocabulary := Lax751879.OrderedStructures.Vocabulary
+
+abbrev Structure := Lax751879.OrderedStructures.OrderedStructure
+
+abbrev Property (σ : Vocabulary) := Structure σ → Prop
+
+def encode {σ : Vocabulary} (A : Structure σ) : List Bool :=
+  Lax751879.StructureEncoding.encode ⟨A, Fin.elim0⟩
+
+def language {σ : Vocabulary} (Q : Property σ) (w : List Bool) : Prop :=
+  ∃ A : Structure σ, encode A = w ∧ Q A
+
+end Lax988886.FiniteStructures
+end
+
+-- Lax988886.NondeterministicPolynomialTime
+section
+namespace Lax988886.NondeterministicPolynomialTime
+
+open Lax988886.FiniteStructures
+
+def encodePair (p : List Bool × List Bool) : List Bool :=
+  p.1.flatMap (fun b => [true, b]) ++ false :: p.2
+
+def LanguageInNP (L : List Bool → Prop) : Prop :=
+  ∃ (V : List Bool × List Bool → Bool) (p : Polynomial Nat),
+    Nonempty (Turing.TM2ComputableInPolyTime encodePair (fun b => [b]) V) ∧
+    ∀ w, L w ↔ ∃ c : List Bool, c.length ≤ p.eval w.length ∧ V (w, c) = true
+
+def InNP {σ : Vocabulary} (Q : Property σ) : Prop :=
+  LanguageInNP (language Q)
+
+end Lax988886.NondeterministicPolynomialTime
+end

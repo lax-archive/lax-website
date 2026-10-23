@@ -1,0 +1,54 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.Clique
+import Mathlib.Combinatorics.SimpleGraph.Maps
+import Mathlib.Data.Finset.Max
+import Mathlib.Data.Finset.Sigma
+import Mathlib.Data.Fintype.BigOperators
+import Mathlib.Data.Rat.Floor
+
+-- Lax263307.WeightedIndependentSet
+section
+namespace Lax263307
+end Lax263307
+
+namespace Lax263307.WeightedIndependentSet
+end Lax263307.WeightedIndependentSet
+
+namespace Lax263307.WeightedIndependentSet.Instance
+end Lax263307.WeightedIndependentSet.Instance
+end
+
+-- Lax263307.IndependentBlowUp
+section
+namespace Lax263307.IndependentBlowUp
+end Lax263307.IndependentBlowUp
+end
+
+-- Lax263307.WeightRounding
+section
+namespace Lax263307.WeightRounding
+
+/-- Multiplicities at a specified positive weight unit. -/
+def roundedCopies {n : ℕ} (w : Fin n → ℚ) (τ : ℚ) : Fin n → ℕ :=
+  fun v => ⌊w v / τ⌋₊
+
+end Lax263307.WeightRounding
+end
+
+-- Lax263307.RoundingBounds
+section
+namespace Lax263307.RoundingBounds
+
+open WeightedIndependentSet WeightRounding
+
+/-- The floor approximation loses at most one positive scaling unit. -/
+axiom pointwise_bounds {n : ℕ} (w : Fin n → ℚ) (τ : ℚ)
+    (nonnegative : ∀ v, 0 ≤ w v) (positive_scale : 0 < τ) :
+    ∀ v, τ * (roundedCopies w τ v : ℚ) ≤ w v ∧
+      w v - τ ≤ τ * (roundedCopies w τ v : ℚ)
+
+end Lax263307.RoundingBounds
+end

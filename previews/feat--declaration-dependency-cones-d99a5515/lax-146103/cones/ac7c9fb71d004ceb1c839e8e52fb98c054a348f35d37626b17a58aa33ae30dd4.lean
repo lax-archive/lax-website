@@ -1,0 +1,38 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.ModelTheory.Semantics
+
+-- Lax146103.MSOSyntax
+section
+namespace Lax146103.MSOSyntax
+
+open FirstOrder
+
+universe u v
+
+/-- Monadic second-order formulas over `L`, intrinsically scoped by the numbers
+of available first-order and monadic variables. -/
+inductive Formula (L : Language.{u, v}) : Nat → Nat → Type (max u v)
+  | falsum {n m : Nat} : Formula L n m
+  | equal {n m : Nat} : L.Term (Fin n) → L.Term (Fin n) → Formula L n m
+  | rel {n m k : Nat} : L.Relations k → (Fin k → L.Term (Fin n)) → Formula L n m
+  | mem {n m : Nat} : L.Term (Fin n) → Fin m → Formula L n m
+  | or {n m : Nat} : Formula L n m → Formula L n m → Formula L n m
+  | neg {n m : Nat} : Formula L n m → Formula L n m
+  | exFO {n m : Nat} : Formula L (n + 1) m → Formula L n m
+  | exSO {n m : Nat} : Formula L n (m + 1) → Formula L n m
+
+namespace Formula
+
+variable {L : Language.{u, v}} {n m : Nat}
+
+/-- Derived universal monadic second-order quantification. -/
+def allSO (phi : Formula L n (m + 1)) : Formula L n m :=
+  .neg (.exSO (.neg phi))
+
+end Formula
+
+end Lax146103.MSOSyntax
+end

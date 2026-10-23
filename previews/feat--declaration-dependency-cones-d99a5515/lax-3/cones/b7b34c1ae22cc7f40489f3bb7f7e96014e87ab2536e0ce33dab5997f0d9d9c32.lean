@@ -1,0 +1,88 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.Walk.Basic
+import Mathlib.Data.Fin.Tuple.Basic
+import Mathlib.Data.Finset.Image
+
+-- Lax3.ColoredGraphs
+section
+namespace Lax3
+end Lax3
+
+namespace Lax3.ColoredGraphs
+end Lax3.ColoredGraphs
+end
+
+-- Lax3.DistFO
+section
+namespace Lax3.DistFO.DRank
+end Lax3.DistFO.DRank
+
+namespace Lax3.DistFO.IsLocal
+end Lax3.DistFO.IsLocal
+
+namespace Lax3.DistFO.Sat
+end Lax3.DistFO.Sat
+
+namespace Lax3.DistFO
+
+open Lax3.ColoredGraphs
+
+set_option linter.dupNamespace false in
+/-- Formulas of distance logic over `L`-colored graphs, with `k` free
+variables. Variables are `Fin k`, and both quantifiers bind the *new
+last* index. Beyond the atoms of first-order logic there are colors and
+the two distance atoms, and beyond unrestricted quantification there is
+local quantification, which ranges over the vertices within a given
+radius of the free variables. -/
+inductive DistFO (L : ℕ) : ℕ → Type
+  /-- The vertices `i` and `j` are adjacent. -/
+  | adj {k : ℕ} (i j : Fin k) : DistFO L k
+  /-- The vertices `i` and `j` are equal. -/
+  | eq {k : ℕ} (i j : Fin k) : DistFO L k
+  /-- The vertex `i` has color `c`. -/
+  | color {k : ℕ} (c : Fin L) (i : Fin k) : DistFO L k
+  /-- Binary distance atom: the distance between `i` and `j` is at most
+  `r`. -/
+  | distLe {k : ℕ} (r : ℕ) (i j : Fin k) : DistFO L k
+  /-- Unary distance atom: the distance from `i` to the color class `c`
+  is smaller than `r`. -/
+  | distColorLt {k : ℕ} (r : ℕ) (c : Fin L) (i : Fin k) : DistFO L k
+  /-- Negation. -/
+  | not {k : ℕ} (φ : DistFO L k) : DistFO L k
+  /-- Conjunction. -/
+  | and {k : ℕ} (φ ψ : DistFO L k) : DistFO L k
+  /-- Unrestricted quantification: there is a vertex satisfying `φ`,
+  bound at the last index. -/
+  | exU {k : ℕ} (φ : DistFO L (k + 1)) : DistFO L k
+  /-- Local quantification: there is a vertex within distance `r` of
+  some variable in the guard set `g` satisfying `φ`, bound at the last
+  index. The radius and the guard set are part of the syntax; which
+  radii are admissible at a given distance rank is the business of
+  `DRank`, and the guard set is unconstrained there, as in the
+  source. -/
+  | exL {k : ℕ} (r : ℕ) (g : Finset (Fin k)) (φ : DistFO L (k + 1)) : DistFO L k
+
+variable {L n : ℕ}
+
+/-- Renaming of variables along `f`. Under a binder the renaming is
+lifted to `Fin (k + 1) → Fin (k' + 1)` by sending the bound variable —
+the last index — to the new last index. The guard set of a local
+quantifier is mapped along `f`, so a guard keeps naming the same
+variables it named before. -/
+def rename : {k k' : ℕ} → (Fin k → Fin k') → DistFO L k → DistFO L k'
+  | _, _, f, .adj i j => .adj (f i) (f j)
+  | _, _, f, .eq i j => .eq (f i) (f j)
+  | _, _, f, .color c i => .color c (f i)
+  | _, _, f, .distLe r i j => .distLe r (f i) (f j)
+  | _, _, f, .distColorLt r c i => .distColorLt r c (f i)
+  | _, _, f, .not φ => .not (rename f φ)
+  | _, _, f, .and φ ψ => .and (rename f φ) (rename f ψ)
+  | _, k', f, .exU φ => .exU (rename (Fin.snoc (fun i => (f i).castSucc) (Fin.last k')) φ)
+  | _, k', f, .exL r g φ =>
+      .exL r (g.image f) (rename (Fin.snoc (fun i => (f i).castSucc) (Fin.last k')) φ)
+
+end Lax3.DistFO
+end

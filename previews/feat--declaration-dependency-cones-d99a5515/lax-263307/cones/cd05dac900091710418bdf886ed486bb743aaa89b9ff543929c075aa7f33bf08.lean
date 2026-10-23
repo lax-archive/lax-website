@@ -1,0 +1,281 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Polynomial.Eval.Defs
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.List.Basic
+import Mathlib.Data.Nat.Bits
+import Mathlib.Data.Nat.Size
+import Mathlib.Data.Nat.Sqrt
+import Mathlib.Data.Rat.Cast.Order
+import Mathlib.Data.Rat.Floor
+import Mathlib.Data.Real.Basic
+import Mathlib.LinearAlgebra.Matrix.PosDef
+import Mathlib.Tactic.DeriveFintype
+
+-- Lax109476.LinearProgram
+section
+namespace Lax109476
+end Lax109476
+
+namespace Lax109476.LinearProgram
+end Lax109476.LinearProgram
+
+namespace Lax109476.LinearProgram.Program
+end Lax109476.LinearProgram.Program
+end
+
+-- Lax109476.FarkasCertificate
+section
+namespace Lax109476.FarkasCertificate
+end Lax109476.FarkasCertificate
+end
+
+-- Lax109476.RecessionDirection
+section
+namespace Lax109476.RecessionDirection
+end Lax109476.RecessionDirection
+end
+
+-- Lax109476.RationalCertificates
+section
+namespace Lax109476.RationalCertificates
+end Lax109476.RationalCertificates
+
+namespace Lax109476.RationalCertificates.Certificate
+end Lax109476.RationalCertificates.Certificate
+
+namespace Lax109476.RationalCertificates.IsValidCertificate
+end Lax109476.RationalCertificates.IsValidCertificate
+
+namespace Lax109476.RationalCertificates.Certificate.infeasible
+end Lax109476.RationalCertificates.Certificate.infeasible
+
+namespace Lax109476.RationalCertificates.Certificate.optimal
+end Lax109476.RationalCertificates.Certificate.optimal
+
+namespace Lax109476.RationalCertificates.Certificate.unbounded
+end Lax109476.RationalCertificates.Certificate.unbounded
+end
+
+-- Lax759944.BinaryWordEncoding
+section
+set_option backward.isDefEq.respectTransparency false
+
+namespace Lax759944.BinaryWordEncoding
+
+/-- The finite alphabet used to encode lists of natural numbers. -/
+inductive Symbol
+  | separator
+  | zero
+  | one
+  deriving DecidableEq, Fintype, Inhabited
+
+/-- Encode one natural number, including the separator which begins it. -/
+def encodeNat (n : ℕ) : List Symbol :=
+  .separator :: n.bits.map (fun b => if b then .one else .zero)
+
+/-- The canonical binary encoding of a finite list of natural numbers. -/
+def encode (x : List ℕ) : List Symbol :=
+  x.flatMap encodeNat
+
+/-- The bit-size of a finite list of natural numbers. -/
+def bitSize (x : List ℕ) : ℕ :=
+  (encode x).length
+
+end Lax759944.BinaryWordEncoding
+end
+
+-- Lax808846.Ram
+section
+namespace Lax808846
+end Lax808846
+
+namespace Lax808846.Ram
+end Lax808846.Ram
+
+namespace Lax808846.Ram.Instr
+end Lax808846.Ram.Instr
+
+namespace Lax808846.Ram.State
+end Lax808846.Ram.State
+
+namespace Lax808846.Ram.run
+end Lax808846.Ram.run
+
+namespace Lax808846.Ram.Instr.add
+end Lax808846.Ram.Instr.add
+
+namespace Lax808846.Ram.Instr.and
+end Lax808846.Ram.Instr.and
+
+namespace Lax808846.Ram.Instr.div
+end Lax808846.Ram.Instr.div
+
+namespace Lax808846.Ram.Instr.effect
+end Lax808846.Ram.Instr.effect
+
+namespace Lax808846.Ram.Instr.halt
+end Lax808846.Ram.Instr.halt
+
+namespace Lax808846.Ram.Instr.inputLength
+end Lax808846.Ram.Instr.inputLength
+
+namespace Lax808846.Ram.Instr.inputLoad
+end Lax808846.Ram.Instr.inputLoad
+
+namespace Lax808846.Ram.Instr.jeof
+end Lax808846.Ram.Instr.jeof
+
+namespace Lax808846.Ram.Instr.jump
+end Lax808846.Ram.Instr.jump
+
+namespace Lax808846.Ram.Instr.jzero
+end Lax808846.Ram.Instr.jzero
+
+namespace Lax808846.Ram.Instr.load
+end Lax808846.Ram.Instr.load
+
+namespace Lax808846.Ram.Instr.mul
+end Lax808846.Ram.Instr.mul
+
+namespace Lax808846.Ram.Instr.not
+end Lax808846.Ram.Instr.not
+
+namespace Lax808846.Ram.Instr.read
+end Lax808846.Ram.Instr.read
+
+namespace Lax808846.Ram.Instr.set
+end Lax808846.Ram.Instr.set
+
+namespace Lax808846.Ram.Instr.shiftl
+end Lax808846.Ram.Instr.shiftl
+
+namespace Lax808846.Ram.Instr.store
+end Lax808846.Ram.Instr.store
+
+namespace Lax808846.Ram.Instr.sub
+end Lax808846.Ram.Instr.sub
+
+namespace Lax808846.Ram.Instr.write
+end Lax808846.Ram.Instr.write
+end
+
+-- Lax759944.RamPolytime
+section
+namespace Lax759944.RamPolytime
+end Lax759944.RamPolytime
+end
+
+-- Lax109476.RationalEncoding
+section
+namespace Lax109476.RationalEncoding.encodeCertificate
+end Lax109476.RationalEncoding.encodeCertificate
+
+namespace Lax109476.RationalEncoding
+
+open Lax109476.LinearProgram Lax109476.RationalCertificates
+
+/-- Encode a reduced rational by sign, magnitude, and denominator. -/
+def encodeRational (q : ℚ) : List ℕ :=
+  [if q.num < 0 then 1 else 0, q.num.natAbs, q.den]
+
+end Lax109476.RationalEncoding
+end
+
+-- Lax263307.BufferedEllipsoid
+section
+namespace Lax263307.BufferedEllipsoid
+
+open Matrix
+
+def scale {K : Type} [Field K] {n : ℕ} (z : Fin n → K) : Fin n → K := fun i => z i / (4 * (n : K))
+
+end Lax263307.BufferedEllipsoid
+end
+
+-- Lax263307.RoundedOracleSearch
+section
+namespace Lax263307.RoundedOracleSearch.selectedNormal
+end Lax263307.RoundedOracleSearch.selectedNormal
+
+namespace Lax263307.RoundedOracleSearch.trajectory
+end Lax263307.RoundedOracleSearch.trajectory
+
+namespace Lax263307.RoundedOracleSearch
+
+open BufferedEllipsoid (scale)
+
+open Lax109476.RationalEncoding (encodeRational)
+
+open Lax759944.BinaryWordEncoding (bitSize)
+
+open Matrix
+
+abbrev State (n : ℕ) := Matrix (Fin n) (Fin n) ℚ × (Fin n → ℚ)
+
+inductive Reply (n : ℕ) (Result : Type)
+  | found (answer : Result)
+  | reject
+  | cut (normal : Fin n → ℤ)
+
+def rationalNormal {n : ℕ} (a : Fin n → ℤ) : Fin n → ℚ := fun i => a i
+
+def roundDown (q : ℚ) (D : ℕ) : ℚ := (Int.floor (q * D) : ℚ) / D
+
+def sqrtUpper (q : ℚ) (D : ℕ) : ℚ :=
+  ((Nat.sqrt (Nat.ceil (q * (D : ℚ) ^ 2)) + 1 : ℕ) : ℚ) / D
+
+def cutShape {n : ℕ} (A : Matrix (Fin n) (Fin n) ℚ) (a : Fin n → ℚ) :
+    Matrix (Fin n) (Fin n) ℚ :=
+  ((n : ℚ) ^ 2 / ((n : ℚ) ^ 2 - 1)) •
+    (A - (2 / (((n : ℚ) + 1) * (a ⬝ᵥ (A *ᵥ a)))) •
+      Matrix.vecMulVec (A *ᵥ a) (A *ᵥ a))
+
+def grid (n k : ℕ) : ℕ := 2 ^ ((2 * k + 2) + (2 * n + 4) + n + 3)
+
+def cached {n : ℕ} (state : State n) : State n :=
+  let rows : Vector (Vector ℚ n) n := Vector.ofFn (fun i => Vector.ofFn (state.1 i))
+  let center : Vector ℚ n := Vector.ofFn state.2
+  ((fun i j => (rows.get i).get j), fun i => center.get i)
+
+def update {n : ℕ} (k : ℕ) (state : State n) (a : Fin n → ℤ) : State n :=
+  let a := rationalNormal a
+  let D := grid n k
+  let η : ℚ := 1 / (2 : ℚ) ^ (2 * n + 4)
+  let shape := ((1 + η) ^ 2) •
+    ((Matrix.of fun i j => roundDown (cutShape state.1 a i j) D) + ((n : ℚ) / D) • 1)
+  let center := fun i => roundDown
+    (state.2 i - (1 / (((n : ℚ) + 1) * sqrtUpper (a ⬝ᵥ (state.1 *ᵥ a)) D)) *
+      (state.1 *ᵥ a) i) D
+  cached (shape, center)
+
+def scan {n : ℕ} {Result : Type} (oracle : ℕ → (Fin n → ℚ) → Reply n Result) :
+    ℕ → ℕ → State n → Option Result
+  | _, 0, _ => none
+  | k, count + 1, state =>
+    match oracle k state.2 with
+    | .found answer => some answer
+    | .reject => none
+    | .cut a => scan oracle (k + 1) count (update k state a)
+
+def steps (n B : ℕ) : ℕ := 4 * (n + 1) * (B * n + 1)
+
+def search {n : ℕ} {Result : Type} (oracle : ℕ → (Fin n → ℚ) → Reply n Result)
+    (B : ℕ) : Option Result := scan oracle 0 (steps n B) (1, 0)
+
+axiom search_complete {n : ℕ} {Result : Type} (dimension : 2 ≤ n)
+    (oracle : ℕ → (Fin n → ℚ) → Reply n Result) (B : ℕ) (precision : 2 ≤ B)
+    (nonzero : ∀ k center a, oracle k center = .cut a → ∃ i, a i ≠ 0)
+    (no_reject : ∀ k center, oracle k center ≠ .reject)
+    (z : Fin n → ℝ) (cube : ∀ i, 0 ≤ z i ∧ z i ≤ 1)
+    (retains : ∀ k center a, oracle k center = .cut a →
+      ∀ e : Fin n → ℝ, (∀ i, |e i| ≤ ((2 : ℝ) ^ B)⁻¹) →
+        (fun i => (a i : ℝ)) ⬝ᵥ
+          (scale z + e - (fun i => (center i : ℝ))) ≤ 0) :
+    ∃ answer, search oracle B = some answer
+
+end Lax263307.RoundedOracleSearch
+end

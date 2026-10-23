@@ -1,0 +1,88 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Data.Real.Basic
+
+-- Lax391470.Scheduling
+section
+namespace Lax391470
+end Lax391470
+
+namespace Lax391470.Scheduling
+end Lax391470.Scheduling
+
+namespace Lax391470.Scheduling.Instance
+end Lax391470.Scheduling.Instance
+end
+
+-- Lax391470.AuxiliaryProblem
+section
+namespace Lax391470.AuxiliaryProblem
+end Lax391470.AuxiliaryProblem
+
+namespace Lax391470.AuxiliaryProblem.Instance
+end Lax391470.AuxiliaryProblem.Instance
+
+namespace Lax391470.AuxiliaryProblem.Instance.Ordered
+end Lax391470.AuxiliaryProblem.Instance.Ordered
+end
+
+-- Lax434930.PolynomialTime
+section
+namespace Lax434930
+end Lax434930
+
+namespace Lax434930.PolynomialTime
+end Lax434930.PolynomialTime
+end
+
+-- Lax429075.CNF
+section
+namespace Lax429075.CNF
+
+structure Literal where
+  index : ℕ
+  positive : Bool
+  deriving DecidableEq
+
+abbrev Clause := List Literal
+
+abbrev Formula := List Clause
+
+end Lax429075.CNF
+end
+
+-- Lax391470.SatConstruction
+section
+namespace Lax391470.SatConstruction
+
+open Lax391470.AuxiliaryProblem Lax429075.CNF
+
+variable (p q : ℕ) (F : Formula)
+
+/-- The number `n` of variables: one more than the largest index occurring in `F`, and
+`1` if no literal occurs. -/
+def numVars : ℕ := (F.flatMap id).foldr (fun l n => max (l.index + 1) n) 1
+
+/-- The number `m` of clauses. -/
+def numClauses : ℕ := F.length
+
+/-- The length `S` of a section. -/
+def sectionLength : ℕ := p + 2 * q + numClauses F * (p + q) + 1 + q
+
+/-- The start of section `s`. -/
+def sectionStart (s : ℕ) : ℕ := sectionLength p q F * s
+
+/-- The release time of the ordinary job `o`. -/
+def ordRelease (o : ℕ) : ℕ :=
+  if o < 6 * numVars F then
+    match o % 3 with
+    | 0 => sectionStart p q F (o / 3) + (if (o / 3) % 2 = 0 then 1 else q + 1)
+    | 1 => sectionStart p q F (o / 3)
+    | _ => sectionStart p q F (o / 3) + sectionLength p q F - q
+  else 0
+
+end Lax391470.SatConstruction
+end

@@ -1,0 +1,49 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.List.Basic
+
+-- Lax916827.StreamingStringTransducers
+section
+namespace Lax916827.StreamingStringTransducers
+
+/-- A register update is copyless if each register name occurs at most once in the
+concatenation of the strings assigned to the registers. -/
+def Copyless {X B : Type} [Fintype X] (u : X → List (X ⊕ B)) : Prop :=
+  ((Finset.univ.toList.map u).flatten.filterMap
+      (fun z => match z with | Sum.inl x => some x | Sum.inr _ => none)).Nodup
+
+/-- A streaming string transducer with states `Q` and registers `X`. -/
+structure SST (A B Q X : Type) [Fintype X] where
+  /-- The initial state. -/
+  init : Q
+  /-- The transition function: a new state and a register update. -/
+  step : Q → A → Q × (X → List (X ⊕ B))
+  /-- Every register update is copyless. -/
+  step_copyless : ∀ q a, Copyless (step q a).2
+  /-- The final output string, chosen by the final state. -/
+  final : Q → List (X ⊕ B)
+
+namespace SST
+
+variable {A B Q X : Type} [Fintype X]
+
+/-- Substituting the contents of the registers into a string over `X + B`. -/
+def subst (η : X → List B) (s : List (X ⊕ B)) : List B :=
+  (s.map (fun z => match z with | Sum.inl x => η x | Sum.inr b => [b])).flatten
+
+/-- Reading one input letter: the new state and the new register contents. -/
+def stepConfig (T : SST A B Q X) (c : Q × (X → List B)) (a : A) : Q × (X → List B) :=
+  ((T.step c.1 a).1, fun x => subst c.2 ((T.step c.1 a).2 x))
+
+/-- The state and register contents after reading an input string, starting from
+the initial state with empty registers. -/
+def runConfig (T : SST A B Q X) (w : List A) : Q × (X → List B) :=
+  w.foldl T.stepConfig (T.init, fun _ => [])
+
+end SST
+
+end Lax916827.StreamingStringTransducers
+end

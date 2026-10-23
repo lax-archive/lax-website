@@ -1,0 +1,233 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Analysis.LocallyConvex.HahnBanach
+import Mathlib.Analysis.Normed.Lp.lpSpace
+import Mathlib.Analysis.Normed.Module.HahnBanach
+import Mathlib.Analysis.Normed.Operator.Compact.Basic
+import Mathlib.Analysis.RCLike.Lemmas
+import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Dynamics.Ergodic.Ergodic
+import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
+import Mathlib.MeasureTheory.Constructions.Polish.Basic
+import Mathlib.MeasureTheory.Function.L1Space.Integrable
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.Periodic
+import Mathlib.MeasureTheory.Measure.MeasureSpaceDef
+import Mathlib.Topology.MetricSpace.Closeds
+
+-- Lax606786.BanachGrassmannian
+section
+namespace Lax606786.BanachGrassmannian
+
+open TopologicalSpace
+
+variable (X : Type*) [NormedAddCommGroup X] [NormedSpace ℝ X]
+
+/-- `𝒢X`: the closed subspaces of `X` admitting a bounded projection onto them. -/
+def Grassmannian : Type _ :=
+  {V : Submodule ℝ X // V.ClosedComplemented}
+
+variable {X}
+
+/-- Every subspace is spanned by its unit sphere. -/
+theorem span_sphere_inter (V : Submodule ℝ X) :
+    Submodule.span ℝ (Metric.sphere (0 : X) 1 ∩ (V : Set X)) = V := by
+  apply le_antisymm
+  · exact Submodule.span_le.2 Set.inter_subset_right
+  · intro x hx
+    rcases eq_or_ne x 0 with rfl | hx0
+    · exact Submodule.zero_mem _
+    · have hxeq : x = ‖x‖ • (‖x‖⁻¹ • x) := by
+        rw [smul_smul, mul_inv_cancel₀ (norm_ne_zero_iff.2 hx0), one_smul]
+      rw [hxeq]
+      refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨?_, V.smul_mem _ hx⟩)
+      rw [mem_sphere_zero_iff_norm, norm_smul, norm_inv, norm_norm,
+        inv_mul_cancel₀ (norm_ne_zero_iff.2 hx0)]
+
+namespace Grassmannian
+
+/-- The unit sphere `𝕊_V = {x ∈ V : ‖x‖ = 1}`. -/
+def sphere (V : Grassmannian X) : Set X :=
+  Metric.sphere (0 : X) 1 ∩ (V.1 : Set X)
+
+/-- `V ↦ 𝕊_V`, as a closed subset of `X`. -/
+def toCloseds (V : Grassmannian X) : Closeds X :=
+  ⟨V.sphere, Metric.isClosed_sphere.inter V.2.isClosed⟩
+
+/-- A subspace is the span of its unit sphere, so `V ↦ 𝕊_V` is injective. -/
+theorem toCloseds_injective : Function.Injective (toCloseds (X := X)) := by
+  intro V W h
+  apply Subtype.ext
+  rw [← span_sphere_inter V.1, ← span_sphere_inter W.1]
+  exact congrArg (fun s : Closeds X => Submodule.span ℝ (s : Set X)) h
+
+/-- The distance on `𝒢X`: the Hausdorff distance between unit spheres. -/
+noncomputable instance instEMetricSpace : EMetricSpace (Grassmannian X) :=
+  EMetricSpace.induced toCloseds toCloseds_injective inferInstance
+
+/-- The Borel `σ`-algebra of that distance. -/
+noncomputable instance instMeasurableSpace : MeasurableSpace (Grassmannian X) :=
+  borel (Grassmannian X)
+
+end Grassmannian
+
+variable (X)
+
+/-- `𝒢_k X`: the `k`-dimensional subspaces of `X`. -/
+def GrassmannianFin (k : ℕ) : Type _ :=
+  {V : Submodule ℝ X // FiniteDimensional ℝ V ∧ Module.finrank ℝ V = k}
+
+variable {X}
+
+namespace GrassmannianFin
+
+end GrassmannianFin
+
+end Lax606786.BanachGrassmannian
+end
+
+-- Lax606786.ExtendedLog
+section
+namespace Lax606786.ExtendedLog
+
+/-- `log r` for `r > 0`, and `-∞` for `r ≤ 0`. -/
+noncomputable def logEReal (r : ℝ) : EReal := if r ≤ 0 then ⊥ else (Real.log r : EReal)
+
+end Lax606786.ExtendedLog
+end
+
+-- Lax606786.OperatorStatistics
+section
+namespace Lax606786.OperatorStatistics
+
+open Lax606786.BanachGrassmannian
+
+variable {X Y : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X]
+  [NormedAddCommGroup Y] [NormedSpace ℝ Y]
+
+/-- `g(T, V) = inf {‖T x‖ : x ∈ V, ‖x‖ = 1}`. -/
+noncomputable def growth (T : X →L[ℝ] Y) (V : Submodule ℝ X) : ℝ :=
+  sInf ((fun x : X => ‖T x‖) '' (Metric.sphere (0 : X) 1 ∩ (V : Set X)))
+
+/-- `ρ_k(T) = sup {g(T, V) : V ∈ 𝒢_k X}`. -/
+noncomputable def bernsteinNumber (T : X →L[ℝ] X) (k : ℕ) : ℝ :=
+  sSup (Set.range fun V : GrassmannianFin X k => growth T (V.1 : Submodule ℝ X))
+
+end Lax606786.OperatorStatistics
+end
+
+-- Lax606786.TemperedFunctions
+section
+namespace Lax606786
+end Lax606786
+
+namespace Lax606786.TemperedFunctions
+end Lax606786.TemperedFunctions
+end
+
+-- Lax606786.Cocycles
+section
+namespace Lax606786.Cocycles
+
+open MeasureTheory Filter
+
+open Lax606786.OperatorStatistics Lax606786.ExtendedLog Lax606786.TemperedFunctions
+
+variable {Ω X : Type*} [MeasurableSpace Ω] [StandardBorelSpace Ω]
+  [NormedAddCommGroup X] [NormedSpace ℝ X] [MeasurableSpace X]
+
+/-- A strongly measurable, forward-integrable cocycle of bounded operators on `X` over an
+invertible ergodic transformation of a Lebesgue probability space. -/
+structure Cocycle (Ω X : Type*) [MeasurableSpace Ω] [StandardBorelSpace Ω]
+    [NormedAddCommGroup X] [NormedSpace ℝ X] [MeasurableSpace X] where
+  /-- The base transformation, a measurable bijection with measurable inverse. -/
+  σ : Ω ≃ᵐ Ω
+  /-- The invariant measure. -/
+  μ : Measure Ω
+  /-- The generator `ω ↦ 𝓛_ω`. -/
+  L : Ω → X →L[ℝ] X
+  isProbability : IsProbabilityMeasure μ
+  nullSingleton : NullSingletonClass μ
+  ergodic : Ergodic σ μ
+  stronglyMeasurable : ∀ x : X, Measurable (fun ω => L ω x)
+  forwardIntegrable : Integrable (fun ω => Real.log (max ‖L ω‖ 1)) μ
+
+attribute [instance] Cocycle.isProbability Cocycle.nullSingleton
+
+namespace Cocycle
+
+/-- `𝓛^{(n)}_ω = 𝓛_{σ^{n-1}ω} ∘ ⋯ ∘ 𝓛_ω`. -/
+noncomputable def iterate (R : Cocycle Ω X) : ℕ → Ω → X →L[ℝ] X
+  | 0, _ => ContinuousLinearMap.id ℝ X
+  | n + 1, ω => (R.L (R.σ^[n] ω)).comp (R.iterate n ω)
+
+/-- `λ_ω(x) = limsup (1/n) log ‖𝓛^{(n)}_ω x‖`. -/
+noncomputable def lambdaAt (R : Cocycle Ω X) (ω : Ω) (x : X) : EReal :=
+  limsup (fun n : ℕ => logEReal ‖R.iterate n ω x‖ / (n : EReal)) atTop
+
+/-- `χ_k(ω) = limsup (1/n) log ρ_k(𝓛^{(n)}_ω)`. Meaningful for `k ≥ 1`; `χ_0 = -∞`. -/
+noncomputable def chi (R : Cocycle Ω X) (k : ℕ) (ω : Ω) : EReal :=
+  limsup (fun n : ℕ => logEReal (bernsteinNumber (R.iterate n ω) k) / (n : EReal)) atTop
+
+/-- The index `k` at which the distinct exponent `λ_i` first occurs among the `χ_k`: `1` for
+`i = 1`, then the least `t ≥ 1` with `χ_t` below `λ_{i-1}`, and `0` once there is none. Index `0` is
+not used. -/
+noncomputable def lambdaIdx (R : Cocycle Ω X) : ℕ → Ω → ℕ
+  | 0, _ => 0
+  | 1, _ => 1
+  | (i + 2), ω => sInf {t : ℕ | 1 ≤ t ∧ R.chi t ω < R.chi (R.lambdaIdx (i + 1) ω) ω}
+
+/-- The distinct exponent `λ_i` (for `i ≥ 1`). -/
+noncomputable def lambda (R : Cocycle Ω X) (i : ℕ) (ω : Ω) : EReal :=
+  R.chi (R.lambdaIdx i ω) ω
+
+/-- The Bernstein index `ν(ω) = inf_{k ≥ 1} χ_k(ω)`. -/
+noncomputable def nu (R : Cocycle Ω X) (ω : Ω) : EReal := ⨅ k : ℕ, R.chi (k + 1) ω
+
+/-- `ν < λ₁` almost everywhere. -/
+def IsQuasicompact (R : Cocycle Ω X) : Prop :=
+  ∀ᵐ ω ∂(R.μ), R.nu ω < R.chi 1 ω
+
+end Cocycle
+
+end Lax606786.Cocycles
+end
+
+-- Lax606786.SlowSpaceNonmeasurability
+section
+namespace Lax606786.SlowSpaceNonmeasurability
+
+open MeasureTheory
+
+open Lax606786.BanachGrassmannian Lax606786.Cocycles
+
+/-- `ℓ¹(ℤ)` with its Borel `σ`-algebra. -/
+noncomputable instance instMeasurableSpaceL1 : MeasurableSpace (lp (fun _ : ℤ => ℝ) 1) :=
+  borel _
+
+/-- The rotation angle `α = √2 mod 1`. -/
+noncomputable def angle : AddCircle (1 : ℝ) := ((Real.sqrt 2 : ℝ) : AddCircle (1 : ℝ))
+
+/-- `s_i(ω) = 1` if the representative of `ω + iα` in `[0, 1)` lies in `[0, 1/2)`, else `-1`. -/
+noncomputable def sign (ω : AddCircle (1 : ℝ)) (i : ℤ) : ℝ :=
+  if ((AddCircle.equivIco 1 0 (ω + i • angle) : ℝ)) < 1 / 2 then 1 else -1
+
+/-- `ℓ¹(ℤ)` is separable, and the cocycle `𝓛_ω x = (Σᵢ sᵢ(ω) xᵢ) e₀` over the rotation by `α`
+of the circle with Lebesgue measure is quasicompact; its slow space `{x | λ_ω(x) ≤ λ₂(ω)}` is
+`ker φ_ω` and lies in `𝒢X` for every `ω`, but no measurable map `Ω → 𝒢X` takes it as value at
+every `ω`. -/
+axiom exists_cocycle_slowSpace_not_measurable :
+    TopologicalSpace.SeparableSpace (lp (fun _ : ℤ => ℝ) 1) ∧
+    ∃ R : Cocycle (AddCircle (1 : ℝ)) (lp (fun _ : ℤ => ℝ) 1),
+      R.μ = volume ∧ (∀ ω, R.σ ω = ω + angle) ∧
+      (∀ ω x, R.L ω x = (∑' i, sign ω i * x i) • lp.single 1 0 (1 : ℝ)) ∧
+      R.IsQuasicompact ∧
+      (∀ ω, {x | R.lambdaAt ω x ≤ R.lambda 2 ω} = {x | ∑' i, sign ω i * x i = 0}) ∧
+      (∀ ω, ∃ W : Grassmannian (lp (fun _ : ℤ => ℝ) 1),
+        ((W.1 : Submodule ℝ _) : Set _) = {x | R.lambdaAt ω x ≤ R.lambda 2 ω}) ∧
+      ¬ ∃ W : AddCircle (1 : ℝ) → Grassmannian (lp (fun _ : ℤ => ℝ) 1), Measurable W ∧
+        ∀ ω, (((W ω).1 : Submodule ℝ _) : Set _) = {x | R.lambdaAt ω x ≤ R.lambda 2 ω}
+
+end Lax606786.SlowSpaceNonmeasurability
+end

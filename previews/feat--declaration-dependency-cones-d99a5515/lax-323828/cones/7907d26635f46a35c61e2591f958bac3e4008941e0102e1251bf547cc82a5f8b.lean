@@ -1,0 +1,188 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Expect
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Algebra.Ring.Parity
+import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Data.Finset.Powerset
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Powerset
+import Mathlib.Data.Nat.Choose.Sum
+import Mathlib.Data.Real.Basic
+
+-- Lax323828.BooleanFourier
+section
+namespace Lax323828
+end Lax323828
+
+namespace Lax323828.BooleanFourier
+end Lax323828.BooleanFourier
+end
+
+-- Lax323828.FourierProjection
+section
+namespace Lax323828.FourierProjection
+end Lax323828.FourierProjection
+end
+
+-- Lax323828.SmallSupport
+section
+namespace Lax323828
+end Lax323828
+
+namespace Lax323828.SmallSupport
+end Lax323828.SmallSupport
+end
+
+-- Lax323828.FourierDecoding
+section
+namespace Lax323828.FourierDecoding
+end Lax323828.FourierDecoding
+end
+
+-- Lax323828.FiniteProbability
+section
+namespace Lax323828
+end Lax323828
+
+namespace Lax323828.FiniteProbability
+end Lax323828.FiniteProbability
+end
+
+-- Lax323828.ExponentialBounds
+section
+namespace Lax323828.ExponentialBounds
+end Lax323828.ExponentialBounds
+end
+
+-- Lax323828.BalancedPredicates
+section
+namespace Lax323828.BalancedPredicates
+end Lax323828.BalancedPredicates
+end
+
+-- Lax323828.ProductMoments
+section
+namespace Lax323828
+end Lax323828
+
+namespace Lax323828.ProductMoments
+end Lax323828.ProductMoments
+end
+
+-- Lax323828.HighDegreeSoundness
+section
+namespace Lax323828.HighDegreeSoundness
+end Lax323828.HighDegreeSoundness
+end
+
+-- Lax323828.BalancedCancellation
+section
+namespace Lax323828.BalancedCancellation
+end Lax323828.BalancedCancellation
+end
+
+-- Lax323828.LargeCoefficientSoundness
+section
+namespace Lax323828.LargeCoefficientSoundness
+end Lax323828.LargeCoefficientSoundness
+end
+
+-- Lax323828.HigherMoments
+section
+namespace Lax323828.HigherMoments
+end Lax323828.HigherMoments
+end
+
+-- Lax323828.MixedPredicateMoments
+section
+namespace Lax323828.MixedPredicateMoments
+end Lax323828.MixedPredicateMoments
+end
+
+-- Lax323828.Hypercontractivity
+section
+namespace Lax323828.Hypercontractivity
+end Lax323828.Hypercontractivity
+end
+
+-- Lax323828.DoubleCoverBounds
+section
+namespace Lax323828.DoubleCoverBounds
+end Lax323828.DoubleCoverBounds
+end
+
+-- Lax323828.SmallUnionDoubleCovers
+section
+namespace Lax323828.SmallUnionDoubleCovers
+end Lax323828.SmallUnionDoubleCovers
+end
+
+-- Lax323828.SmallCoefficientSoundness
+section
+namespace Lax323828.SmallCoefficientSoundness
+
+open HighDegreeSoundness FiniteProbability
+
+open scoped BigOperators
+
+noncomputable def boundValue (l m r N : ℕ) (δ q : ℝ) : ℝ :=
+  (∑ t ∈ Finset.range r, (2 : ℝ) ^ m * ((2 : ℝ) ^ t * δ) ^ (m - 2 * t) *
+    (1 + (3 : ℝ) ^ (l * (4 * t + 1) * 2 ^ (2 * t)))) +
+  (1 + (3 : ℝ) ^ (l * (2 * m + 1) * 2 ^ m)) *
+    (q ^ r + (2 : ℝ) ^ m * (2 * (N + 1 : ℝ) * Real.exp (-(N : ℝ) * q ^ 2 / 2)))
+
+end Lax323828.SmallCoefficientSoundness
+end
+
+-- Lax323828.CNAPointSoundness
+section
+namespace Lax323828.CNAPointSoundness
+
+open BooleanFourier BalancedPredicates FiniteProbability
+
+noncomputable def pointBound (l m r N : ℕ) (τ q : ℝ) : ℝ :=
+  9 * (q ^ l + 2 * (N + 1 : ℝ) * Real.exp (-(N : ℝ) * q ^ 2 / 2)) +
+    (3 : ℝ) ^ m * SmallCoefficientSoundness.boundValue l m r N τ q
+
+end Lax323828.CNAPointSoundness
+end
+
+-- Lax323828.LongCode
+section
+namespace Lax323828
+end Lax323828
+
+namespace Lax323828.LongCode
+end Lax323828.LongCode
+end
+
+-- Lax323828.CNASoundness
+section
+namespace Lax323828.CNASoundness
+end Lax323828.CNASoundness
+end
+
+-- Lax323828.RandomFibers
+section
+namespace Lax323828.RandomFibers
+end Lax323828.RandomFibers
+end
+
+-- Lax323828.CNAQuantitativeSoundness
+section
+namespace Lax323828.CNAQuantitativeSoundness
+
+open LongCode BooleanFourier CNAPointSoundness CNASoundness FiniteProbability
+
+noncomputable def totalBound (l m r s w : ℕ) (τ q : ℝ) : ℝ :=
+  (2 : ℝ) ^ s * Real.exp (-((2 : ℝ) ^ w) / (8 * ((2 : ℝ) ^ s) ^ 2)) +
+    2 * (2 : ℝ) ^ s * pointBound l m r (2 ^ s) τ q
+
+end Lax323828.CNAQuantitativeSoundness
+end

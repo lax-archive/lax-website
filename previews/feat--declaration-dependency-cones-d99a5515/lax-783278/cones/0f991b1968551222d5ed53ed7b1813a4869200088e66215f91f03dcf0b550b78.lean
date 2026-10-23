@@ -1,0 +1,53 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Data.Finset.Card
+import Mathlib.Data.Fintype.Basic
+
+-- Lax783278.PositiveCNF
+section
+namespace Lax783278.PositiveCNF.TrueWinsAfter
+end Lax783278.PositiveCNF.TrueWinsAfter
+
+namespace Lax783278.PositiveCNF
+
+/-- A conjunction of clauses, each a disjunction of positive variables. -/
+structure Formula where
+  /-- Number of variables, labeled from zero. -/
+  nvars : ℕ
+  /-- The clauses; an empty clause makes the formula unsatisfiable. -/
+  clauses : List (Finset (Fin nvars))
+
+/-- Every clause contains a variable belonging to the true set `T`. -/
+def Satisfied (φ : Formula) (T : Finset (Fin φ.nvars)) : Prop :=
+  ∀ C ∈ φ.clauses, ∃ x ∈ C, x ∈ T
+
+end Lax783278.PositiveCNF
+end
+
+-- Lax783278.Passes
+section
+namespace Lax783278.Passes
+
+open PositiveCNF
+
+/-- Evaluate the game with passes for a fixed number of remaining rounds.
+At a True turn one successful move suffices; at a False turn every legal
+move must preserve True's win. Assignments and passes each use one round. -/
+def TrueWinsAfter (φ : Formula) : ℕ → Finset (Fin φ.nvars) →
+    Finset (Fin φ.nvars) → Bool → ℕ → Prop
+  | 0, _, T, _, _ => Satisfied φ T
+  | rounds + 1, U, T, trueTurn, passes =>
+      if U = ∅ then Satisfied φ T
+      else if trueTurn then
+        (∃ x ∈ U, ∃ b : Bool,
+          TrueWinsAfter φ rounds (U.erase x) (if b then insert x T else T) false passes) ∨
+        (0 < passes ∧ TrueWinsAfter φ rounds U T false (passes - 1))
+      else
+        (∀ x ∈ U, ∀ b : Bool,
+          TrueWinsAfter φ rounds (U.erase x) (if b then insert x T else T) true passes) ∧
+        (0 < passes → TrueWinsAfter φ rounds U T true (passes - 1))
+
+end Lax783278.Passes
+end

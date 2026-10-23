@@ -1,0 +1,685 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Fin
+import Mathlib.Combinatorics.SimpleGraph.Basic
+import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.List.Basic
+import Mathlib.Data.Nat.Choose.Basic
+import Mathlib.Data.Set.Basic
+
+-- Lax470956.Scheduling
+section
+namespace Lax470956.Scheduling
+
+/-- An instance of interval scheduling with eligible machine sets: `jobs` jobs on
+`machines` machines, each job with a processing time, a deadline, a weight, and the set
+of machines allowed to run it. -/
+structure Instance where
+  /-- The number `n` of jobs. -/
+  jobs : ℕ
+  /-- The number `m` of machines. -/
+  machines : ℕ
+  /-- The processing time `p j` of job `j`. -/
+  p : Fin jobs → ℕ
+  /-- The deadline `d j` of job `j`. -/
+  d : Fin jobs → ℕ
+  /-- The weight `w j` of job `j`. -/
+  w : Fin jobs → ℕ
+  /-- The machines eligible to run job `j`. -/
+  eligible : Fin jobs → Finset (Fin machines)
+  /-- Every job takes at least one time unit. -/
+  p_pos : ∀ j, 0 < p j
+  /-- Every job fits before its deadline. -/
+  p_le_d : ∀ j, p j ≤ d j
+
+namespace Instance
+
+variable (I : Instance)
+
+variable {I}
+
+variable (I)
+
+end Instance
+
+end Lax470956.Scheduling
+end
+
+-- Lax470956.InstanceEncoding
+section
+namespace Lax470956.InstanceEncoding
+
+open Lax470956.Scheduling
+
+/-- The number of jobs declared by a word: its first entry. -/
+def jobCount (x : List ℕ) : ℕ := x.getD 0 0
+
+/-- The number of machines declared by a word: its second entry. -/
+def machineCount (x : List ℕ) : ℕ := x.getD 1 0
+
+/-- The processing time of job `j`: the processing times follow the two header
+entries. -/
+def proc (x : List ℕ) (j : ℕ) : ℕ := x.getD (2 + j) 0
+
+/-- The deadline of job `j`: the deadlines follow the processing times. -/
+def due (x : List ℕ) (j : ℕ) : ℕ := x.getD (2 + jobCount x + j) 0
+
+/-- The weight of job `j`: the weights follow the deadlines. -/
+def wt (x : List ℕ) (j : ℕ) : ℕ := x.getD (2 + 2 * jobCount x + j) 0
+
+/-- The `i`-th offset: the `n+1` offsets follow the weights. -/
+def offset (x : List ℕ) (i : ℕ) : ℕ := x.getD (2 + 3 * jobCount x + i) 0
+
+/-- The `t`-th entry of the target array, which follows the offsets. -/
+def target (x : List ℕ) (t : ℕ) : ℕ := x.getD (3 + 4 * jobCount x + t) 0
+
+/-- The word `x` encodes the instance `I`. -/
+structure EncodesInstance (x : List ℕ) (I : Instance) : Prop where
+  /-- The word declares `I`'s jobs. -/
+  jobCount_eq : jobCount x = I.jobs
+  /-- The word declares `I`'s machines. -/
+  machineCount_eq : machineCount x = I.machines
+  /-- The word consists of the two header entries, the three arrays of one number per
+  job, the `n+1` offsets, and a target array as long as the last offset says. -/
+  length_eq : x.length = 3 + 4 * I.jobs + offset x I.jobs
+  /-- The processing times are `I`'s. -/
+  proc_eq : ∀ j : Fin I.jobs, proc x j = I.p j
+  /-- The deadlines are `I`'s. -/
+  due_eq : ∀ j : Fin I.jobs, due x j = I.d j
+  /-- The weights are `I`'s. -/
+  wt_eq : ∀ j : Fin I.jobs, wt x j = I.w j
+  /-- The block of the first job begins at the start of the target array. -/
+  offset_zero : offset x 0 = 0
+  /-- The offsets are nondecreasing, so they cut the target array into one block per
+  job. -/
+  offset_mono : ∀ j < I.jobs, offset x j ≤ offset x (j + 1)
+  /-- Every entry of the target array is a machine. -/
+  target_lt : ∀ t < offset x I.jobs, target x t < I.machines
+  /-- The block of a job lists exactly its eligible machines. -/
+  eligible_iff : ∀ (j : Fin I.jobs) (i : Fin I.machines),
+    i ∈ I.eligible j ↔ ∃ t, offset x j ≤ t ∧ t < offset x (j + 1) ∧ target x t = i
+
+/-- The word `x` presents the instance `I` together with the threshold `W`: an instance
+block followed by the single entry `W`. -/
+def EncodesDecisionInstance (x : List ℕ) (I : Instance) (W : ℕ) : Prop :=
+  ∃ y, x = y ++ [W] ∧ EncodesInstance y I
+
+/-- The words that encode a decision instance. -/
+def DecisionInstances : Set (List ℕ) :=
+  {x | ∃ I W, EncodesDecisionInstance x I W}
+
+end Lax470956.InstanceEncoding
+end
+
+-- Lax271696.GraphEncoding
+section
+namespace Lax271696.GraphEncoding
+
+/-- The number of vertices declared by a word: its first entry. -/
+def vertexCount (x : List ℕ) : ℕ := x.getD 0 0
+
+/-- The number of edges declared by a word: its second entry. -/
+def edgeCount (x : List ℕ) : ℕ := x.getD 1 0
+
+/-- The `i`-th offset of a word: the `n+1` offsets follow the two
+header entries. -/
+def offset (x : List ℕ) (i : ℕ) : ℕ := x.getD (2 + i) 0
+
+/-- The `j`-th entry of the target array of a word, which follows the
+header and the offsets. -/
+def target (x : List ℕ) (j : ℕ) : ℕ := x.getD (3 + vertexCount x + j) 0
+
+/-- The word `x` is a compressed sparse row encoding of the graph `G`
+on `n` vertices. -/
+structure EncodesGraph (x : List ℕ) (n : ℕ) (G : SimpleGraph (Fin n)) :
+    Prop where
+  /-- The word declares `n` vertices. -/
+  vertexCount_eq : vertexCount x = n
+  /-- The word consists of the two header entries, the `n+1` offsets,
+  and a target array of length twice the declared number of edges. -/
+  length_eq : x.length = 3 + n + 2 * edgeCount x
+  /-- The block of the first vertex begins at the start of the target
+  array. -/
+  offset_zero : offset x 0 = 0
+  /-- The block of the last vertex ends at the end of the target
+  array. -/
+  offset_last : offset x n = 2 * edgeCount x
+  /-- The offsets are nondecreasing, so they cut the target array into
+  one block per vertex. -/
+  offset_mono : ∀ i < n, offset x i ≤ offset x (i + 1)
+  /-- Every entry of the target array is a vertex. -/
+  target_lt : ∀ j < 2 * edgeCount x, target x j < n
+  /-- The block of a vertex lists exactly its neighbors. -/
+  adj_iff : ∀ u v : Fin n, G.Adj u v ↔
+    ∃ j, offset x u ≤ j ∧ j < offset x (u + 1) ∧ target x j = v
+
+end Lax271696.GraphEncoding
+end
+
+-- Lax808846.Ram
+section
+namespace Lax808846.Ram
+
+/-- An instruction. Every number naming a cell is read, except that
+the first one names the destination for instructions that write a cell,
+and the cell holding the destination address for `store`. `set` carries
+a literal value; `jump`, `jzero`, and `jeof` carry program labels,
+which are not data-memory addresses. -/
+inductive Instr
+  /-- Set cell `a` to the literal `n`. -/
+  | set (a n : ℕ)
+  /-- Set cell `a` to the contents of the cell whose address cell `b`
+  holds. -/
+  | load (a b : ℕ)
+  /-- Set the cell whose address cell `a` holds to the contents of cell
+  `b`. -/
+  | store (a b : ℕ)
+  /-- Set cell `a` to the sum of cells `b` and `c`, wrapping around
+  modulo `2 ^ w`. -/
+  | add (a b c : ℕ)
+  /-- Set cell `a` to the difference of cells `b` and `c`, truncated at
+  zero rather than wrapping around. -/
+  | sub (a b c : ℕ)
+  /-- Set cell `a` to the product of cells `b` and `c`, wrapping around
+  modulo `2 ^ w`. -/
+  | mul (a b c : ℕ)
+  /-- Set cell `a` to the quotient of cells `b` and `c`, rounding
+  towards zero; division by zero yields zero. -/
+  | div (a b c : ℕ)
+  /-- Set cell `a` to the bitwise conjunction of cells `b` and `c`. -/
+  | and (a b c : ℕ)
+  /-- Set cell `a` to cell `b` shifted left by the number of bits cell
+  `c` holds, wrapping around modulo `2 ^ w`; a shift by `w` or more
+  yields zero. -/
+  | shiftl (a b c : ℕ)
+  /-- Set cell `a` to the bitwise complement `2 ^ w - 1 - m[b]` of cell
+  `b` within the word length. -/
+  | not (a b : ℕ)
+  /-- Continue at instruction `l`. -/
+  | jump (l : ℕ)
+  /-- Continue at instruction `l` if cell `a` is zero. -/
+  | jzero (a l : ℕ)
+  /-- Continue at instruction `l` exactly when the remaining input tape
+  is empty. This test does not consume input. -/
+  | jeof (l : ℕ)
+  /-- Write the original input length, reduced to a word, into cell `a`. -/
+  | inputLength (a : ℕ)
+  /-- Read original input at the word index in cell `b` into cell `a`,
+  returning zero outside the input. Read the index before writing `a`,
+  even when the two cell addresses coincide. Do not consume input. -/
+  | inputLoad (a b : ℕ)
+  /-- Halt. -/
+  | halt
+  /-- Read the next number of the input tape into cell `a`, or halt if
+  the tape is exhausted. -/
+  | read (a : ℕ)
+  /-- Append the contents of cell `a` to the output tape. -/
+  | write (a : ℕ)
+
+/-- A program: a finite sequence of instructions, numbered from `0`. -/
+abbrev Program : Type := List Instr
+
+/-- A machine state: the program counter, the contents of every memory
+cell, the immutable original input array, the remaining sequential input
+tape, and the output tape written so far. -/
+structure State where
+  /-- The number of the instruction to be executed next. -/
+  pc : ℕ
+  /-- The contents of the memory cells; only the cells with number below
+  `2 ^ w` are ever addressed. -/
+  mem : ℕ → ℕ
+  /-- The original read-only input, unchanged by every instruction. -/
+  input : List ℕ
+  /-- The numbers still to be read from the input tape. -/
+  inp : List ℕ
+  /-- The numbers written to the output tape so far. -/
+  out : List ℕ
+
+/-- The memory `m` with cell `a` set to `v`, at word length `w`: the
+address and the value written are both taken modulo `2 ^ w`. -/
+def setCell (w : ℕ) (m : ℕ → ℕ) (a v : ℕ) : ℕ → ℕ :=
+  fun b => if b = a % 2 ^ w then v % 2 ^ w else m b
+
+/-- The effect of one instruction on the state at word length `w`, or
+`none` if it halts the machine, which a `halt` instruction and a read
+from an exhausted input tape do. Data values, input indices, and
+data-memory addresses are reduced modulo `2 ^ w`; program labels and
+the counter are not. -/
+def Instr.effect (w : ℕ) : Instr → State → Option State
+  | set a n, s => some { s with pc := s.pc + 1, mem := setCell w s.mem a n }
+  | load a b, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (s.mem (b % 2 ^ w) % 2 ^ w)) }
+  | store a b, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem (s.mem (a % 2 ^ w)) (s.mem (b % 2 ^ w)) }
+  | add a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (b % 2 ^ w) + s.mem (c % 2 ^ w)) }
+  | sub a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (b % 2 ^ w) - s.mem (c % 2 ^ w)) }
+  | mul a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (b % 2 ^ w) * s.mem (c % 2 ^ w)) }
+  | div a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (b % 2 ^ w) / s.mem (c % 2 ^ w)) }
+  | and a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (Nat.land (s.mem (b % 2 ^ w)) (s.mem (c % 2 ^ w))) }
+  | shiftl a b c, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (s.mem (b % 2 ^ w) * 2 ^ s.mem (c % 2 ^ w)) }
+  | not a b, s =>
+      some
+        { s with
+          pc := s.pc + 1
+          mem := setCell w s.mem a (2 ^ w - 1 - s.mem (b % 2 ^ w)) }
+  | jump l, s => some { s with pc := l }
+  | jzero a l, s => some { s with pc := if s.mem (a % 2 ^ w) = 0 then l else s.pc + 1 }
+  | jeof l, s => some { s with pc := if s.inp.isEmpty then l else s.pc + 1 }
+  | inputLength a, s =>
+      some { s with pc := s.pc + 1, mem := setCell w s.mem a s.input.length }
+  | inputLoad a b, s =>
+      some { s with
+        pc := s.pc + 1
+        mem := setCell w s.mem a (s.input[s.mem (b % 2 ^ w) % 2 ^ w]?.getD 0) }
+  | halt, _ => none
+  | read a, s =>
+      s.inp.head?.map fun v =>
+        { s with pc := s.pc + 1, mem := setCell w s.mem a v, inp := s.inp.tail }
+  | write a, s =>
+      some { s with pc := s.pc + 1, out := s.out ++ [s.mem (a % 2 ^ w) % 2 ^ w] }
+
+/-- One step of the machine at word length `w`: fetch the instruction
+the program counter points at and execute it. The result is `none` if
+the machine has halted, which also happens when the program counter has
+run past the program. -/
+def step (w : ℕ) (p : Program) (s : State) : Option State :=
+  p[s.pc]?.bind fun i => i.effect w s
+
+/-- The state after `t` successful transitions at word length `w`, or
+`none` if one of those transitions terminates. This auxiliary count does
+not include a fetched terminal instruction; `RunsTo` charges that too. -/
+def run (w : ℕ) (p : Program) : ℕ → State → Option State
+  | 0, s => some s
+  | t + 1, s => (step w p s).bind (run w p t)
+
+/-- The initial state on input `x`: program counter zero, all memory
+cells zero, the original input array and its sequential tape both `x`,
+and the output tape empty. -/
+def initState (x : List ℕ) : State where
+  pc := 0
+  mem := fun _ => 0
+  input := x
+  inp := x
+  out := []
+
+/-- Cost of termination at `s`, when `step w p s = none`: a fetched
+terminal instruction costs one, while an out-of-range program counter
+costs zero because there is no instruction to execute. -/
+def terminalCost (p : Program) (s : State) : ℕ :=
+  if s.pc < p.length then 1 else 0
+
+/-- Started on input `x` at word length `w`, the machine executes
+exactly `t` instructions and then halts, having written the word `y` to
+its output tape. -/
+def RunsTo (w : ℕ) (p : Program) (x y : List ℕ) (t : ℕ) : Prop :=
+  ∃ (k : ℕ) (s : State), run w p k (initState x) = some s ∧
+    step w p s = none ∧ s.out = y ∧ t = k + terminalCost p s
+
+end Lax808846.Ram
+end
+
+-- Lax808846.RamComputes
+section
+namespace Lax808846.RamComputes
+
+open Lax808846.Ram
+
+/-- At word length `w`, on every admissible input `x`, the program halts
+within `T x` executed instructions with output `f x`. -/
+def ComputesInTime (w : ℕ) (p : Program) (D : Set (List ℕ))
+    (f : List ℕ → List ℕ) (T : List ℕ → ℕ) : Prop :=
+  ∀ x ∈ D, ∃ t ≤ T x, RunsTo w p x (f x) t
+
+end Lax808846.RamComputes
+end
+
+-- Lax470956.ParameterizedComplexity
+section
+namespace Lax470956.ParameterizedComplexity
+
+open Lax808846.Ram Lax808846.RamComputes
+
+/-- A parameterized problem: the words that encode an instance, which of them are
+yes-instances, and the parameter each one carries. -/
+structure Problem where
+  /-- The words that encode an instance. A program may do anything on the others. -/
+  Domain : Set (List ℕ)
+  /-- The yes-instances. -/
+  Yes : List ℕ → Prop
+  /-- The parameter, read off the word. -/
+  param : List ℕ → ℕ
+
+/-- The word `x` fits at word length `w`, with room for `c` times its length: every
+entry `v` of `x` satisfies `c * (x.length + v + 1) ≤ 2 ^ w`. -/
+def Fits (c w : ℕ) (x : List ℕ) : Prop := ∀ v ∈ x, c * (x.length + v + 1) ≤ 2 ^ w
+
+/-- The map `f` is an fpt-reduction from `P` to `Q`, computed by `prog` within
+`c * g k * (|x| + 1)` instructions and raising the parameter by at most `h`. -/
+structure IsFptReduction (P Q : Problem) (f : List ℕ → List ℕ) (prog : Program)
+    (c : ℕ) (g h : ℕ → ℕ) : Prop where
+  /-- The image of an admissible word is admissible. -/
+  maps_domain : ∀ x ∈ P.Domain, f x ∈ Q.Domain
+  /-- Yes-instances go to yes-instances, and no-instances to no-instances. -/
+  correct : ∀ x ∈ P.Domain, (P.Yes x ↔ Q.Yes (f x))
+  /-- The new parameter is bounded by a function of the old one alone. -/
+  param_le : ∀ x ∈ P.Domain, Q.param (f x) ≤ h (P.param x)
+  /-- At every word length, the program computes `f` on every admissible word that fits
+  and whose image fits, within the stated bound. -/
+  time : ∀ w : ℕ, ComputesInTime w prog
+    {x | x ∈ P.Domain ∧ Fits c w x ∧ Fits c w (f x)}
+    f (fun x => c * g (P.param x) * (x.length + 1))
+
+/-- `P` **fpt-reduces** to `Q`. -/
+def FptReduces (P Q : Problem) : Prop :=
+  ∃ (f : List ℕ → List ℕ) (prog : Program) (c : ℕ) (g h : ℕ → ℕ),
+    IsFptReduction P Q f prog c g h
+
+@[inherit_doc] infix:50 " ≤fpt " => FptReduces
+
+end Lax470956.ParameterizedComplexity
+end
+
+-- Lax470956.MulticolouredClique
+section
+namespace Lax470956.MulticolouredClique
+
+/-- An instance of Multicoloured Clique: a graph whose vertices are coloured so that
+adjacent vertices differ in colour. -/
+structure Instance where
+  /-- The number `k` of colours, the parameter. -/
+  colours : ℕ
+  /-- The number `n` of vertices. -/
+  vertices : ℕ
+  /-- The graph. -/
+  graph : SimpleGraph (Fin vertices)
+  /-- The colour of each vertex. -/
+  colour : Fin vertices → Fin colours
+  /-- Adjacent vertices differ in colour. -/
+  adj_colour_ne : ∀ u v, graph.Adj u v → colour u ≠ colour v
+
+/-- The word `x` presents the instance `G`: a compressed sparse row block encoding the
+graph, with each adjacency list strictly increasing, followed by one entry per vertex
+giving its colour, followed by the number of colours. -/
+def EncodesInstance (x : List ℕ) (G : Instance) : Prop :=
+  ∃ g, x = g ++ (List.ofFn fun v => (G.colour v : ℕ)) ++ [G.colours] ∧
+    Lax271696.GraphEncoding.EncodesGraph g G.vertices G.graph ∧
+    ∀ u < G.vertices, ∀ t, Lax271696.GraphEncoding.offset g u ≤ t →
+      t + 1 < Lax271696.GraphEncoding.offset g (u + 1) →
+      Lax271696.GraphEncoding.target g t < Lax271696.GraphEncoding.target g (t + 1)
+
+end Lax470956.MulticolouredClique
+end
+
+-- Lax470956.Construction1
+section
+namespace Lax470956.Construction1
+
+open Lax470956.MulticolouredClique
+
+variable (G : MulticolouredClique.Instance)
+
+/-- The paper's order `<π`, as the position it assigns: vertices ranked by colour, ties
+broken by index, counting from one. -/
+noncomputable def rank (v : Fin G.vertices) : ℕ :=
+  1 + (Finset.univ.filter fun u : Fin G.vertices =>
+        (G.colour u : ℕ) < (G.colour v : ℕ) ∨
+          ((G.colour u : ℕ) = (G.colour v : ℕ) ∧ (u : ℕ) < (v : ℕ))).card
+
+/-- The window length `K = k + 2` each vertex occupies. -/
+abbrev K : ℕ := G.colours + 2
+
+/-- `c₁ = n + 1`: the weight of a vertex job for a colour other than its own. -/
+def c1 : ℕ := G.vertices + 1
+
+/-- `c₂ = (k-1)·n·c₁ + n + 1`: above the total weight of every vertex job together. -/
+def c2 : ℕ := (G.colours - 1) * G.vertices * c1 G + G.vertices + 1
+
+/-- `c₃ = (kn + k²n)·n·c₂ + 1`: above the total weight of every colour combination job
+together. -/
+def c3 : ℕ := (G.colours * G.vertices + G.colours ^ 2 * G.vertices) * G.vertices * c2 G + 1
+
+/-- The machine of the colour pair `{a, b}` with `a < b`: its position `b(b-1)/2 + a` in
+the enumeration of pairs by larger element, then smaller, written with the binomial
+coefficient it is. -/
+def pairIdx (a b : ℕ) : ℕ := b.choose 2 + a
+
+/-- The validation machine. -/
+abbrev validation : ℕ := G.colours.choose 2
+
+/-- One machine per colour pair, plus the validation machine. -/
+def nMach : ℕ := G.colours.choose 2 + 1
+
+/-- The vertex jobs: one per vertex and colour. -/
+abbrev nVJob : ℕ := G.vertices * G.colours
+
+/-- The colour combination slots: one per ordered colour pair and vertex. -/
+abbrev nCJob : ℕ := G.colours * G.colours * G.vertices
+
+open Classical in
+/-- The oriented edges of the graph, smaller colour first, in lexicographic order. This
+is the enumeration the edge jobs are indexed by. There is one slot per edge and not one
+per pair of vertices, because the word the reduction is handed lists the edges and a
+reduction running in time linear in it cannot afford a slot for every pair. -/
+noncomputable def edgeList : List (Fin G.vertices × Fin G.vertices) :=
+  ((List.finRange G.vertices) ×ˢ (List.finRange G.vertices)).filter
+    fun p => decide ((G.colour p.1 : ℕ) < (G.colour p.2 : ℕ) ∧ G.graph.Adj p.1 p.2)
+
+/-- The edge slots: one per oriented edge. -/
+noncomputable abbrev nEJob : ℕ := (edgeList G).length
+
+/-- The jobs of the construction. -/
+noncomputable def nJobs : ℕ := nVJob G + nCJob G + nEJob G
+
+variable {G}
+
+/-- The colour of vertex number `v`, as a number, and `0` when `v` is out of range. -/
+noncomputable def col (v : ℕ) : ℕ :=
+  if h : v < G.vertices then (G.colour ⟨v, h⟩ : ℕ) else 0
+
+/-- The position of vertex number `v`, and `0` when `v` is out of range. -/
+noncomputable def pos (v : ℕ) : ℕ :=
+  if h : v < G.vertices then rank G ⟨v, h⟩ else 0
+
+variable (G)
+
+/-- The vertex of vertex job `j`. -/
+def vjVert (j : ℕ) : ℕ := j / G.colours
+
+/-- The colour of vertex job `j`. -/
+def vjCol (j : ℕ) : ℕ := j % G.colours
+
+/-- The smaller colour of colour combination slot `q`. -/
+def cjA (q : ℕ) : ℕ := q / G.vertices / G.colours
+
+/-- The larger colour of colour combination slot `q`. -/
+def cjB (q : ℕ) : ℕ := q / G.vertices % G.colours
+
+/-- The vertex of colour combination slot `q`. -/
+def cjZ (q : ℕ) : ℕ := q % G.vertices
+
+/-- The first endpoint of edge slot `q`. -/
+noncomputable def ejU (q : ℕ) : ℕ := (((edgeList G)[q]?).map fun p => (p.1 : ℕ)).getD 0
+
+/-- The second endpoint of edge slot `q`. -/
+noncomputable def ejV (q : ℕ) : ℕ := (((edgeList G)[q]?).map fun p => (p.2 : ℕ)).getD 0
+
+/-- A colour combination slot carries a job when its pair is ordered and its vertex has
+one of the two colours. -/
+def CJobOk (q : ℕ) : Prop :=
+  cjA G q < cjB G q ∧ cjB G q < G.colours ∧ cjZ G q < G.vertices ∧
+    (col (G := G) (cjZ G q) = cjA G q ∨ col (G := G) (cjZ G q) = cjB G q)
+
+/-- An edge slot carries a job when it names one of the enumerated edges. Every slot of
+the edge block does, so the block has no inert slots; the condition is here because the
+accessors below are total functions on slot numbers. -/
+noncomputable def EJobOk (q : ℕ) : Prop := q < (edgeList G).length
+
+open Classical in
+/-- The paper's processing time of job `j`, before clamping. -/
+noncomputable def rawProc (j : ℕ) : ℕ :=
+  if j < nVJob G then
+    (if vjCol G j = col (G := G) (vjVert G j) then K G else 1)
+  else if j < nVJob G + nCJob G then
+    let q := j - nVJob G
+    if CJobOk G q then
+      (if col (G := G) (cjZ G q) = cjA G q
+        then K G * pos (G := G) (cjZ G q) - cjB G q - 2
+        else K G * (G.vertices - pos (G := G) (cjZ G q)) + cjA G q + 2)
+    else 1
+  else
+    let q := j - nVJob G - nCJob G
+    if EJobOk G q then
+      K G * (pos (G := G) (ejV G q) - pos (G := G) (ejU G q))
+        - col (G := G) (ejU G q) + col (G := G) (ejV G q) - 1
+    else 1
+
+open Classical in
+/-- The paper's deadline of job `j`, before clamping. -/
+noncomputable def rawDue (j : ℕ) : ℕ :=
+  if j < nVJob G then
+    (if vjCol G j = col (G := G) (vjVert G j)
+      then K G * pos (G := G) (vjVert G j) + 1
+      else K G * pos (G := G) (vjVert G j) - vjCol G j)
+  else if j < nVJob G + nCJob G then
+    let q := j - nVJob G
+    if CJobOk G q then
+      (if col (G := G) (cjZ G q) = cjA G q
+        then K G * pos (G := G) (cjZ G q) - cjB G q - 1
+        else K G * G.vertices + 2)
+    else 1
+  else
+    let q := j - nVJob G - nCJob G
+    if EJobOk G q then
+      K G * pos (G := G) (ejV G q) - col (G := G) (ejU G q) - 1
+    else 1
+
+/-- The processing time of job `j`, clamped so that `0 < p ≤ d` holds outright. -/
+noncomputable def procOf (j : ℕ) : ℕ := max 1 (min (rawProc G j) (rawDue G j))
+
+/-- The deadline of job `j`, clamped so that `0 < p ≤ d` holds outright. -/
+noncomputable def dueOf (j : ℕ) : ℕ := max 1 (rawDue G j)
+
+open Classical in
+/-- The weight of job `j`. An inert slot has weight zero. -/
+noncomputable def wtOf (j : ℕ) : ℕ :=
+  if j < nVJob G then
+    (if vjCol G j = col (G := G) (vjVert G j) then 1 else c1 G)
+  else if j < nVJob G + nCJob G then
+    let q := j - nVJob G
+    if CJobOk G q then
+      (if col (G := G) (cjZ G q) = cjA G q
+        then c2 G * pos (G := G) (cjZ G q)
+        else c2 G * (G.vertices - pos (G := G) (cjZ G q)))
+    else 0
+  else
+    let q := j - nVJob G - nCJob G
+    if EJobOk G q then
+      c2 G * (pos (G := G) (ejV G q) - pos (G := G) (ejU G q)) + c3 G
+    else 0
+
+open Classical in
+/-- The machines eligible to run job `j`, as a list of machine numbers. An inert slot has
+none, so no feasible schedule can place it. -/
+noncomputable def eligOf (j : ℕ) : List ℕ :=
+  if j < nVJob G then
+    (if vjCol G j = col (G := G) (vjVert G j) then [validation G]
+      else [validation G,
+        pairIdx (min (vjCol G j) (col (G := G) (vjVert G j)))
+                (max (vjCol G j) (col (G := G) (vjVert G j)))])
+  else if j < nVJob G + nCJob G then
+    let q := j - nVJob G
+    if CJobOk G q then [pairIdx (cjA G q) (cjB G q)] else []
+  else
+    let q := j - nVJob G - nCJob G
+    if EJobOk G q then
+      [pairIdx (col (G := G) (ejU G q)) (col (G := G) (ejV G q))]
+    else []
+
+/-- **The threshold `W` of Lemmas 1 and 2.** -/
+def targetWeight : ℕ :=
+  G.colours.choose 2 * c3 G + G.colours.choose 2 * (G.vertices * c2 G) +
+    (G.colours - 1) * G.vertices * c1 G + G.colours
+
+/-- Where job `j`'s block of eligible machines begins. -/
+noncomputable def offOf (j : ℕ) : ℕ :=
+  ((List.range j).map fun i => (eligOf G i).length).sum
+
+/-- The processing-time block. -/
+noncomputable def procBlock : List ℕ := (List.range (nJobs G)).map (procOf G)
+
+/-- The deadline block. -/
+noncomputable def dueBlock : List ℕ := (List.range (nJobs G)).map (dueOf G)
+
+/-- The weight block. -/
+noncomputable def wtBlock : List ℕ := (List.range (nJobs G)).map (wtOf G)
+
+/-- The offset block, one entry per job and one more. -/
+noncomputable def offBlock : List ℕ := (List.range (nJobs G + 1)).map (offOf G)
+
+/-- The target block: the eligible machines of each job in turn. -/
+noncomputable def tgtBlock : List ℕ := (List.range (nJobs G)).flatMap (eligOf G)
+
+/-- **The word Construction 1 emits**: the instance, followed by the threshold. -/
+noncomputable def emit : List ℕ :=
+  ([nJobs G, nMach G] ++ procBlock G ++ dueBlock G ++ wtBlock G ++ offBlock G ++ tgtBlock G)
+    ++ [targetWeight G]
+
+/-- The word a malformed input is sent to: one job of weight one, no machine to run it
+on, and the threshold one. No schedule reaches the threshold, so the word is a
+no-instance, as the source problem says of a word that is not a graph. -/
+def noWord : List ℕ := [1, 0, 1, 1, 1, 0, 0, 1]
+
+open Classical in
+/-- **Construction 1 as a total map on words.** A word that does not encode a
+Multicoloured Clique instance is sent to a fixed decision instance no schedule can
+satisfy. A reduction is a function on all words, and the machine that computes it has to
+decide which case it is in; making the diversion part of the map rather than a side
+condition is what keeps the statements below free of hypotheses.
+
+The case split is on a proposition rather than on a decision procedure, and the instance
+the word is read as is chosen rather than computed, so the map is `noncomputable` in
+Lean. Nothing is lost on either count: a word determines its instance up to everything
+the construction looks at, so the correctness statement below does not mention the choice;
+what has to be computable is the machine program. -/
+noncomputable def reduce (x : List ℕ) : List ℕ :=
+  if h : ∃ G, MulticolouredClique.EncodesInstance x G then emit h.choose else noWord
+
+/-- **The reduction lands in the domain of the scheduling problem.** Every word it emits
+presents an instance together with a threshold. -/
+axiom reduce_maps (x : List ℕ) :
+    reduce x ∈ Lax470956.InstanceEncoding.DecisionInstances
+
+end Lax470956.Construction1
+end

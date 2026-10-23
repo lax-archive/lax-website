@@ -1,0 +1,73 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Expect
+import Mathlib.Algebra.Ring.Parity
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Prod
+import Mathlib.Data.Real.Basic
+
+-- Lax253009.FiniteProbability
+section
+namespace Lax253009
+end Lax253009
+
+namespace Lax253009.FiniteProbability
+end Lax253009.FiniteProbability
+end
+
+-- Lax253009.FortifiedSquaring
+section
+namespace Lax253009.FortifiedSquaring
+
+open FiniteProbability
+
+structure Game (Z W A B : Type) where
+  left : Z → W
+  right : Z → W
+  validLeft : Z → A → Bool
+  validRight : Z → A → Bool
+  projectLeft : Z → A → B
+  projectRight : Z → A → B
+
+namespace Game
+
+variable {Z W A B : Type} (G : Game Z W A B)
+
+end Game
+
+end Lax253009.FortifiedSquaring
+end
+
+-- Lax253009.TupleFortification
+section
+namespace Lax253009.TupleFortification
+
+open FortifiedSquaring
+
+open scoped BigOperators
+
+abbrev History (t : ℕ) (W : Type) := Fin t × (Fin t → W)
+
+def plant {W : Type} {t : ℕ} (w : W) (h : History t W) : Fin t → W :=
+  Function.update h.2 h.1 w
+
+def lift {Z W A B : Type} (G : Game Z W A B) (t : ℕ) :
+    Game (Z × (History t W × History t W)) (Fin t → W) (Fin t → A) B where
+  left z := plant (G.left z.1) z.2.1
+  right z := plant (G.right z.1) z.2.2
+  validLeft z a := G.validLeft z.1 (a z.2.1.1)
+  validRight z b := G.validRight z.1 (b z.2.2.1)
+  projectLeft z a := G.projectLeft z.1 (a z.2.1.1)
+  projectRight z b := G.projectRight z.1 (b z.2.2.1)
+
+axiom left_uniform {Z W A B : Type} [Fintype Z] [Fintype W] [Nonempty W]
+    (G : Game Z W A B)
+    (hl : ∀ f : W → ℝ, (𝔼 z, f (G.left z)) = (𝔼 w, f w))
+    (t : ℕ) (ht : 0 < t) (f : (Fin t → W) → ℝ) :
+    (𝔼 z, f ((lift G t).left z)) = 𝔼 w, f w
+
+end Lax253009.TupleFortification
+end

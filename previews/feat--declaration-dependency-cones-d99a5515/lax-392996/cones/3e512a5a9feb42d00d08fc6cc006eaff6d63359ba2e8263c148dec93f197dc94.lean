@@ -1,0 +1,111 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.Group.Defs
+import Mathlib.Algebra.Order.Monoid.Canonical.Defs
+import Mathlib.Algebra.Order.Ring.Defs
+import Mathlib.Data.Fin.Tuple.Basic
+import Mathlib.Data.Fin.VecNotation
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.Multiset.AddSub
+import Mathlib.Data.Multiset.Basic
+import Mathlib.Data.Multiset.Bind
+import Mathlib.Data.Prod.Lex
+import Mathlib.Data.Set.Finite.Basic
+import Mathlib.Order.Defs.LinearOrder
+
+-- Lax392996.Databases
+section
+namespace Lax392996.Databases.instHMulRelationHAddNat
+end Lax392996.Databases.instHMulRelationHAddNat
+
+namespace Lax392996.Databases.instLinearOrderTuple
+end Lax392996.Databases.instLinearOrderTuple
+
+namespace Lax392996.Databases.Database.find
+end Lax392996.Databases.Database.find
+
+namespace Lax392996.Databases
+
+/-- The values of a database: a linearly ordered type with a zero, an
+addition, a subtraction and a multiplication, the arithmetic of terms. -/
+class ValueType (T : Type) extends Zero T, AddCommSemigroup T, Sub T, Mul T, LinearOrder T
+
+variable {T : Type} [ValueType T] {n m : ℕ}
+
+/-- A tuple of arity `n` over `T`. -/
+def Tuple (T : Type) (n: ℕ) := Fin n → T
+
+/-- A relation of arity `arity` over `T`: a finite multiset of tuples. -/
+def Relation (T) (arity: ℕ) := Multiset (Tuple T arity)
+
+/-- A database: a list of named relations, each with its arity. -/
+def Database (T) := List (String × Σ n, Relation T n)
+
+end Lax392996.Databases
+end
+
+-- Lax392996.SemiringsWithMonus
+section
+namespace Lax392996
+end Lax392996
+
+namespace Lax392996.SemiringsWithMonus
+end Lax392996.SemiringsWithMonus
+
+namespace Lax392996.SemiringsWithMonus.HasAltLinearOrder
+end Lax392996.SemiringsWithMonus.HasAltLinearOrder
+
+namespace Lax392996.SemiringsWithMonus.SemiringWithMonus
+end Lax392996.SemiringsWithMonus.SemiringWithMonus
+end
+
+-- Lax392996.AnnotatedDatabases
+section
+namespace Lax392996.AnnotatedDatabases.Tuple
+end Lax392996.AnnotatedDatabases.Tuple
+
+namespace Lax392996.AnnotatedDatabases.instValueTypeSumOfHasAltLinearOrderOfSemiringWithMonus
+end Lax392996.AnnotatedDatabases.instValueTypeSumOfHasAltLinearOrderOfSemiringWithMonus
+
+namespace Lax392996.AnnotatedDatabases.AnnotatedDatabase.find
+end Lax392996.AnnotatedDatabases.AnnotatedDatabase.find
+
+namespace Lax392996.AnnotatedDatabases.Tuple.fromComposite
+end Lax392996.AnnotatedDatabases.Tuple.fromComposite
+
+namespace Lax392996.AnnotatedDatabases
+
+open Lax392996.Databases Lax392996.SemiringsWithMonus
+
+universe u
+
+variable {T : Type} [ValueType T] {K : Type} [Zero K] {n : ℕ}
+
+/-- An annotated tuple: a tuple paired with an annotation, ordered
+lexicographically. -/
+abbrev AnnotatedTuple (T : Type) (K : Type u) (n: ℕ) := Tuple T n ×ₗ K
+
+/-- A `K`-relation of arity `arity`: a finite multiset of annotated tuples. -/
+def AnnotatedRelation (T : Type) (K : Type u) (arity: ℕ) := Multiset (AnnotatedTuple T K arity)
+
+/-- A `K`-instance: a list of named annotated relations, each with its arity. -/
+def AnnotatedDatabase (T : Type) (K : Type u) := List (String × Σ n, AnnotatedRelation T K n)
+
+/-- The composite reading of an annotated tuple: the annotation becomes a
+last column over `T ⊕ K`. -/
+def AnnotatedTuple.toComposite (p: AnnotatedTuple T K n) :=
+  Fin.append (λ k: Fin n ↦ Sum.inl (p.fst k)) ![Sum.inr p.snd]
+
+/-- The composite reading of an annotated relation. -/
+def AnnotatedRelation.toComposite (ar: AnnotatedRelation T K n):
+  Relation (T⊕K) (n+1) :=
+  ar.map λ p ↦ p.toComposite
+
+/-- The composite reading of a `K`-instance: a plain database over `T ⊕ K`. -/
+def AnnotatedDatabase.toComposite (d: AnnotatedDatabase T K): Database (T⊕K) :=
+  d.map λ (s, ⟨n',r⟩) ↦ (s, ⟨n'+1,r.toComposite⟩)
+
+end Lax392996.AnnotatedDatabases
+end

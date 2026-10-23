@@ -1,0 +1,179 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Expect
+import Mathlib.Algebra.BigOperators.Fin
+import Mathlib.Algebra.Ring.Parity
+import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Combinatorics.SimpleGraph.Clique
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Option
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Sigma
+import Mathlib.Data.List.FinRange
+import Mathlib.Data.Nat.Log
+import Mathlib.Data.Real.Basic
+
+-- Lax253009.FiniteProbability
+section
+namespace Lax253009
+end Lax253009
+
+namespace Lax253009.FiniteProbability
+end Lax253009.FiniteProbability
+end
+
+-- Lax253009.FreshBitSampling
+section
+namespace Lax253009.FreshBitSampling
+end Lax253009.FreshBitSampling
+end
+
+-- Lax253009.BernoulliSampling
+section
+namespace Lax253009.BernoulliSampling
+end Lax253009.BernoulliSampling
+end
+
+-- Lax253009.Graphs
+section
+namespace Lax253009
+end Lax253009
+
+namespace Lax253009.Graphs
+end Lax253009.Graphs
+
+namespace Lax253009.Graphs.Graph
+end Lax253009.Graphs.Graph
+end
+
+-- Lax434930.PolynomialTime
+section
+namespace Lax434930
+end Lax434930
+
+namespace Lax434930.PolynomialTime
+end Lax434930.PolynomialTime
+end
+
+-- Lax253009.Approximation
+section
+namespace Lax253009.Approximation
+end Lax253009.Approximation
+end
+
+-- Lax253009.LocalTests
+section
+namespace Lax253009.LocalTests
+
+abbrev View (m : ℕ) := Fin m → Option Bool
+
+def Compatible {m : ℕ} (a b : View m) : Prop :=
+  ∀ i x y, a i = some x → b i = some y → x = y
+
+structure System (r m : ℕ) where
+  accepting : Fin r → Finset (View m)
+
+end Lax253009.LocalTests
+end
+
+-- Lax253009.ConsistencyGraph
+section
+namespace Lax253009.ConsistencyGraph
+
+open LocalTests
+
+abbrev Vertex {r m : ℕ} (C : System r m) :=
+  (seed : Fin r) × {a // a ∈ C.accepting seed}
+
+end Lax253009.ConsistencyGraph
+end
+
+-- Lax253009.CliqueCorrespondence
+section
+namespace Lax253009.CliqueCorrespondence
+end Lax253009.CliqueCorrespondence
+end
+
+-- Lax253009.GraphEncoding
+section
+namespace Lax253009.GraphEncoding
+end Lax253009.GraphEncoding
+end
+
+-- Lax253009.EncodedReduction
+section
+namespace Lax253009.EncodedReduction
+end Lax253009.EncodedReduction
+end
+
+-- Lax253009.TestSampling
+section
+namespace Lax253009.TestSampling
+
+open LocalTests FiniteProbability ConsistencyGraph
+
+def sampled {r m N : ℕ} (C : System r m) (z : Fin N → Fin r) : System N m :=
+  ⟨fun i ↦ C.accepting (z i)⟩
+
+end Lax253009.TestSampling
+end
+
+-- Lax253009.TestRepetition
+section
+namespace Lax253009.TestRepetition
+
+open LocalTests TestSampling FiniteProbability
+
+def Coherent {m k : ℕ} (a : Fin k → View m) : Prop :=
+  ∀ i j, Compatible (a i) (a j)
+
+def merge {m : ℕ} : {k : ℕ} → (Fin k → View m) → View m
+  | 0, _ => fun _ ↦ none
+  | k + 1, a => fun i ↦ (a 0 i).or (merge (fun j : Fin k ↦ a j.succ) i)
+
+noncomputable def seedEquiv (r k : ℕ) : (Fin k → Fin r) ≃ Fin (r ^ k) :=
+  Fintype.equivFinOfCardEq (by simp)
+
+noncomputable def repeated {r m : ℕ} (C : System r m) (k : ℕ) : System (r ^ k) m := by
+  classical
+  exact ⟨fun z ↦ ((Fintype.piFinset (fun i : Fin k ↦ C.accepting ((seedEquiv r k).symm z i))).filter
+    Coherent).image merge⟩
+
+end Lax253009.TestRepetition
+end
+
+-- Lax253009.SamplingParameters
+section
+namespace Lax253009.SamplingParameters
+
+def sampleCount (t k m : ℕ) : ℕ := (m + 2) * 2 ^ (t * k)
+
+def vertexBound (f t k m : ℕ) : ℕ := (m + 2) * 2 ^ ((t + f) * k)
+
+end Lax253009.SamplingParameters
+end
+
+-- Lax253009.RandomizedReduction
+section
+namespace Lax253009.RandomizedReduction
+
+open LocalTests ConsistencyGraph TestSampling TestRepetition SamplingParameters FiniteProbability
+
+open Lax434930.PolynomialTime
+
+noncomputable def tests {r m : ℕ} (C : System r m) (t k : ℕ)
+    (z : Fin (sampleCount t k m) → Fin (r ^ k)) : System (sampleCount t k m) m :=
+  sampled (repeated C k) z
+
+axiom vertex_bound {r m : ℕ} (C : System r m) (f t k : ℕ)
+    (hfree : ∀ seed, (C.accepting seed).card ≤ 2 ^ f)
+    (z : Fin (sampleCount t k m) → Fin (r ^ k)) :
+  Fintype.card (Vertex (tests C t k z)) ≤ vertexBound f t k m
+
+end Lax253009.RandomizedReduction
+end

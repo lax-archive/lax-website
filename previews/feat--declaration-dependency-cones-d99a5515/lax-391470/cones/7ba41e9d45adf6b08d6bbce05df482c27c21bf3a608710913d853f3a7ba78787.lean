@@ -1,0 +1,281 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Data.Real.Basic
+
+-- Lax391470.Scheduling
+section
+namespace Lax391470.Scheduling
+
+/-- An instance of single machine scheduling with release times and deadlines: `jobs`
+jobs, each with a release time, a deadline and a processing time. -/
+structure Instance where
+  /-- The number `n` of jobs. -/
+  jobs : ℕ
+  /-- The release time `r i` of job `i`. -/
+  r : Fin jobs → ℤ
+  /-- The deadline `d i` of job `i`. -/
+  d : Fin jobs → ℤ
+  /-- The processing time `p i` of job `i`. -/
+  p : Fin jobs → ℕ
+
+namespace Instance
+
+variable (I : Instance)
+
+/-- A schedule assigns a start time to every job. -/
+abbrev Schedule := Fin I.jobs → ℤ
+
+variable {I}
+
+/-- A schedule is *feasible* if every job runs inside its availability interval and no two
+jobs run at the same time. -/
+def Feasible (t : I.Schedule) : Prop :=
+  (∀ i, I.r i ≤ t i ∧ t i + I.p i ≤ I.d i) ∧
+  (∀ i j, i ≠ j → t i + I.p i ≤ t j ∨ t j + I.p j ≤ t i)
+
+variable (I)
+
+end Instance
+
+end Lax391470.Scheduling
+end
+
+-- Lax391470.AuxiliaryProblem
+section
+namespace Lax391470.AuxiliaryProblem.Instance.Ordered
+end Lax391470.AuxiliaryProblem.Instance.Ordered
+
+namespace Lax391470.AuxiliaryProblem
+
+open Lax391470.Scheduling
+
+/-- The data of an instance of `AUX(p, q)`: ordinary jobs, each long or short, and
+`pairs` connected pairs of pending jobs with an early and a late deadline each. -/
+structure Instance where
+  /-- The number of ordinary jobs. -/
+  ordinary : ℕ
+  /-- The release time of an ordinary job. -/
+  r : Fin ordinary → ℕ
+  /-- The deadline of an ordinary job. -/
+  d : Fin ordinary → ℕ
+  /-- Whether an ordinary job is long (of length `p`) rather than short (of length `q`). -/
+  long : Fin ordinary → Bool
+  /-- The number `N` of connected pairs of pending jobs. -/
+  pairs : ℕ
+  /-- The early deadline `d'_{p,i}` of the `i`-th long pending job. -/
+  longEarly : Fin pairs → ℕ
+  /-- The late deadline `d_{p,i}` of the `i`-th long pending job. -/
+  longDue : Fin pairs → ℕ
+  /-- The early deadline `d'_{q,i}` of the `i`-th short pending job. -/
+  shortEarly : Fin pairs → ℕ
+  /-- The late deadline `d_{q,i}` of the `i`-th short pending job. -/
+  shortDue : Fin pairs → ℕ
+
+namespace Instance
+
+variable (A : Instance)
+
+/-- The scheduling instance underlying `A` at the job lengths `p` and `q`: the ordinary
+jobs, then the long pending jobs, then the short pending jobs, the pending jobs released
+at `0` and due at their late deadlines. -/
+def toInstance (p q : ℕ) : Scheduling.Instance where
+  jobs := A.ordinary + A.pairs + A.pairs
+  r j := if h : (j : ℕ) < A.ordinary then A.r ⟨j, h⟩ else 0
+  d j :=
+    if h : (j : ℕ) < A.ordinary then A.d ⟨j, h⟩
+    else if h' : (j : ℕ) < A.ordinary + A.pairs then
+      A.longDue ⟨j - A.ordinary, by omega⟩
+    else A.shortDue ⟨j - A.ordinary - A.pairs, by have := j.isLt; omega⟩
+  p j :=
+    if h : (j : ℕ) < A.ordinary then (if A.long ⟨j, h⟩ then p else q)
+    else if (j : ℕ) < A.ordinary + A.pairs then p
+    else q
+
+/-- The `i`-th long pending job, as a job of the underlying instance. -/
+def longJob (p q : ℕ) (i : Fin A.pairs) : Fin (A.toInstance p q).jobs :=
+  ⟨A.ordinary + i, by have := i.isLt; simp only [toInstance]; omega⟩
+
+/-- The `i`-th short pending job, as a job of the underlying instance. -/
+def shortJob (p q : ℕ) (i : Fin A.pairs) : Fin (A.toInstance p q).jobs :=
+  ⟨A.ordinary + A.pairs + i, by have := i.isLt; simp only [toInstance]; omega⟩
+
+variable {A}
+
+/-- A schedule *solves* `A` at the lengths `p` and `q`: it is feasible, and in every
+connected pair the long job completes by its early deadline or the short one does. -/
+def Solves (p q : ℕ) (t : (A.toInstance p q).Schedule) : Prop :=
+  Scheduling.Instance.Feasible t ∧
+  ∀ i : Fin A.pairs,
+    t (A.longJob p q i) + p ≤ A.longEarly i ∨ t (A.shortJob p q i) + q ≤ A.shortEarly i
+
+variable (A)
+
+/-- `A` has a solution at the lengths `p` and `q`. -/
+def Solvable (p q : ℕ) : Prop := ∃ t, A.Solves p q t
+
+end Instance
+
+end Lax391470.AuxiliaryProblem
+end
+
+-- Lax434930.PolynomialTime
+section
+namespace Lax434930
+end Lax434930
+
+namespace Lax434930.PolynomialTime
+end Lax434930.PolynomialTime
+end
+
+-- Lax429075.CNF
+section
+namespace Lax429075.CNF
+
+structure Literal where
+  index : ℕ
+  positive : Bool
+  deriving DecidableEq
+
+abbrev Clause := List Literal
+
+abbrev Formula := List Clause
+
+abbrev Assignment := ℕ → Bool
+
+def Literal.eval (l : Literal) (ρ : Assignment) : Bool :=
+  if l.positive then ρ l.index else !(ρ l.index)
+
+def eval (F : Formula) (ρ : Assignment) : Bool :=
+  F.all fun C => C.any fun l => l.eval ρ
+
+def Satisfiable (F : Formula) : Prop := ∃ ρ, eval F ρ = true
+
+end Lax429075.CNF
+end
+
+-- Lax391470.SatConstruction
+section
+namespace Lax391470.SatConstruction
+
+open Lax391470.AuxiliaryProblem Lax429075.CNF
+
+variable (p q : ℕ) (F : Formula)
+
+/-- The number `n` of variables: one more than the largest index occurring in `F`, and
+`1` if no literal occurs. -/
+def numVars : ℕ := (F.flatMap id).foldr (fun l n => max (l.index + 1) n) 1
+
+/-- The number `m` of clauses. -/
+def numClauses : ℕ := F.length
+
+/-- The length `S` of a section. -/
+def sectionLength : ℕ := p + 2 * q + numClauses F * (p + q) + 1 + q
+
+/-- The start of section `s`. -/
+def sectionStart (s : ℕ) : ℕ := sectionLength p q F * s
+
+/-- The literal of section `s`: the sections run `x₀, ¬x₀, x₁, ¬x₁, …`. -/
+def literalOf (s : ℕ) : Literal := ⟨s / 2, decide (s % 2 = 0)⟩
+
+/-- The clause block of clause `j` in section `s` is *active*: the literal of the section
+occurs in the clause. -/
+def active (s j : ℕ) : Bool := decide (literalOf s ∈ F.getD j [])
+
+/-- The start of the clause block of clause `j` in section `s`. -/
+def clauseStart (s j : ℕ) : ℕ := sectionStart p q F s + p + 2 * q + j * (p + q)
+
+/-- The early deadline of both pending jobs of a clause block. -/
+def clauseEarly (s j : ℕ) : ℕ :=
+  clauseStart p q F s j + (if active F s j then p + q else p + q - 1)
+
+/-- The late deadline of both pending jobs of a clause block. -/
+def clauseDue (s j : ℕ) : ℕ := clauseStart p q F s j + p + q + 1
+
+/-- The number of ordinary jobs: three for every section, and the `2m` unconnected
+pending jobs. -/
+def numOrdinary : ℕ := 6 * numVars F + 2 * numClauses F
+
+/-- The release time of the ordinary job `o`. -/
+def ordRelease (o : ℕ) : ℕ :=
+  if o < 6 * numVars F then
+    match o % 3 with
+    | 0 => sectionStart p q F (o / 3) + (if (o / 3) % 2 = 0 then 1 else q + 1)
+    | 1 => sectionStart p q F (o / 3)
+    | _ => sectionStart p q F (o / 3) + sectionLength p q F - q
+  else 0
+
+/-- The deadline of the ordinary job `o`. -/
+def ordDue (o : ℕ) : ℕ :=
+  if o < 6 * numVars F then
+    match o % 3 with
+    | 0 => sectionStart p q F (o / 3) + (if (o / 3) % 2 = 0 then 2 * q else p + q)
+    | 1 => sectionStart p q F (o / 3) + p + 2 * q + 1
+    | _ => sectionStart p q F (o / 3) + sectionLength p q F
+  else if o < 6 * numVars F + numClauses F then
+    clauseEarly p q F (2 * numVars F - 1) (o - 6 * numVars F)
+  else
+    clauseEarly p q F 0 (o - 6 * numVars F - numClauses F)
+
+/-- Whether the ordinary job `o` is long: the second ordinary job of a block of type `V⁻`,
+and the unconnected long jobs of the last section. -/
+def ordLong (o : ℕ) : Bool :=
+  if o < 6 * numVars F then decide (o % 3 = 1 ∧ (o / 3) % 2 = 1)
+  else decide (o < 6 * numVars F + numClauses F)
+
+/-- The number `N = n + (2n - 1) m` of connected pairs. -/
+def numPairs : ℕ := numVars F + (2 * numVars F - 1) * numClauses F
+
+/-- The variable whose group the pair `i` belongs to. -/
+def groupOf (i : ℕ) : ℕ := i / (1 + 2 * numClauses F)
+
+/-- The position of the pair `i` in its group: `0` for the literal pair. -/
+def posOf (i : ℕ) : ℕ := i % (1 + 2 * numClauses F)
+
+/-- The section holding the long job of the clause pair `i`. -/
+def pairSection (i : ℕ) : ℕ := 2 * groupOf F i + (posOf F i - 1) / numClauses F
+
+/-- The clause of the clause pair `i`. -/
+def pairClause (i : ℕ) : ℕ := (posOf F i - 1) % numClauses F
+
+/-- The early deadline of the long job of pair `i`. -/
+def longEarly (i : ℕ) : ℕ :=
+  if posOf F i = 0 then sectionStart p q F (2 * groupOf F i) + p + q + 1
+  else clauseEarly p q F (pairSection F i) (pairClause F i)
+
+/-- The late deadline of the long job of pair `i`. -/
+def longDue (i : ℕ) : ℕ :=
+  if posOf F i = 0 then sectionStart p q F (2 * groupOf F i) + p + 2 * q
+  else clauseDue p q F (pairSection F i) (pairClause F i)
+
+/-- The early deadline of the short job of pair `i`, one section after the long job. -/
+def shortEarly (i : ℕ) : ℕ :=
+  if posOf F i = 0 then sectionStart p q F (2 * groupOf F i + 1) + q
+  else clauseEarly p q F (pairSection F i + 1) (pairClause F i)
+
+/-- The late deadline of the short job of pair `i`. -/
+def shortDue (i : ℕ) : ℕ :=
+  if posOf F i = 0 then sectionStart p q F (2 * groupOf F i + 1) + p + 2 * q
+  else clauseDue p q F (pairSection F i + 1) (pairClause F i)
+
+/-- **The instance of `AUX(p, q)`** built from the formula `F`. -/
+def inst : AuxiliaryProblem.Instance where
+  ordinary := numOrdinary F
+  r o := ordRelease p q F o
+  d o := ordDue p q F o
+  long o := ordLong F o
+  pairs := numPairs F
+  longEarly i := longEarly p q F i
+  longDue i := longDue p q F i
+  shortEarly i := shortEarly p q F i
+  shortDue i := shortDue p q F i
+
+/-- **From a schedule to an assignment.** If the constructed instance has a solution, `F`
+is satisfiable. -/
+axiom satisfiable_of_solvable (hq : 1 < q) (hqp : q < p) :
+    (inst p q F).Solvable p q → Satisfiable F
+
+end Lax391470.SatConstruction
+end

@@ -1,0 +1,748 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Field.ZMod
+import Mathlib.Algebra.Module.ZMod
+import Mathlib.Analysis.Calculus.Deriv.Slope
+import Mathlib.Analysis.Convex.StdSimplex
+import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.Data.Finset.Powerset
+import Mathlib.Data.Finset.Union
+import Mathlib.Data.Fintype.Powerset
+import Mathlib.Data.Fintype.Sigma
+import Mathlib.Data.Matrix.Block
+import Mathlib.Data.Matrix.ColumnRowPartitioned
+import Mathlib.Data.Matrix.Mul
+import Mathlib.Data.ZMod.Basic
+import Mathlib.InformationTheory.KullbackLeibler.KLFun
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+import Mathlib.LinearAlgebra.BilinearForm.Basic
+import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
+import Mathlib.LinearAlgebra.BilinearForm.Properties
+import Mathlib.LinearAlgebra.BilinearMap
+import Mathlib.LinearAlgebra.Dimension.Constructions
+import Mathlib.LinearAlgebra.Dimension.Finite
+import Mathlib.LinearAlgebra.Dimension.LinearMap
+import Mathlib.LinearAlgebra.Dimension.StrongRankCondition
+import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+import Mathlib.LinearAlgebra.Finsupp.LSum
+import Mathlib.LinearAlgebra.Isomorphisms
+import Mathlib.LinearAlgebra.LinearIndependent.Defs
+import Mathlib.LinearAlgebra.Matrix.BilinearForm
+import Mathlib.LinearAlgebra.Matrix.Rank
+import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Pi
+import Mathlib.LinearAlgebra.Projection
+import Mathlib.LinearAlgebra.Quotient.Basic
+import Mathlib.Probability.Distributions.Uniform
+import Mathlib.Probability.ProbabilityMassFunction.Constructions
+import Mathlib.Tactic.DeriveFintype
+import Mathlib.Topology.Instances.Real.Lemmas
+
+-- Lax342547.MomentSpace
+section
+namespace Lax342547.MomentSpace.baseEval
+end Lax342547.MomentSpace.baseEval
+
+namespace Lax342547.MomentSpace
+
+abbrev Binary := ZMod 2
+
+variable {Label Coord Base : Type}
+
+end Lax342547.MomentSpace
+end
+
+-- Lax342547.Walsh
+section
+namespace Lax342547.Walsh
+end Lax342547.Walsh
+end
+
+-- Lax342547.PushforwardWalsh
+section
+namespace Lax342547.PushforwardWalsh
+end Lax342547.PushforwardWalsh
+end
+
+-- Lax342547.RetainedImages
+section
+namespace Lax342547.RetainedImages
+end Lax342547.RetainedImages
+end
+
+-- Lax342547.RelativeEntropy
+section
+namespace Lax342547.RelativeEntropy
+
+open scoped BigOperators
+
+def Probability {Ω : Type} [Fintype Ω] (ρ : Ω → ℝ) : Prop :=
+  (∀ x, 0 ≤ ρ x) ∧ ∑ x, ρ x = 1
+
+end Lax342547.RelativeEntropy
+end
+
+-- Lax342547.EntropyLines
+section
+namespace Lax342547.EntropyLines
+end Lax342547.EntropyLines
+end
+
+-- Lax342547.EntropyProjection
+section
+namespace Lax342547.EntropyProjection
+end Lax342547.EntropyProjection
+end
+
+-- Lax342547.Conditioning
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.Conditioning
+end Lax342547.Conditioning
+end
+
+-- Lax342547.RealCellLaws
+section
+namespace Lax342547.RealCellLaws
+end Lax342547.RealCellLaws
+end
+
+-- Lax342547.PairRecovery
+section
+namespace Lax342547.PairRecovery
+end Lax342547.PairRecovery
+end
+
+-- Lax342547.UnitLaws
+section
+namespace Lax342547.UnitLaws
+end Lax342547.UnitLaws
+end
+
+-- Lax342547.ContainerLaws
+section
+namespace Lax342547.ContainerLaws
+end Lax342547.ContainerLaws
+end
+
+-- Lax342547.FiniteSampling
+section
+namespace Lax342547.FiniteSampling
+end Lax342547.FiniteSampling
+end
+
+-- Lax342547.EmpiricalVariance
+section
+namespace Lax342547.EmpiricalVariance
+end Lax342547.EmpiricalVariance
+end
+
+-- Lax342547.CommonTestTransfer
+section
+namespace Lax342547.CommonTestTransfer
+end Lax342547.CommonTestTransfer
+end
+
+-- Lax342547.HoleRelation
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.HoleRelation
+end Lax342547.HoleRelation
+
+namespace Lax342547.HoleRelation.HoleData
+end Lax342547.HoleRelation.HoleData
+end
+
+-- Lax342547.GradientForm
+section
+namespace Lax342547.GradientForm
+end Lax342547.GradientForm
+end
+
+-- Lax342547.CutProfiles
+section
+namespace Lax342547.CutProfiles
+end Lax342547.CutProfiles
+end
+
+-- Lax342547.TagGeometry
+section
+namespace Lax342547.TagGeometry
+end Lax342547.TagGeometry
+
+namespace Lax342547.TagGeometry.allowedBase
+end Lax342547.TagGeometry.allowedBase
+
+namespace Lax342547.TagGeometry.commonBase
+end Lax342547.TagGeometry.commonBase
+end
+
+-- Lax342547.ConcreteGeometry
+section
+namespace Lax342547.ConcreteGeometry
+end Lax342547.ConcreteGeometry
+
+namespace Lax342547.ConcreteGeometry.changeZ
+end Lax342547.ConcreteGeometry.changeZ
+end
+
+-- Lax342547.RawFrames
+section
+namespace Lax342547.RawFrames
+end Lax342547.RawFrames
+
+namespace Lax342547.RawFrames.Frame
+end Lax342547.RawFrames.Frame
+end
+
+-- Lax342547.ConcreteCut
+section
+namespace Lax342547.ConcreteCut
+end Lax342547.ConcreteCut
+
+namespace Lax342547.ConcreteCut.Testers
+end Lax342547.ConcreteCut.Testers
+end
+
+-- Lax342547.SelectorInterpolation
+section
+namespace Lax342547.SelectorInterpolation
+end Lax342547.SelectorInterpolation
+end
+
+-- Lax342547.SparsePins
+section
+namespace Lax342547.SparsePins
+end Lax342547.SparsePins
+end
+
+-- Lax342547.RestrictionRank
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.RestrictionRank
+end Lax342547.RestrictionRank
+end
+
+-- Lax342547.QuotientRank
+section
+namespace Lax342547.QuotientRank
+end Lax342547.QuotientRank
+end
+
+-- Lax342547.BaseMoments
+section
+namespace Lax342547.BaseMoments
+end Lax342547.BaseMoments
+end
+
+-- Lax342547.SelectedMoments
+section
+namespace Lax342547.SelectedMoments
+end Lax342547.SelectedMoments
+end
+
+-- Lax342547.TensorAnnihilators
+section
+namespace Lax342547.TensorAnnihilators
+end Lax342547.TensorAnnihilators
+end
+
+-- Lax342547.TensorBlocks
+section
+namespace Lax342547.TensorBlocks
+end Lax342547.TensorBlocks
+end
+
+-- Lax342547.LabelRelations
+section
+namespace Lax342547.LabelRelations
+end Lax342547.LabelRelations
+end
+
+-- Lax342547.ExactPins
+section
+namespace Lax342547.ExactPins
+end Lax342547.ExactPins
+
+namespace Lax342547.ExactPins.Pin
+end Lax342547.ExactPins.Pin
+end
+
+-- Lax342547.ProjectedPins
+section
+namespace Lax342547.ProjectedPins
+end Lax342547.ProjectedPins
+end
+
+-- Lax342547.TableSpaces
+section
+namespace Lax342547.TableSpaces
+end Lax342547.TableSpaces
+end
+
+-- Lax342547.PairedAnnihilators
+section
+namespace Lax342547.PairedAnnihilators
+end Lax342547.PairedAnnihilators
+end
+
+-- Lax342547.FreshKeys
+section
+namespace Lax342547.FreshKeys
+end Lax342547.FreshKeys
+end
+
+-- Lax342547.FrozenBaselines
+section
+namespace Lax342547.FrozenBaselines
+end Lax342547.FrozenBaselines
+
+namespace Lax342547.FrozenBaselines.Splitting
+end Lax342547.FrozenBaselines.Splitting
+end
+
+-- Lax342547.PrimalRetractions
+section
+namespace Lax342547.PrimalRetractions
+end Lax342547.PrimalRetractions
+end
+
+-- Lax342547.BaselineRank
+section
+namespace Lax342547.BaselineRank
+end Lax342547.BaselineRank
+end
+
+-- Lax342547.NominalPrimal
+section
+namespace Lax342547.NominalPrimal
+end Lax342547.NominalPrimal
+end
+
+-- Lax342547.KeySpans
+section
+namespace Lax342547.KeySpans
+end Lax342547.KeySpans
+end
+
+-- Lax342547.Atoms
+section
+namespace Lax342547.Atoms
+end Lax342547.Atoms
+
+namespace Lax342547.Atoms.Flavor
+end Lax342547.Atoms.Flavor
+
+namespace Lax342547.Atoms.retained
+end Lax342547.Atoms.retained
+
+namespace Lax342547.Atoms.testerSummary
+end Lax342547.Atoms.testerSummary
+
+namespace Lax342547.Atoms.Flavor.generic
+end Lax342547.Atoms.Flavor.generic
+
+namespace Lax342547.Atoms.Flavor.pure
+end Lax342547.Atoms.Flavor.pure
+
+namespace Lax342547.Atoms.Flavor.sharedOnly
+end Lax342547.Atoms.Flavor.sharedOnly
+end
+
+-- Lax342547.BinaryPrescriptions
+section
+namespace Lax342547.BinaryPrescriptions
+end Lax342547.BinaryPrescriptions
+end
+
+-- Lax342547.WitnessAtoms
+section
+namespace Lax342547.WitnessAtoms
+end Lax342547.WitnessAtoms
+
+namespace Lax342547.WitnessAtoms.Numerical
+end Lax342547.WitnessAtoms.Numerical
+
+namespace Lax342547.WitnessAtoms.PointAtom
+end Lax342547.WitnessAtoms.PointAtom
+end
+
+-- Lax342547.AtomProducts
+section
+namespace Lax342547.AtomProducts
+end Lax342547.AtomProducts
+end
+
+-- Lax342547.SymmetricPrescriptions
+section
+namespace Lax342547.SymmetricPrescriptions
+end Lax342547.SymmetricPrescriptions
+end
+
+-- Lax342547.RecipeRows
+section
+namespace Lax342547.RecipeRows
+end Lax342547.RecipeRows
+end
+
+-- Lax342547.ConcreteRecipes
+section
+namespace Lax342547.ConcreteRecipes
+end Lax342547.ConcreteRecipes
+end
+
+-- Lax342547.RawLaw
+section
+namespace Lax342547.RawLaw
+end Lax342547.RawLaw
+end
+
+-- Lax342547.FrameSymmetry
+section
+namespace Lax342547.FrameSymmetry
+end Lax342547.FrameSymmetry
+
+namespace Lax342547.FrameSymmetry.Change
+end Lax342547.FrameSymmetry.Change
+end
+
+-- Lax342547.FiniteLinearLaw
+section
+namespace Lax342547.FiniteLinearLaw
+end Lax342547.FiniteLinearLaw
+end
+
+-- Lax342547.AffineImages
+section
+namespace Lax342547.AffineImages
+end Lax342547.AffineImages
+end
+
+-- Lax342547.GramColumns
+section
+namespace Lax342547.GramColumns
+end Lax342547.GramColumns
+end
+
+-- Lax342547.ConditionalMinus
+section
+namespace Lax342547.ConditionalMinus
+end Lax342547.ConditionalMinus
+end
+
+-- Lax342547.GramNormalization
+section
+namespace Lax342547.GramNormalization
+end Lax342547.GramNormalization
+end
+
+-- Lax342547.InjectiveFrames
+section
+namespace Lax342547.InjectiveFrames
+end Lax342547.InjectiveFrames
+end
+
+-- Lax342547.ProductImages
+section
+namespace Lax342547.ProductImages
+end Lax342547.ProductImages
+end
+
+-- Lax342547.ProductMinusImages
+section
+namespace Lax342547.ProductMinusImages
+end Lax342547.ProductMinusImages
+end
+
+-- Lax342547.ReferenceImages
+section
+namespace Lax342547.ReferenceImages
+end Lax342547.ReferenceImages
+end
+
+-- Lax342547.ImageScale
+section
+namespace Lax342547.ImageScale
+end Lax342547.ImageScale
+end
+
+-- Lax342547.ReferencePins
+section
+namespace Lax342547.ReferencePins
+end Lax342547.ReferencePins
+end
+
+-- Lax342547.SmallTables
+section
+namespace Lax342547.SmallTables
+end Lax342547.SmallTables
+
+namespace Lax342547.SmallTables.Table
+end Lax342547.SmallTables.Table
+end
+
+-- Lax342547.TensorContractions
+section
+namespace Lax342547.TensorContractions
+end Lax342547.TensorContractions
+end
+
+-- Lax342547.TableContractions
+section
+namespace Lax342547.TableContractions
+end Lax342547.TableContractions
+
+namespace Lax342547.TableContractions.CrossForms
+end Lax342547.TableContractions.CrossForms
+end
+
+-- Lax342547.RawContractions
+section
+namespace Lax342547.RawContractions
+end Lax342547.RawContractions
+end
+
+-- Lax342547.PairedWitnesses
+section
+namespace Lax342547.PairedWitnesses
+end Lax342547.PairedWitnesses
+
+namespace Lax342547.PairedWitnesses.Lists
+end Lax342547.PairedWitnesses.Lists
+
+namespace Lax342547.PairedWitnesses.ScalarRecipe
+end Lax342547.PairedWitnesses.ScalarRecipe
+end
+
+-- Lax342547.PairedRecipes
+section
+namespace Lax342547.PairedRecipes
+end Lax342547.PairedRecipes
+end
+
+-- Lax342547.PairedKeys
+section
+namespace Lax342547.PairedKeys
+end Lax342547.PairedKeys
+end
+
+-- Lax342547.BarredSpaces
+section
+namespace Lax342547.BarredSpaces
+end Lax342547.BarredSpaces
+end
+
+-- Lax342547.LabelDecomposition
+section
+namespace Lax342547.LabelDecomposition
+end Lax342547.LabelDecomposition
+end
+
+-- Lax342547.PureObstructions
+section
+namespace Lax342547.PureObstructions
+end Lax342547.PureObstructions
+end
+
+-- Lax342547.PinLabelExclusions
+section
+namespace Lax342547.PinLabelExclusions
+end Lax342547.PinLabelExclusions
+end
+
+-- Lax342547.QuotientExtractors
+section
+namespace Lax342547.QuotientExtractors
+end Lax342547.QuotientExtractors
+end
+
+-- Lax342547.SelectedBlocks
+section
+namespace Lax342547.SelectedBlocks
+end Lax342547.SelectedBlocks
+end
+
+-- Lax342547.SelectedScalars
+section
+namespace Lax342547.SelectedScalars
+end Lax342547.SelectedScalars
+end
+
+-- Lax342547.SelectedRemoval
+section
+namespace Lax342547.SelectedRemoval
+end Lax342547.SelectedRemoval
+end
+
+-- Lax342547.ResidualLabels
+section
+namespace Lax342547.ResidualLabels
+end Lax342547.ResidualLabels
+end
+
+-- Lax342547.SparseKeyCoefficients
+section
+namespace Lax342547.SparseKeyCoefficients
+end Lax342547.SparseKeyCoefficients
+end
+
+-- Lax342547.BarredElimination
+section
+namespace Lax342547.BarredElimination
+end Lax342547.BarredElimination
+end
+
+-- Lax342547.PrimalContractions
+section
+namespace Lax342547.PrimalContractions
+end Lax342547.PrimalContractions
+end
+
+-- Lax342547.ChannelChanges
+section
+namespace Lax342547.ChannelChanges
+end Lax342547.ChannelChanges
+end
+
+-- Lax342547.DerivativeResponses
+section
+namespace Lax342547.DerivativeResponses
+end Lax342547.DerivativeResponses
+end
+
+-- Lax342547.EffectiveObstructions
+section
+namespace Lax342547.EffectiveObstructions
+end Lax342547.EffectiveObstructions
+end
+
+-- Lax342547.NominalBaselines
+section
+namespace Lax342547.NominalBaselines
+end Lax342547.NominalBaselines
+end
+
+-- Lax342547.RawBaselines
+section
+namespace Lax342547.RawBaselines
+end Lax342547.RawBaselines
+end
+
+-- Lax342547.FrozenValues
+section
+namespace Lax342547.FrozenValues
+end Lax342547.FrozenValues
+end
+
+-- Lax342547.RecipeResiduals
+section
+namespace Lax342547.RecipeResiduals
+end Lax342547.RecipeResiduals
+end
+
+-- Lax342547.ResponseSolvability
+section
+namespace Lax342547.ResponseSolvability
+end Lax342547.ResponseSolvability
+end
+
+-- Lax342547.BoundedDerivatives
+section
+namespace Lax342547.BoundedDerivatives
+end Lax342547.BoundedDerivatives
+end
+
+-- Lax342547.ResponseMatrices
+section
+namespace Lax342547.ResponseMatrices
+end Lax342547.ResponseMatrices
+end
+
+-- Lax342547.RankedProjection
+section
+namespace Lax342547.RankedProjection
+end Lax342547.RankedProjection
+end
+
+-- Lax342547.SmallSliceRank
+section
+namespace Lax342547.SmallSliceRank
+
+open Lax342547.MomentSpace
+
+open scoped BigOperators
+
+def affineValue {I J : Type} [Fintype I] [Fintype J]
+    (c : Binary) (a : I → Binary) (b : J → Binary) (x : I → Binary) (y : J → Binary) : Binary :=
+    c+dotProduct a x+dotProduct b y
+
+def liftCoordinates {T I : Type} [Fintype T] [DecidableEq I]
+    (r : T → I) (x : T → Binary) : I → Binary := ∑ t,x t • Pi.single (r t) 1
+
+def HasProducts {I J : Type} [Fintype I] [Fintype J]
+    (s : ℕ) (F : (I → Binary) → (J → Binary) → Binary) : Prop :=
+    ∃ c d : Fin s → Binary,∃ a u : Fin s → I → Binary,∃ b v : Fin s → J → Binary,
+      ∀ x y,F x y = ∑ p,affineValue (c p) (a p) (b p) x y*affineValue (d p) (u p) (v p) x y
+
+end Lax342547.SmallSliceRank
+end
+
+-- Lax342547.SyntheticRankTransfer
+section
+namespace Lax342547.SyntheticRankTransfer
+
+noncomputable section
+
+open Lax342547.MomentSpace Lax342547.SmallSliceRank Lax342547.RelativeEntropy
+
+open scoped BigOperators
+
+set_option backward.isDefEq.respectTransparency false
+
+def indicator {Ω : Type} (C : Ω → Prop) (ω : Ω) : ℝ := by
+  classical
+  exact if C ω then 1 else 0
+
+def eventMean {Ω : Type} [Fintype Ω] (μ : Ω → ℝ) (C : Ω → Prop) : ℝ :=
+  ∑ ω,μ ω*indicator C ω
+
+abbrev Points (m : ℕ) := Fin m → Binary
+
+abbrev Tests (T : Type) (s m : ℕ) :=
+  (Points m × Points m) ⊕ (T × (Fin (2*s+1) → Fin m) × (Fin (2*s+1) → Fin m))
+
+def testCondition {T : Type} [Fintype T] (s m : ℕ)
+    (F : T → Points m → Points m → Binary) : Tests T s m → Prop
+  | Sum.inl (x,y) => (∑ l,F l x y) = dotProduct x y
+  | Sum.inr (l,r,c) => Function.Injective r → Function.Injective c →
+      HasProducts s (fun x y => F l (liftCoordinates r x) (liftCoordinates c y))
+
+axiom prediction_error_budget {T Ω : Type} [Fintype T] [Fintype Ω]
+    (s m : ℕ) (hm : 2*s*Fintype.card T < m)
+    (μ : Ω → ℝ) (hμ : Probability μ)
+    (pred : Ω → T → Points m → Points m → Binary)
+    (A : Tests T s m → Type) [∀ j,Fintype (A j)]
+    (ρ σ F : ∀ j,A j → ℝ) (hσ : ∀ j,Probability (σ j))
+    (L ε η : Tests T s m → ℝ) (hL : ∀ j,0 ≤ L j)
+    (hcap : ∀ j o,σ j o ≤ L j*ρ j o)
+    (hvar : ∀ j,(∑ o,ρ j o*(F j o-eventMean μ (fun ω => testCondition s m (pred ω) j))^2) ≤ ε j)
+    (hsuccess : ∀ j,1-η j ≤ ∑ o,σ j o*F j o) :
+    1 ≤ ∑ j : Tests T s m,(η j+Real.sqrt (L j*ε j))
+
+end
+
+end Lax342547.SyntheticRankTransfer
+end

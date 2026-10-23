@@ -1,0 +1,98 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Data.Real.Basic
+
+-- Lax391470.Scheduling
+section
+namespace Lax391470.Scheduling
+
+/-- An instance of single machine scheduling with release times and deadlines: `jobs`
+jobs, each with a release time, a deadline and a processing time. -/
+structure Instance where
+  /-- The number `n` of jobs. -/
+  jobs : ℕ
+  /-- The release time `r i` of job `i`. -/
+  r : Fin jobs → ℤ
+  /-- The deadline `d i` of job `i`. -/
+  d : Fin jobs → ℤ
+  /-- The processing time `p i` of job `i`. -/
+  p : Fin jobs → ℕ
+
+namespace Instance
+
+variable (I : Instance)
+
+variable {I}
+
+variable (I)
+
+end Instance
+
+end Lax391470.Scheduling
+end
+
+-- Lax391470.AuxiliaryProblem
+section
+namespace Lax391470.AuxiliaryProblem.Instance.Ordered
+end Lax391470.AuxiliaryProblem.Instance.Ordered
+
+namespace Lax391470.AuxiliaryProblem
+
+open Lax391470.Scheduling
+
+/-- The data of an instance of `AUX(p, q)`: ordinary jobs, each long or short, and
+`pairs` connected pairs of pending jobs with an early and a late deadline each. -/
+structure Instance where
+  /-- The number of ordinary jobs. -/
+  ordinary : ℕ
+  /-- The release time of an ordinary job. -/
+  r : Fin ordinary → ℕ
+  /-- The deadline of an ordinary job. -/
+  d : Fin ordinary → ℕ
+  /-- Whether an ordinary job is long (of length `p`) rather than short (of length `q`). -/
+  long : Fin ordinary → Bool
+  /-- The number `N` of connected pairs of pending jobs. -/
+  pairs : ℕ
+  /-- The early deadline `d'_{p,i}` of the `i`-th long pending job. -/
+  longEarly : Fin pairs → ℕ
+  /-- The late deadline `d_{p,i}` of the `i`-th long pending job. -/
+  longDue : Fin pairs → ℕ
+  /-- The early deadline `d'_{q,i}` of the `i`-th short pending job. -/
+  shortEarly : Fin pairs → ℕ
+  /-- The late deadline `d_{q,i}` of the `i`-th short pending job. -/
+  shortDue : Fin pairs → ℕ
+
+namespace Instance
+
+variable (A : Instance)
+
+/-- The scheduling instance underlying `A` at the job lengths `p` and `q`: the ordinary
+jobs, then the long pending jobs, then the short pending jobs, the pending jobs released
+at `0` and due at their late deadlines. -/
+def toInstance (p q : ℕ) : Scheduling.Instance where
+  jobs := A.ordinary + A.pairs + A.pairs
+  r j := if h : (j : ℕ) < A.ordinary then A.r ⟨j, h⟩ else 0
+  d j :=
+    if h : (j : ℕ) < A.ordinary then A.d ⟨j, h⟩
+    else if h' : (j : ℕ) < A.ordinary + A.pairs then
+      A.longDue ⟨j - A.ordinary, by omega⟩
+    else A.shortDue ⟨j - A.ordinary - A.pairs, by have := j.isLt; omega⟩
+  p j :=
+    if h : (j : ℕ) < A.ordinary then (if A.long ⟨j, h⟩ then p else q)
+    else if (j : ℕ) < A.ordinary + A.pairs then p
+    else q
+
+/-- The `i`-th short pending job, as a job of the underlying instance. -/
+def shortJob (p q : ℕ) (i : Fin A.pairs) : Fin (A.toInstance p q).jobs :=
+  ⟨A.ordinary + A.pairs + i, by have := i.isLt; simp only [toInstance]; omega⟩
+
+variable {A}
+
+variable (A)
+
+end Instance
+
+end Lax391470.AuxiliaryProblem
+end

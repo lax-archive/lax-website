@@ -1,0 +1,230 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.Coloring.Vertex
+import Mathlib.Data.Finite.Sigma
+import Mathlib.Data.Fintype.EquivFin
+import Mathlib.Data.Fintype.Lattice
+import Mathlib.Data.Prod.Lex
+import Mathlib.Data.Set.Card
+import Mathlib.Data.Set.Finite.Lemmas
+import Mathlib.Logic.Equiv.Fin.Basic
+import Mathlib.Logic.Equiv.Prod
+import Mathlib.ModelTheory.Complexity
+import Mathlib.ModelTheory.Graph
+import Mathlib.ModelTheory.Order
+import Mathlib.ModelTheory.Semantics
+import Mathlib.ModelTheory.Syntax
+import Mathlib.Order.PiLex
+import Mathlib.SetTheory.Cardinal.Finite
+import Mathlib.Tactic.FinCases
+
+-- Lax904597.Problems
+section
+namespace Lax904597.Problems
+
+open FirstOrder FirstOrder.Language
+
+/-- A decision problem: an isomorphism-closed property of `L`-structures,
+whose yes-instances are the `L`-structures satisfying it. -/
+structure DecisionProblem (L : Language.{0, 0}) [L.IsRelational] where
+  /-- The predicate: `P A` (through the function coercion) states that the
+  structure `A` is a yes-instance. -/
+  Holds : ∀ (A : Type) [L.Structure A], Prop
+  /-- Decision problems do not distinguish isomorphic structures. -/
+  iso_invariant : ∀ {A B : Type} [L.Structure A] [L.Structure B],
+    (A ≃[L] B) → (Holds A ↔ Holds B)
+
+namespace DecisionProblem
+
+variable {L : Language.{0, 0}} [L.IsRelational]
+
+end DecisionProblem
+
+end Lax904597.Problems
+end
+
+-- Lax799700.Problems
+section
+namespace Lax799700.Problems
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- The decision problem whose yes-instances are the structures isomorphic to
+one satisfying `P`. -/
+def DecisionProblem.ofPred {L : Language.{0, 0}} [L.IsRelational]
+    (P : ∀ (A : Type) [L.Structure A], Prop) : DecisionProblem L where
+  Holds := fun A _ => ∃ (B : Type) (i : L.Structure B) (_ : @Language.Equiv L B A i _), @P B i
+  iso_invariant := fun e =>
+    ⟨fun ⟨B, i, f, h⟩ => ⟨B, i, e.comp f, h⟩, fun ⟨B, i, f, h⟩ => ⟨B, i, e.symm.comp f, h⟩⟩
+
+end Lax799700.Problems
+end
+
+-- Lax904597.Interpretations
+section
+namespace Lax904597.Interpretations
+end Lax904597.Interpretations
+
+namespace Lax904597.Interpretations.FOInterpretation
+end Lax904597.Interpretations.FOInterpretation
+
+namespace Lax904597.Interpretations.FOReduction
+end Lax904597.Interpretations.FOReduction
+
+namespace Lax904597.Interpretations.OrderedFOReduction
+end Lax904597.Interpretations.OrderedFOReduction
+end
+
+-- Lax904597.Relativized
+section
+namespace Lax904597.Relativized
+end Lax904597.Relativized
+
+namespace Lax904597.Relativized.RelFOInterpretation
+end Lax904597.Relativized.RelFOInterpretation
+
+namespace Lax904597.Relativized.RelOrderedFOReduction
+end Lax904597.Relativized.RelOrderedFOReduction
+end
+
+-- Lax904597.SecondOrder
+section
+namespace Lax904597.SecondOrder.SORealize
+end Lax904597.SecondOrder.SORealize
+
+namespace Lax904597.SecondOrder.soLang
+end Lax904597.SecondOrder.soLang
+
+namespace Lax904597.SecondOrder
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- A second-order quantifier block: finitely many relation variables, with
+given arities. The index type is arbitrary rather than an initial segment of
+`ℕ`, so that constructions on blocks can build their natural index types. -/
+structure SOBlock : Type 1 where
+  /-- The index type of the relation variables of the block. -/
+  ι : Type
+  /-- A block has finitely many relation variables. -/
+  [ιFinite : Finite ι]
+  /-- The arity of each relation variable. -/
+  arity : ι → ℕ
+
+attribute [instance] SOBlock.ιFinite
+
+variable {L : Language.{0, 0}}
+
+end Lax904597.SecondOrder
+end
+
+-- Lax904597.Classes
+section
+namespace Lax904597.Classes
+end Lax904597.Classes
+
+namespace Lax904597.Classes.ComplexityClass
+end Lax904597.Classes.ComplexityClass
+end
+
+-- Lax799700.CliqueFamily
+section
+namespace Lax799700.CliqueFamily
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- The relation symbols of the language. -/
+inductive markedGraphRel : ℕ → Type where
+/-- `adj a b`: there is an edge from `a` to `b`. -/
+  | adj : markedGraphRel 2
+/-- `marked a`: the element `a` belongs to the marked set. -/
+  | marked : markedGraphRel 1
+  deriving DecidableEq
+
+/-- The relational language of marked graphs: a graph together with a marked
+subset of its vertices, whose cardinality serves as threshold. -/
+def markedGraph : FirstOrder.Language :=
+  ⟨fun _ => Empty, markedGraphRel⟩
+
+open FirstOrder
+
+open Language Structure
+
+section Generic
+
+variable {A : Type}
+
+end Generic
+
+section Problems
+
+section Shorthands
+
+variable {A : Type} [markedGraph.Structure A]
+
+end Shorthands
+
+variable (A : Type) [markedGraph.Structure A]
+
+end Problems
+
+open Lax904597.Problems Lax904597.Classes Lax799700.Problems
+
+end Lax799700.CliqueFamily
+end
+
+-- Lax799700.Coloring
+section
+namespace Lax799700.Coloring
+
+open Lax799700.CliqueFamily
+
+open FirstOrder
+
+open Language Structure
+
+section Generic
+
+variable {A : Type}
+
+/-- A `k`-coloring for the conflict relation `Cfl`: a map into `Fin k` giving
+distinct values to conflicting elements. -/
+def ColorableOn (Cfl : A → A → Prop) (k : ℕ) : Prop :=
+  ∃ c : A → Fin k, ∀ x y, Cfl x y → c x ≠ c y
+
+end Generic
+
+section Fixed
+
+variable (k : ℕ) (V : Type) [Language.graph.Structure V]
+
+/-- A `Language.graph`-structure is `k`-colorable if the vertices can be
+colored with `k` colors so that adjacent vertices get distinct colors. -/
+def KColorable : Prop :=
+  ColorableOn (fun x y : V => RelMap adj ![x, y]) k
+
+end Fixed
+
+section Conflicts
+
+variable {A : Type} [markedGraph.Structure A]
+
+end Conflicts
+
+section Threshold
+
+variable (A : Type) [markedGraph.Structure A]
+
+end Threshold
+
+open Lax904597.Problems Lax904597.Classes Lax799700.Problems
+
+/-- The problem KCol k: is the graph k-colorable? -/
+def KCol (k : ℕ) : DecisionProblem FirstOrder.Language.graph :=
+  DecisionProblem.ofPred (KColorable k)
+
+end Lax799700.Coloring
+end

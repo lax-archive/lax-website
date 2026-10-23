@@ -1,0 +1,56 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Expect
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Ring.Parity
+import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib.Data.Finset.Powerset
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Powerset
+import Mathlib.Data.Nat.Choose.Sum
+import Mathlib.Data.Real.Basic
+
+-- Lax253009.BooleanFourier
+section
+namespace Lax253009.BooleanFourier
+
+abbrev Cube (ι : Type) := ι → Bool
+
+end Lax253009.BooleanFourier
+end
+
+-- Lax253009.FiniteProbability
+section
+namespace Lax253009
+end Lax253009
+
+namespace Lax253009.FiniteProbability
+end Lax253009.FiniteProbability
+end
+
+-- Lax253009.ExponentialBounds
+section
+namespace Lax253009.ExponentialBounds
+end Lax253009.ExponentialBounds
+end
+
+-- Lax253009.BalancedPredicates
+section
+namespace Lax253009.BalancedPredicates
+
+open BooleanFourier FiniteProbability
+
+open scoped BigOperators
+
+def predicates (κ : Type) [Fintype κ] [DecidableEq κ] (n : ℕ) : Finset (Cube κ) :=
+  Finset.univ.filter fun B ↦ (Finset.univ.filter fun z ↦ B z = true).card = n
+
+axiom central_mass {κ : Type} [Fintype κ] [DecidableEq κ]
+    (n : ℕ) (hN : Fintype.card κ = 2 * n) :
+  Fintype.card (Cube κ) ≤ (Fintype.card κ + 1) * (predicates κ n).card
+
+end Lax253009.BalancedPredicates
+end

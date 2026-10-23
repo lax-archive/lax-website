@@ -1,0 +1,59 @@
+-- Lax dependency cone
+-- Lean: v4.30.0
+-- Mathlib: c5ea00351c28e24afc9f0f84379aa41082b1188f
+
+
+
+-- Lax58.StructuralPresentation
+section
+namespace Lax58
+end Lax58
+
+namespace Lax58.StructuralPresentation
+end Lax58.StructuralPresentation
+
+namespace Lax58.StructuralPresentation.Presentation
+end Lax58.StructuralPresentation.Presentation
+
+namespace Lax58.StructuralPresentation.Raw
+end Lax58.StructuralPresentation.Raw
+
+namespace Lax58.StructuralPresentation.Raw.nat
+end Lax58.StructuralPresentation.Raw.nat
+
+namespace Lax58.StructuralPresentation.Raw.nodes
+end Lax58.StructuralPresentation.Raw.nodes
+
+namespace Lax58.StructuralPresentation.Raw.pair
+end Lax58.StructuralPresentation.Raw.pair
+end
+
+-- Lax58.WordArena
+section
+namespace Lax58.WordArena.encodeInto
+end Lax58.WordArena.encodeInto
+
+namespace Lax58.WordArena.WordImage.ChildAddress
+end Lax58.WordArena.WordImage.ChildAddress
+
+namespace Lax58.WordArena.WordImage.ReachableFrom
+end Lax58.WordArena.WordImage.ReachableFrom
+
+namespace Lax58.WordArena.WordImage.Represents
+end Lax58.WordArena.WordImage.Represents
+
+namespace Lax58.WordArena
+
+open Lax58.StructuralPresentation
+
+universe u
+
+namespace WordImage
+
+/-- Tag of a binary-pair block. -/
+def pairTag : Nat := 1
+
+end WordImage
+
+end Lax58.WordArena
+end

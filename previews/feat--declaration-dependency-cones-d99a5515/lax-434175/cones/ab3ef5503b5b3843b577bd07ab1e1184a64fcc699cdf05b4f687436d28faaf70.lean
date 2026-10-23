@@ -1,0 +1,151 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Data.Finset.Card
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.Fintype.BigOperators
+import Mathlib.Data.NNRat.Defs
+
+-- Lax434175.Kernels
+section
+namespace Lax434175
+end Lax434175
+
+namespace Lax434175.Kernels
+end Lax434175.Kernels
+
+namespace Lax434175.Kernels.Kernel
+end Lax434175.Kernels.Kernel
+end
+
+-- Lax434175.Modules
+section
+namespace Lax434175.Modules
+end Lax434175.Modules
+
+namespace Lax434175.Modules.Module
+end Lax434175.Modules.Module
+
+namespace Lax434175.Modules.Objective
+end Lax434175.Modules.Objective
+
+namespace Lax434175.Modules.Module.Sound
+end Lax434175.Modules.Module.Sound
+
+namespace Lax434175.Modules.Objective.Sound
+end Lax434175.Modules.Objective.Sound
+end
+
+-- Lax434175.Shops
+section
+namespace Lax434175.Shops.NoWait
+end Lax434175.Shops.NoWait
+
+namespace Lax434175.Shops.ProcessingTimes
+end Lax434175.Shops.ProcessingTimes
+
+namespace Lax434175.Shops.Sched
+end Lax434175.Shops.Sched
+
+namespace Lax434175.Shops.ShopType
+end Lax434175.Shops.ShopType
+
+namespace Lax434175.Shops.Machines.embed
+end Lax434175.Shops.Machines.embed
+
+namespace Lax434175.Shops.Machines.le
+end Lax434175.Shops.Machines.le
+
+namespace Lax434175.Shops.Machines.view
+end Lax434175.Shops.Machines.view
+
+namespace Lax434175.Shops.NoWait.constraint
+end Lax434175.Shops.NoWait.constraint
+
+namespace Lax434175.Shops.NoWait.noWait
+end Lax434175.Shops.NoWait.noWait
+
+namespace Lax434175.Shops.NoWait.none
+end Lax434175.Shops.NoWait.none
+
+namespace Lax434175.Shops.ProcessingTimes.arbitrary
+end Lax434175.Shops.ProcessingTimes.arbitrary
+
+namespace Lax434175.Shops.ProcessingTimes.equal
+end Lax434175.Shops.ProcessingTimes.equal
+
+namespace Lax434175.Shops.ProcessingTimes.holds
+end Lax434175.Shops.ProcessingTimes.holds
+
+namespace Lax434175.Shops.ProcessingTimes.rank
+end Lax434175.Shops.ProcessingTimes.rank
+
+namespace Lax434175.Shops.ProcessingTimes.unit
+end Lax434175.Shops.ProcessingTimes.unit
+
+namespace Lax434175.Shops.ShopType.flexibleFlow
+end Lax434175.Shops.ShopType.flexibleFlow
+
+namespace Lax434175.Shops.ShopType.flow
+end Lax434175.Shops.ShopType.flow
+
+namespace Lax434175.Shops.ShopType.holds
+end Lax434175.Shops.ShopType.holds
+
+namespace Lax434175.Shops.ShopType.job
+end Lax434175.Shops.ShopType.job
+
+namespace Lax434175.Shops.ShopType.le
+end Lax434175.Shops.ShopType.le
+
+namespace Lax434175.Shops.ShopType.open
+end Lax434175.Shops.ShopType.open
+
+namespace Lax434175.Shops.ShopType.ordered
+end Lax434175.Shops.ShopType.ordered
+
+namespace Lax434175.Shops
+
+open Lax434175.Kernels Lax434175.Modules
+
+structure Inst where
+  jobs : ℕ
+  machines : ℕ
+  /-- The number of operations of a job. -/
+  ops : Fin jobs → ℕ
+  /-- The processing time of an operation. -/
+  p : (j : Fin jobs) → Fin (ops j) → ℕ
+  /-- The release date of a job. -/
+  r : Fin jobs → ℕ
+
+inductive Machines
+  | byPosition
+  | dedicated
+  | recirculation
+  | stages
+  | sets
+  | fix
+  | general
+
+/-- The data of a value of the machine field. -/
+def Machines.Data : Machines → Inst → Type
+  | .byPosition, _ | .stages, _ => Unit
+  | .dedicated, x | .recirculation, x => (j : Fin x.jobs) → Fin (x.ops j) → ℕ
+  | .sets, x => (j : Fin x.jobs) → Fin (x.ops j) → Fin x.machines → Prop
+  | .fix, x => (j : Fin x.jobs) → Fin (x.ops j) → Finset (Fin x.machines)
+  | .general, x => (j : Fin x.jobs) → Fin (x.ops j) → Finset (Fin x.machines) → Prop
+
+/-- The condition on the data: a given machine number is the number of a
+machine, and with dedicated machines no two operations of a job are given
+the same machine. -/
+def Machines.admits {x : Inst} : (v : Machines) → v.Data x → Prop
+  | .byPosition, _ => ∀ j (k : Fin (x.ops j)), k.val < x.machines
+  | .dedicated, μ => (∀ j k, μ j k < x.machines) ∧ ∀ j k k', μ j k = μ j k' → k = k'
+  | .recirculation, μ => ∀ j k, μ j k < x.machines
+  | .stages, _ => 0 < x.machines
+  | _, _ => True
+
+end Lax434175.Shops
+end

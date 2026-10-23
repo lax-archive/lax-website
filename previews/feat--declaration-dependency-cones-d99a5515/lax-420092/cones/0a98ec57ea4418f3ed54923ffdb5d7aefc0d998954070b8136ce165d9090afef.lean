@@ -1,0 +1,286 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.Coloring.Vertex
+import Mathlib.Data.Finite.Sigma
+import Mathlib.Data.Finset.Sort
+import Mathlib.Data.Fintype.EquivFin
+import Mathlib.Data.Fintype.Lattice
+import Mathlib.Data.Prod.Lex
+import Mathlib.Data.Set.Finite.Lemmas
+import Mathlib.Logic.Equiv.Fin.Basic
+import Mathlib.ModelTheory.Complexity
+import Mathlib.ModelTheory.Graph
+import Mathlib.ModelTheory.Order
+import Mathlib.ModelTheory.Semantics
+import Mathlib.ModelTheory.Syntax
+import Mathlib.Order.PiLex
+import Mathlib.SetTheory.Cardinal.Finite
+import Mathlib.Tactic.FinCases
+
+-- Lax420092.QueryDatabases
+section
+namespace Lax420092
+end Lax420092
+
+namespace Lax420092.QueryDatabases
+end Lax420092.QueryDatabases
+
+namespace Lax420092.QueryDatabases.queryDbRel
+end Lax420092.QueryDatabases.queryDbRel
+
+namespace Lax420092.QueryDatabases.queryDbRel.atom
+end Lax420092.QueryDatabases.queryDbRel.atom
+
+namespace Lax420092.QueryDatabases.queryDbRel.fact
+end Lax420092.QueryDatabases.queryDbRel.fact
+
+namespace Lax420092.QueryDatabases.queryDbRel.isVar
+end Lax420092.QueryDatabases.queryDbRel.isVar
+end
+
+-- Lax904597.Problems
+section
+namespace Lax904597
+end Lax904597
+
+namespace Lax904597.Problems
+end Lax904597.Problems
+
+namespace Lax904597.Problems.DecisionProblem
+end Lax904597.Problems.DecisionProblem
+end
+
+-- Lax799700.Problems
+section
+namespace Lax799700
+end Lax799700
+
+namespace Lax799700.Problems
+end Lax799700.Problems
+
+namespace Lax799700.Problems.DecisionProblem
+end Lax799700.Problems.DecisionProblem
+
+namespace Lax799700.Problems.DecisionProblem.ofPred
+end Lax799700.Problems.DecisionProblem.ofPred
+end
+
+-- Lax904597.Interpretations
+section
+namespace Lax904597.Interpretations
+end Lax904597.Interpretations
+
+namespace Lax904597.Interpretations.FOInterpretation
+end Lax904597.Interpretations.FOInterpretation
+
+namespace Lax904597.Interpretations.FOReduction
+end Lax904597.Interpretations.FOReduction
+
+namespace Lax904597.Interpretations.OrderedFOReduction
+end Lax904597.Interpretations.OrderedFOReduction
+end
+
+-- Lax904597.Relativized
+section
+namespace Lax904597.Relativized
+end Lax904597.Relativized
+
+namespace Lax904597.Relativized.RelFOInterpretation
+end Lax904597.Relativized.RelFOInterpretation
+
+namespace Lax904597.Relativized.RelOrderedFOReduction
+end Lax904597.Relativized.RelOrderedFOReduction
+end
+
+-- Lax904597.SecondOrder
+section
+namespace Lax904597.SecondOrder.SORealize
+end Lax904597.SecondOrder.SORealize
+
+namespace Lax904597.SecondOrder.soLang
+end Lax904597.SecondOrder.soLang
+
+namespace Lax904597.SecondOrder
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- A second-order quantifier block: finitely many relation variables, with
+given arities. The index type is arbitrary rather than an initial segment of
+`ℕ`, so that constructions on blocks can build their natural index types. -/
+structure SOBlock : Type 1 where
+  /-- The index type of the relation variables of the block. -/
+  ι : Type
+  /-- A block has finitely many relation variables. -/
+  [ιFinite : Finite ι]
+  /-- The arity of each relation variable. -/
+  arity : ι → ℕ
+
+attribute [instance] SOBlock.ιFinite
+
+variable {L : Language.{0, 0}}
+
+end Lax904597.SecondOrder
+end
+
+-- Lax904597.Classes
+section
+namespace Lax904597.Classes
+end Lax904597.Classes
+
+namespace Lax904597.Classes.ComplexityClass
+end Lax904597.Classes.ComplexityClass
+end
+
+-- Lax420092.Evaluation
+section
+namespace Lax420092.Evaluation
+
+open Lax420092.QueryDatabases
+
+open FirstOrder
+
+open Language Structure BoundedFormula
+
+section GenericCore
+
+variable {A B : Type}
+
+/-- The conjunctive query with variables `VarP` and atoms `AtomP` (over
+instance elements `A`) is satisfied in the database `F` on universe `U`,
+where `ι` fixes the denotation of the non-variables: some valuation extends
+`ι` and maps every atom to a database edge. -/
+def SatisfiedIn (VarP : A → Prop) (AtomP : A → A → Prop) {U : Type}
+    (F : U → U → Prop) (ι : A → U) : Prop :=
+  ∃ v : A → U, (∀ x, ¬VarP x → v x = ι x) ∧ ∀ x y, AtomP x y → F (v x) (v y)
+
+end GenericCore
+
+open Lax904597.Problems Lax799700.Problems
+
+end Lax420092.Evaluation
+end
+
+-- Lax420092.PackagedInstances
+section
+namespace Lax420092.PackagedInstances
+end Lax420092.PackagedInstances
+
+namespace Lax420092.PackagedInstances.CQInstance
+end Lax420092.PackagedInstances.CQInstance
+
+namespace Lax420092.PackagedInstances.FinPresentation
+end Lax420092.PackagedInstances.FinPresentation
+
+namespace Lax420092.PackagedInstances.cqDecode
+end Lax420092.PackagedInstances.cqDecode
+
+namespace Lax420092.PackagedInstances.cqRelBool
+end Lax420092.PackagedInstances.cqRelBool
+
+namespace Lax420092.PackagedInstances.cqSize
+end Lax420092.PackagedInstances.cqSize
+
+namespace Lax420092.PackagedInstances.queryDbStructure
+end Lax420092.PackagedInstances.queryDbStructure
+end
+
+-- Lax420092.QueryPairs
+section
+namespace Lax420092.QueryPairs
+
+open Lax420092.Evaluation
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- The relation symbols of the language. -/
+inductive queryPairRel : ℕ → Type where
+/-- `leftVar x`: the element `x` is a variable of the left query. -/
+  | leftVar : queryPairRel 1
+/-- `rightVar x`: the element `x` is a variable of the right query. -/
+  | rightVar : queryPairRel 1
+/-- `leftAtom x y`: the left query contains the atom `E(x, y)`. -/
+  | leftAtom : queryPairRel 2
+/-- `rightAtom x y`: the right query contains the atom `E(x, y)`. -/
+  | rightAtom : queryPairRel 2
+  deriving DecidableEq
+
+/-- The relational language of pairs of conjunctive queries over a shared
+universe of variables and constants. -/
+def queryPair : FirstOrder.Language :=
+  ⟨fun _ => Empty, queryPairRel⟩
+
+/-- `leftVar x`: the element `x` is a variable of the left query. -/
+abbrev qpLeftVar : queryPair.Relations 1 :=
+  .leftVar
+
+/-- `rightVar x`: the element `x` is a variable of the right query. -/
+abbrev qpRightVar : queryPair.Relations 1 :=
+  .rightVar
+
+/-- `leftAtom x y`: the left query contains the atom `E(x, y)`. -/
+abbrev qpLeftAtom : queryPair.Relations 2 :=
+  .leftAtom
+
+/-- `rightAtom x y`: the right query contains the atom `E(x, y)`. -/
+abbrev qpRightAtom : queryPair.Relations 2 :=
+  .rightAtom
+
+open FirstOrder
+
+open Language Structure BoundedFormula
+
+section PairShorthands
+
+variable {A : Type} [queryPair.Structure A]
+
+/-- `x` is a variable of the left query. -/
+def LVar (x : A) : Prop := RelMap qpLeftVar ![x]
+
+/-- `x` is a variable of the right query. -/
+def RVar (x : A) : Prop := RelMap qpRightVar ![x]
+
+/-- `E(x, y)` is an atom of the left query. -/
+def LAtom (x y : A) : Prop := RelMap qpLeftAtom ![x, y]
+
+/-- `E(x, y)` is an atom of the right query. -/
+def RAtom (x y : A) : Prop := RelMap qpRightAtom ![x, y]
+
+/-- `x` is a variable of either query; the non-`PairVar` elements are the
+shared constants, whose denotation every database fixes. -/
+def PairVar (x : A) : Prop := LVar x ∨ RVar x
+
+end PairShorthands
+
+/-- The left query is contained in the right one: every database (over any
+universe, with any interpretation of the constants) satisfying the left query
+satisfies the right query. -/
+def QueryContained (A : Type) [queryPair.Structure A] : Prop :=
+  ∀ (U : Type) (F : U → U → Prop) (ι : A → U),
+    SatisfiedIn (PairVar (A := A)) (LAtom (A := A)) F ι →
+      SatisfiedIn (PairVar (A := A)) (RAtom (A := A)) F ι
+
+open Lax904597.Problems Lax799700.Problems
+
+end Lax420092.QueryPairs
+end
+
+-- Lax420092.ContainmentInvariance
+section
+namespace Lax420092.ContainmentInvariance
+
+open FirstOrder FirstOrder.Language
+
+open Lax904597.Problems Lax904597.Interpretations Lax904597.Classes Lax799700.Problems
+
+open Lax420092.QueryDatabases Lax420092.Evaluation Lax420092.QueryPairs Lax420092.PackagedInstances
+
+/-- The property `QueryContained` is isomorphism-invariant. -/
+axiom queryContained_iso : ∀ {A B : Type} [queryPair.Structure A] [queryPair.Structure B],
+  (A ≃[queryPair] B) → (QueryContained A ↔ QueryContained B)
+
+end Lax420092.ContainmentInvariance
+end

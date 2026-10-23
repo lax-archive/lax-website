@@ -1,0 +1,296 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.Basic
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Finset.Card
+import Mathlib.Data.Finset.Prod
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Data.Nat.Log
+
+-- Lax434930.PolynomialTime
+section
+namespace Lax434930.PolynomialTime
+
+/-- A finite binary string. -/
+abbrev Word := List Bool
+
+/-- A language of finite binary strings. -/
+abbrev Language := Set Word
+
+end Lax434930.PolynomialTime
+end
+
+-- Lax783278.ArcKayles
+section
+namespace Lax783278.ArcKayles
+
+open scoped Classical
+
+variable {V : Type} [DecidableEq V]
+
+/-- The position after playing an edge with endpoints `u` and `v`. -/
+def remove (S : Finset V) (u v : V) : Finset V := (S.erase u).erase v
+
+/-- Legal moves, represented by ordered pairs of endpoints. -/
+noncomputable def moves (G : SimpleGraph V) (S : Finset V) : Finset (V × V) :=
+  (S ×ˢ S).filter fun e => G.Adj e.1 e.2
+
+/-- Backward induction through `rounds` moves. With no rounds left the
+player to move loses; otherwise a winning move leaves a losing position. -/
+def WinningAfter (G : SimpleGraph V) : ℕ → Finset V → Prop
+  | 0, _ => False
+  | rounds + 1, S =>
+      ∃ e ∈ moves G S, ¬ WinningAfter G rounds (remove S e.1 e.2)
+
+/-- A winning strategy for the next player. There are at most `S.card` moves,
+since every move removes vertices, so this many rounds evaluates the whole game. -/
+def Winning (G : SimpleGraph V) (S : Finset V) : Prop :=
+  WinningAfter G S.card S
+
+end Lax783278.ArcKayles
+end
+
+-- Lax783278.PositiveCNF
+section
+namespace Lax783278
+end Lax783278
+
+namespace Lax783278.PositiveCNF
+end Lax783278.PositiveCNF
+
+namespace Lax783278.PositiveCNF.Formula
+end Lax783278.PositiveCNF.Formula
+
+namespace Lax783278.PositiveCNF.TrueWinsAfter
+end Lax783278.PositiveCNF.TrueWinsAfter
+end
+
+-- Lax783278.Encoding
+section
+namespace Lax783278.Encoding
+
+open scoped Classical
+
+open Lax434930.PolynomialTime
+
+structure Graph where
+  vertices : ℕ
+  graph : SimpleGraph (Fin vertices)
+
+noncomputable def graphWord (G : Graph) : Word :=
+  List.replicate G.vertices true ++ [false] ++
+    (List.finRange G.vertices).flatMap fun u =>
+      (List.finRange G.vertices).map fun v => decide (G.graph.Adj u v)
+
+def arcKayles : Language :=
+  {w | ∃ G : Graph, graphWord G = w ∧ ArcKayles.Winning G.graph Finset.univ}
+
+end Lax783278.Encoding
+end
+
+-- Lax434930.Certificates
+section
+namespace Lax434930.Certificates
+end Lax434930.Certificates
+
+namespace Lax434930.Certificates.pair
+end Lax434930.Certificates.pair
+
+namespace Lax434930.Certificates.unpair
+end Lax434930.Certificates.unpair
+end
+
+-- Lax434930.NondeterministicPolynomialTime
+section
+namespace Lax434930.NondeterministicPolynomialTime
+end Lax434930.NondeterministicPolynomialTime
+end
+
+-- Lax429075.Reductions
+section
+namespace Lax429075
+end Lax429075
+
+namespace Lax429075.Reductions
+end Lax429075.Reductions
+end
+
+-- Lax434930.SpaceMachines
+section
+set_option backward.isDefEq.respectTransparency false
+
+namespace Lax434930.SpaceMachines
+
+open PolynomialTime
+
+/-- The input alphabet, with two distinct endmarkers. -/
+inductive InputSymbol
+  | leftEnd
+  | bit (value : Bool)
+  | rightEnd
+  deriving DecidableEq, Fintype
+
+/-- An elementary head movement, including staying in place. -/
+inductive Move
+  | left
+  | stay
+  | right
+  deriving DecidableEq, Fintype
+
+/-- Move a head on a semi-infinite tape, keeping it at zero on a leftward exit. -/
+def Move.apply : Move → ℕ → ℕ
+  | .left, i => i - 1
+  | .stay, i => i
+  | .right, i => i + 1
+
+/-- Read the immutable input at a head position, including its endmarkers. -/
+def readInput (w : Word) : ℕ → InputSymbol
+  | 0 => .leftEnd
+  | i + 1 => match w[i]? with
+    | some b => .bit b
+    | none => .rightEnd
+
+/-- One local transition: change state, write a work symbol, and move the heads. -/
+structure Action (Γ Q : Type) where
+  state : Q
+  write : Γ
+  inputMove : Move
+  workMove : Move
+
+/-- The complete finite description of a possibly nondeterministic machine. -/
+structure Machine where
+  Γ : Type
+  Q : Type
+  [alphabet : Fintype Γ]
+  [control : Fintype Q]
+  blank : Γ
+  start : Q
+  transition : Q → InputSymbol → Γ → Finset (Action Γ Q)
+  accept : Q → Bool
+
+attribute [instance] Machine.alphabet Machine.control
+
+/-- The two head positions, control state, and work-tape contents. -/
+structure Configuration (Γ Q : Type) where
+  state : Q
+  inputHead : ℕ
+  workHead : ℕ
+  tape : ℕ → Γ
+
+/-- Configurations for a fixed machine. Only reachable configurations are used. -/
+abbrev Machine.Config (M : Machine) := Configuration M.Γ M.Q
+
+/-- The work tape is blank; the input is supplied separately to the step relation. -/
+def Machine.initial (M : Machine) : M.Config :=
+  ⟨M.start, 0, 0, fun _ => M.blank⟩
+
+/-- Execute one action. The input head is clipped to the two endmarkers. -/
+def Machine.execute (M : Machine) (w : Word) (c : M.Config)
+    (a : Action M.Γ M.Q) : M.Config :=
+  ⟨a.state, min (a.inputMove.apply c.inputHead) (w.length + 1),
+    a.workMove.apply c.workHead, Function.update c.tape c.workHead a.write⟩
+
+/-- One legal transition consults only the state and the two scanned symbols. -/
+def Machine.Step (M : Machine) (w : Word) (c d : M.Config) : Prop :=
+  ∃ a ∈ M.transition c.state (readInput w c.inputHead) (c.tape c.workHead),
+    d = M.execute w c a
+
+/-- A computation prefix consisting of exactly the indicated number of transitions. -/
+inductive Machine.Run (M : Machine) (w : Word) : ℕ → M.Config → Prop
+  | zero : M.Run w 0 M.initial
+  | succ {n : ℕ} {c d : M.Config} :
+      M.Run w n c → M.Step w c d → M.Run w (n + 1) d
+
+/-- No choice of action is available at a terminal configuration. -/
+def Machine.Terminal (M : Machine) (w : Word) (c : M.Config) : Prop :=
+  ∀ d : M.Config, ¬ M.Step w c d
+
+/-- All computation branches on this input have bounded finite length. -/
+def Machine.HaltsOn (M : Machine) (w : Word) : Prop :=
+  ∃ t : ℕ, ∀ (n : ℕ) (c : M.Config), M.Run w n c → n ≤ t
+
+/-- Existential acceptance at a terminal configuration. -/
+def Machine.Accepts (M : Machine) (w : Word) : Prop :=
+  ∃ (n : ℕ) (c : M.Config), M.Run w n c ∧ M.Terminal w c ∧ M.accept c.state = true
+
+/-- A decider halts on every branch and accepts exactly its language. -/
+def Machine.Decides (M : Machine) (A : Language) : Prop :=
+  ∀ w : Word, M.HaltsOn w ∧ (M.Accepts w ↔ w ∈ A)
+
+/-- The transition table has at most one action for each local observation. -/
+def Machine.Deterministic (M : Machine) : Prop :=
+  ∀ (q : M.Q) (i : InputSymbol) (b : M.Γ),
+    ∀ a ∈ M.transition q i b, ∀ a' ∈ M.transition q i b, a = a'
+
+/-- Every branch stays within the first `s` work cells, whether blank or nonblank. -/
+def Machine.UsesSpace (M : Machine) (w : Word) (s : ℕ) : Prop :=
+  ∀ (n : ℕ) (c : M.Config), M.Run w n c → c.workHead < s
+
+end Lax434930.SpaceMachines
+end
+
+-- Lax434930.SpaceBounds
+section
+namespace Lax434930.SpaceBounds
+
+open PolynomialTime SpaceMachines
+
+/-- Deterministic deciders using at most `s n` work cells on inputs of length `n`. -/
+def DSPACE (s : ℕ → ℕ) : Set Language :=
+  {A | ∃ M : Machine, M.Deterministic ∧ M.Decides A ∧
+    ∀ w : Word, M.UsesSpace w (s w.length)}
+
+end Lax434930.SpaceBounds
+end
+
+-- Lax434930.PolynomialSpace
+section
+namespace Lax434930.PolynomialSpace
+
+open PolynomialTime SpaceBounds
+
+/-- Deterministic polynomial work space. -/
+def PSPACE : Set Language :=
+  {A | ∃ p : Polynomial ℕ, A ∈ DSPACE p.eval}
+
+end Lax434930.PolynomialSpace
+end
+
+-- Lax783278.PSPACE
+section
+namespace Lax783278
+end Lax783278
+
+namespace Lax783278.PSPACE
+end Lax783278.PSPACE
+end
+
+-- Lax783278.PositiveCNFHardness
+section
+namespace Lax783278.PositiveCNFHardness
+end Lax783278.PositiveCNFHardness
+end
+
+-- Lax783278.Construction
+section
+namespace Lax783278.Construction
+end Lax783278.Construction
+end
+
+-- Lax783278.Reduction
+section
+namespace Lax783278.Reduction
+end Lax783278.Reduction
+end
+
+-- Lax783278.Completeness
+section
+namespace Lax783278.Completeness
+
+axiom membership : Encoding.arcKayles ∈ Lax434930.PolynomialSpace.PSPACE
+
+end Lax783278.Completeness
+end

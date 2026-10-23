@@ -1,0 +1,855 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Finprod
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Computability.Halting
+import Mathlib.Computability.PartrecCode
+import Mathlib.Computability.Primrec.List
+import Mathlib.Computability.RE
+import Mathlib.Data.Finite.Sigma
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.EquivFin
+import Mathlib.Data.Fintype.Lattice
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Pigeonhole
+import Mathlib.Data.List.Forall2
+import Mathlib.Data.List.NodupEquivFin
+import Mathlib.Data.Prod.Lex
+import Mathlib.Data.Set.Card
+import Mathlib.Data.Set.Finite.Lemmas
+import Mathlib.Dynamics.FixedPoints.Basic
+import Mathlib.Logic.Equiv.Fin.Basic
+import Mathlib.Logic.Equiv.Prod
+import Mathlib.Logic.Equiv.Sum
+import Mathlib.Logic.Relation
+import Mathlib.ModelTheory.Complexity
+import Mathlib.ModelTheory.Order
+import Mathlib.ModelTheory.Semantics
+import Mathlib.ModelTheory.Syntax
+import Mathlib.Order.Lattice.Nat
+import Mathlib.Order.PiLex
+import Mathlib.SetTheory.Cardinal.Finite
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.Ring
+
+-- Lax904597.Problems
+section
+namespace Lax904597.Problems
+
+open FirstOrder FirstOrder.Language
+
+/-- A decision problem: an isomorphism-closed property of `L`-structures,
+whose yes-instances are the `L`-structures satisfying it. -/
+structure DecisionProblem (L : Language.{0, 0}) [L.IsRelational] where
+  /-- The predicate: `P A` (through the function coercion) states that the
+  structure `A` is a yes-instance. -/
+  Holds : ∀ (A : Type) [L.Structure A], Prop
+  /-- Decision problems do not distinguish isomorphic structures. -/
+  iso_invariant : ∀ {A B : Type} [L.Structure A] [L.Structure B],
+    (A ≃[L] B) → (Holds A ↔ Holds B)
+
+namespace DecisionProblem
+
+variable {L : Language.{0, 0}} [L.IsRelational]
+
+instance instCoeFun : CoeFun (DecisionProblem L) fun _ => ∀ (A : Type) [L.Structure A], Prop :=
+  ⟨Holds⟩
+
+end DecisionProblem
+
+end Lax904597.Problems
+end
+
+-- Lax904597.SecondOrder
+section
+namespace Lax904597.SecondOrder.SORealize
+end Lax904597.SecondOrder.SORealize
+
+namespace Lax904597.SecondOrder.soLang
+end Lax904597.SecondOrder.soLang
+
+namespace Lax904597.SecondOrder
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- A second-order quantifier block: finitely many relation variables, with
+given arities. The index type is arbitrary rather than an initial segment of
+`ℕ`, so that constructions on blocks can build their natural index types. -/
+structure SOBlock : Type 1 where
+  /-- The index type of the relation variables of the block. -/
+  ι : Type
+  /-- A block has finitely many relation variables. -/
+  [ιFinite : Finite ι]
+  /-- The arity of each relation variable. -/
+  arity : ι → ℕ
+
+attribute [instance] SOBlock.ιFinite
+
+/-- The relational vocabulary of a block: one relation symbol per relation
+variable. -/
+def SOBlock.lang (B : SOBlock) : Language :=
+  ⟨fun _ => Empty, fun n => {i : B.ι // B.arity i = n}⟩
+
+instance instIsRelationalLang (B : SOBlock) : IsRelational B.lang :=
+  fun _ => ⟨fun f => Empty.elim f⟩
+
+variable {L : Language.{0, 0}}
+
+end Lax904597.SecondOrder
+end
+
+-- Lax624099.ValueInvention
+section
+namespace Lax624099.ValueInvention
+
+open Lax904597.Problems Lax904597.SecondOrder
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- Relation symbols of the language marking the original elements inside an
+extended universe. -/
+inductive oldRel : ℕ → Type
+  /-- `old x`: the element `x` comes from the original structure, i.e., it is
+  not an invented value. -/
+  | old : oldRel 1
+  deriving DecidableEq
+
+/-- The one-symbol relational language marking, inside a universe extended
+with invented values, the elements of the original structure. -/
+def oldMark : Language :=
+  ⟨fun _ => Empty, oldRel⟩
+
+instance instIsRelationalOldMark : IsRelational oldMark :=
+  fun _ => ⟨fun f => Empty.elim f⟩
+
+open FirstOrder
+
+open Language Structure
+
+/-- The vocabulary of extended structures: the base vocabulary together with
+the unary predicate `old` marking the elements of the original structure. -/
+abbrev newLang (L : Language.{0, 0}) : Language := L.sum oldMark
+
+section Extended
+
+/-- The original elements of a universe extended by invented values. The
+invented values are an arbitrary type, so that the same predicate reads an
+extension by a *set* of them and not only by an initial segment. -/
+def IsOld {A N : Type} : A ⊕ N → Prop
+  | Sum.inl _ => True
+  | Sum.inr _ => False
+
+/-- The base structure carried by the extended universe: a relation symbol
+holds of a tuple exactly when all its entries are original elements and it
+holds of them in `A`. Invented values are related to nothing. -/
+@[reducible]
+def extBase (L : Language.{0, 0}) [L.IsRelational] (A : Type) [L.Structure A] (m : ℕ) :
+    L.Structure (A ⊕ Fin m) where
+  funMap f := isEmptyElim f
+  RelMap {_k} r x := ∃ y, (∀ i, x i = Sum.inl (y i)) ∧ RelMap r y
+
+/-- The interpretation of the marking predicate on the extended universe. -/
+@[reducible]
+def oldMarkStructure (A : Type) (m : ℕ) : oldMark.Structure (A ⊕ Fin m) where
+  RelMap | .old => fun x => IsOld (x 0)
+
+/-- **The extended structure**: the instance `A` together with `m` invented
+values, over the vocabulary `DescriptiveComplexity.newLang L`. -/
+instance extStructure (L : Language.{0, 0}) [L.IsRelational] (A : Type) [L.Structure A]
+    (m : ℕ) : (newLang L).Structure (A ⊕ Fin m) :=
+  @sumStructure L oldMark (A ⊕ Fin m) (extBase L A m) (oldMarkStructure A m)
+
+end Extended
+
+section Definability
+
+variable {L : Language.{0, 0}}
+
+end Definability
+
+end Lax624099.ValueInvention
+end
+
+-- Lax904597.Interpretations
+section
+namespace Lax904597.Interpretations.FOReduction
+end Lax904597.Interpretations.FOReduction
+
+namespace Lax904597.Interpretations.OrderedFOReduction
+end Lax904597.Interpretations.OrderedFOReduction
+
+namespace Lax904597.Interpretations
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- A tagged `dim`-dimensional first-order interpretation of `L'` in `L`:
+the defining `L`-formula of each relation symbol of `L'`, for each tuple of
+tags; the free variable `(i, j)` is the `j`-th coordinate of the `i`-th
+argument tuple. -/
+structure FOInterpretation (L L' : Language.{0, 0}) (Tag : Type) (dim : ℕ) where
+  /-- The defining `L`-formula of each relation symbol of `L'`, for each tuple
+  of tags; the free variable `(i, j)` is the `j`-th coordinate of the `i`-th
+  argument tuple. -/
+  relFormula : ∀ {n : ℕ}, L'.Relations n → (Fin n → Tag) → L.Formula (Fin n × Fin dim)
+
+namespace FOInterpretation
+
+variable {L L' : Language.{0, 0}} {Tag : Type} {dim : ℕ}
+
+/-- The universe of the structure interpreted in `A`: tagged `dim`-tuples. -/
+protected def Map (_I : FOInterpretation L L' Tag dim) (A : Type) : Type :=
+  Tag × (Fin dim → A)
+
+variable (I : FOInterpretation L L' Tag dim) (A : Type) [L.Structure A]
+
+/-- The `L'`-structure interpreted in the `L`-structure `A`. -/
+instance mapStructure [L'.IsRelational] : L'.Structure (I.Map A) where
+  funMap f := isEmptyElim f
+  RelMap R xs := (I.relFormula R fun i => (xs i).1).Realize fun p => (xs p.1).2 p.2
+
+end FOInterpretation
+
+section Ordered
+
+variable (L : Language.{0, 0}) (A : Type) [L.Structure A] [LE A]
+
+/-- A linearly ordered `L`-structure is a structure over the ordered expansion
+`L.sum Language.order`, interpreting the order symbol as `≤`. -/
+instance sumOrderStructure : (L.sum Language.order).Structure A :=
+  letI := orderStructure (M := A)
+  inferInstance
+
+instance sumOrderOrderedStructure : (L.sum Language.order).OrderedStructure A :=
+  ⟨fun _ => Iff.rfl⟩
+
+end Ordered
+
+end Lax904597.Interpretations
+end
+
+-- Lax904597.Relativized
+section
+namespace Lax904597.Relativized.RelOrderedFOReduction
+end Lax904597.Relativized.RelOrderedFOReduction
+
+namespace Lax904597.Relativized
+
+open FirstOrder FirstOrder.Language Lax904597.Problems Lax904597.Interpretations
+
+/-- A relativized interpretation: an interpretation together with the domain
+formula of each tag. -/
+structure RelFOInterpretation (L L' : Language.{0, 0}) (Tag : Type) (dim : ℕ)
+    extends FOInterpretation L L' Tag dim where
+  /-- The domain formula of each tag: a tagged tuple `(t, ā)` belongs to the
+  target universe iff `domFormula t` holds of `ā`. -/
+  domFormula : Tag → L.Formula (Fin dim)
+
+namespace RelFOInterpretation
+
+variable {L L' : Language.{0, 0}} {Tag : Type} {dim : ℕ}
+
+variable (I : RelFOInterpretation L L' Tag dim) (A : Type) [L.Structure A]
+
+/-- The universe of the relativized interpretation in `A`: the tagged tuples
+whose coordinates satisfy their tag's domain formula. -/
+protected def MapRel : Type :=
+  {x : Tag × (Fin dim → A) // (I.domFormula x.1).Realize x.2}
+
+/-- The `L'`-structure interpreted on the definable subset. -/
+instance mapRelStructure [L'.IsRelational] : L'.Structure (I.MapRel A) where
+  funMap f := isEmptyElim f
+  RelMap R xs := (I.relFormula R fun i => (xs i).1.1).Realize fun p => (xs p.1).1.2 p.2
+
+end RelFOInterpretation
+
+end Lax904597.Relativized
+end
+
+-- Lax904597.Classes
+section
+namespace Lax904597.Classes
+end Lax904597.Classes
+
+namespace Lax904597.Classes.ComplexityClass
+end Lax904597.Classes.ComplexityClass
+end
+
+-- Lax624099.ClassRE
+section
+namespace Lax624099.ClassRE
+end Lax624099.ClassRE
+
+namespace Lax624099.ClassRE.DecisionProblem
+end Lax624099.ClassRE.DecisionProblem
+end
+
+-- Lax624099.Problems
+section
+namespace Lax624099.Problems
+
+open FirstOrder FirstOrder.Language Lax904597.Problems
+
+/-- The decision problem whose yes-instances are the structures isomorphic to
+one satisfying `P`. -/
+def DecisionProblem.ofPred {L : Language.{0, 0}} [L.IsRelational]
+    (P : ∀ (A : Type) [L.Structure A], Prop) : DecisionProblem L where
+  Holds := fun A _ => ∃ (B : Type) (i : L.Structure B) (_ : @Language.Equiv L B A i _), @P B i
+  iso_invariant := fun e =>
+    ⟨fun ⟨B, i, f, h⟩ => ⟨B, i, e.comp f, h⟩, fun ⟨B, i, f, h⟩ => ⟨B, i, e.symm.comp f, h⟩⟩
+
+end Lax624099.Problems
+end
+
+-- Lax624099.CodeHalting
+section
+namespace Lax624099.CodeHalting.DecodesTo
+end Lax624099.CodeHalting.DecodesTo
+
+namespace Lax624099.CodeHalting
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- Relation symbols of code instances. -/
+inductive codeRel : ℕ → Type
+  /-- `croot n`: `n` is the root of the syntax tree. -/
+  | croot : codeRel 1
+  /-- `czero n`: `n` draws the constructor `zero`. -/
+  | czero : codeRel 1
+  /-- `csucc n`: `n` draws the constructor `succ`. -/
+  | csucc : codeRel 1
+  /-- `cleft n`: `n` draws the constructor `left`. -/
+  | cleft : codeRel 1
+  /-- `cright n`: `n` draws the constructor `right`. -/
+  | cright : codeRel 1
+  /-- `cpair n`: `n` draws the constructor `pair`. -/
+  | cpair : codeRel 1
+  /-- `ccomp n`: `n` draws the constructor `comp`. -/
+  | ccomp : codeRel 1
+  /-- `cprec n`: `n` draws the constructor `prec`. -/
+  | cprec : codeRel 1
+  /-- `crfind n`: `n` draws the constructor `rfind'`. -/
+  | crfind : codeRel 1
+  /-- `carg1 n m`: `m` is the first child of `n`. -/
+  | carg1 : codeRel 2
+  /-- `carg2 n m`: `m` is the second child of `n`. -/
+  | carg2 : codeRel 2
+  deriving DecidableEq
+
+/-- The relational language of code instances: the eight constructor marks,
+the mark of the root, and the two child relations. -/
+def code : Language :=
+  ⟨fun _ => Empty, codeRel⟩
+
+instance instIsRelationalCode : IsRelational code :=
+  fun _ => ⟨fun f => Empty.elim f⟩
+
+open FirstOrder
+
+open Language Structure
+
+section Shorthands
+
+variable {A : Type} [code.Structure A]
+
+end Shorthands
+
+section Decode
+
+variable {A : Type} [code.Structure A]
+
+end Decode
+
+open Lax904597.Problems Lax624099.Problems
+
+end Lax624099.CodeHalting
+end
+
+-- Lax624099.FiniteSatisfiability
+section
+namespace Lax624099.FiniteSatisfiability.FinSat.IsWF
+end Lax624099.FiniteSatisfiability.FinSat.IsWF
+
+namespace Lax624099.FiniteSatisfiability.FinSat.gval
+end Lax624099.FiniteSatisfiability.FinSat.gval
+
+namespace Lax624099.FiniteSatisfiability
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- Relation symbols of the language of encoded first-order sentences in
+negation normal form. -/
+inductive finsatRel : ℕ → Type
+  /-- `le x y`: the order of the syntax. -/
+  | le : finsatRel 2
+  /-- `andN g`: the node `g` is the conjunction of its children. -/
+  | andN : finsatRel 1
+  /-- `orN g`: the node `g` is the disjunction of its children. -/
+  | orN : finsatRel 1
+  /-- `allN g`: the node `g` universally quantifies its bound variable. -/
+  | allN : finsatRel 1
+  /-- `exN g`: the node `g` existentially quantifies its bound variable. -/
+  | exN : finsatRel 1
+  /-- `child g c`: the node `c` is one of the children of the node `g`. -/
+  | child : finsatRel 2
+  /-- `bind g x`: the quantifier node `g` binds the variable `x`. -/
+  | bind : finsatRel 2
+  /-- `eqL g x y`: the node `g` is the literal `x = y`. -/
+  | eqL : finsatRel 3
+  /-- `neqL g x y`: the node `g` is the literal `x ≠ y`. -/
+  | neqL : finsatRel 3
+  /-- `posL g s`: the node `g` is a positive atom of the relation symbol
+  `s`. -/
+  | posL : finsatRel 2
+  /-- `negL g s`: the node `g` is a negated atom of the relation symbol
+  `s`. -/
+  | negL : finsatRel 2
+  /-- `arg g p x`: the argument of the atom `g` at position `p` is the
+  variable `x`. -/
+  | arg : finsatRel 3
+  /-- `sig s p`: the relation symbol `s` has an argument position `p`. -/
+  | sig : finsatRel 2
+  /-- `root g`: the node `g` is the root of the encoded sentence. -/
+  | root : finsatRel 1
+  deriving DecidableEq
+
+/-- The relational vocabulary of encoded first-order sentences: a parse DAG in
+negation normal form, ordered by the order of its own syntax. -/
+def finsat : Language :=
+  ⟨fun _ => Empty, finsatRel⟩
+
+instance instIsRelationalFinsat : IsRelational finsat :=
+  fun _ => ⟨fun f => Empty.elim f⟩
+
+open FirstOrder
+
+open Language Structure
+
+namespace FinSat
+
+section Reading
+
+variable {A : Type} [finsat.Structure A]
+
+end Reading
+
+section Semantics
+
+variable {A M : Type} [finsat.Structure A]
+
+end Semantics
+
+end FinSat
+
+open Lax904597.Problems Lax624099.Problems
+
+end Lax624099.FiniteSatisfiability
+end
+
+-- Lax904597.Machines
+section
+namespace Lax904597.Machines.Config
+end Lax904597.Machines.Config
+
+namespace Lax904597.Machines.Config.ext
+end Lax904597.Machines.Config.ext
+
+namespace Lax904597.Machines.TMData.StepsIn
+end Lax904597.Machines.TMData.StepsIn
+
+namespace Lax904597.Machines
+
+open FirstOrder FirstOrder.Language FirstOrder.Language.Structure Lax904597.Problems
+
+variable {A : Type}
+
+/-- A Turing machine presented as relations on a universe: the sorts, the
+marks, the attributes of the transitions, the initial tape and the order along
+which the head moves. -/
+structure TMData (A : Type) where
+  /-- Being a position – a tape cell, and equally a time step. -/
+  Posn : A → Prop
+  /-- The order on positions, along which the head moves. -/
+  Le : A → A → Prop
+  /-- Being a transition. -/
+  Tr : A → Prop
+  /-- Being a start state. -/
+  Start : A → Prop
+  /-- Being an accepting state. -/
+  Acc : A → Prop
+  /-- Being the blank symbol. -/
+  Blank : A → Prop
+  /-- This transition moves the head right (rather than left). -/
+  Right : A → Prop
+  /-- The state a transition applies in. -/
+  Src : A → A → Prop
+  /-- The symbol a transition reads. -/
+  Read : A → A → Prop
+  /-- The state a transition moves to. -/
+  Dst : A → A → Prop
+  /-- The symbol a transition writes. -/
+  Write : A → A → Prop
+  /-- The input: the symbol initially in a cell. -/
+  Inp : A → A → Prop
+
+namespace TMData
+
+variable (M : TMData A)
+
+end TMData
+
+/-- Relation symbols of machine instances. -/
+inductive turingRel : ℕ → Type
+  /-- `posn p`: `p` is a position – a tape cell, and equally a time step. -/
+  | posn : turingRel 1
+  /-- `tr τ`: `τ` is a transition. -/
+  | tr : turingRel 1
+  /-- `start q`: `q` is a start state. -/
+  | start : turingRel 1
+  /-- `acc q`: `q` is an accepting state. -/
+  | acc : turingRel 1
+  /-- `blank a`: `a` is the blank symbol. -/
+  | blank : turingRel 1
+  /-- `right τ`: the transition `τ` moves the head right. -/
+  | right : turingRel 1
+  /-- `le p q`: the linear order along which the head moves. -/
+  | le : turingRel 2
+  /-- `tsrc τ q`: `τ` applies in the state `q`. -/
+  | tsrc : turingRel 2
+  /-- `tread τ a`: `τ` applies when reading the symbol `a`. -/
+  | tread : turingRel 2
+  /-- `tdst τ q`: `τ` moves to the state `q`. -/
+  | tdst : turingRel 2
+  /-- `twrite τ a`: `τ` writes the symbol `a`. -/
+  | twrite : turingRel 2
+  /-- `inp p a`: the cell `p` initially holds the symbol `a`. -/
+  | inp : turingRel 2
+  deriving DecidableEq
+
+/-- The relational language of machine instances: positions with their order,
+transitions with their attributes, the distinguished states and symbol, and the
+initial tape. -/
+def turing : Language :=
+  ⟨fun _ => Empty, turingRel⟩
+
+instance instIsRelationalTuring : IsRelational turing := fun _ => (inferInstance : IsEmpty Empty)
+
+section Shorthands
+
+variable [turing.Structure A]
+
+end Shorthands
+
+end Lax904597.Machines
+end
+
+-- Lax624099.ConcreteInstances
+section
+namespace Lax624099.ConcreteInstances
+
+open Lax904597.Problems
+
+open FirstOrder
+
+open FirstOrder.Language Structure
+
+section Digits
+
+/-- The number of a tuple of digits, little-endian in base `c`. -/
+def tupleIdx (c : ℕ) : List ℕ → ℕ
+  | [] => 0
+  | a :: l => a + c * tupleIdx c l
+
+end Digits
+
+/-- A **finitely presented relational vocabulary**: the relation symbols of `L`
+numbered by `Fin numSyms`, with their arities. Reading a symbol off its number
+(`sym`) and numbering a symbol (`index`) are mutually inverse, so the
+presentation loses nothing.
+
+Every vocabulary of the catalog is of this shape: `Language.turing` has 12
+symbols of arity at most 2, `Language.finsat` 14 of arity at most 3. The
+presentations are closed under `Language.sum`
+(`FirstOrder.Language.FinVocab.sum`), which is what lets the second-order
+machinery – whose vocabularies are sums of the instance's with a block's – be
+encoded by the same means. -/
+structure FinVocab (L : Language.{0, 0}) where
+  /-- The number of relation symbols. -/
+  numSyms : ℕ
+  /-- The symbol with a given number, together with its arity. -/
+  symOf : Fin numSyms → ((n : ℕ) × L.Relations n)
+  /-- The number of a symbol. -/
+  index : ∀ {n : ℕ}, L.Relations n → Fin numSyms
+  /-- Reading back the symbol with the number of a symbol gives it back. -/
+  symOf_index : ∀ {n : ℕ} (R : L.Relations n), symOf (index R) = ⟨n, R⟩
+  /-- Numbering the symbol with a given number gives that number back. -/
+  index_symOf : ∀ i : Fin numSyms, index (symOf i).2 = i
+
+namespace FinVocab
+
+variable {L : Language.{0, 0}} (V : FinVocab L)
+
+end FinVocab
+
+/-- A **concrete finite structure** over the finitely presented vocabulary
+`V`: a universe size and a table of Booleans, one row per relation symbol.
+
+The universe is `Fin (univSize + 1)`, so it is nonempty by construction; the
+row of an `n`-ary symbol is read at the number of the tuple, little-endian in
+base `card`. Anything out of range reads `false`, so every pair of a number
+and a list of lists of Booleans denotes a structure. -/
+structure FinStruct {L : Language.{0, 0}} (V : FinVocab L) where
+  /-- One less than the size of the universe. -/
+  univSize : ℕ
+  /-- The tables of the relations, one row per symbol. -/
+  table : List (List Bool)
+
+namespace FinStruct
+
+variable {L : Language.{0, 0}} {V : FinVocab L}
+
+/-- The size of the universe of a concrete finite structure. -/
+abbrev card (s : FinStruct V) : ℕ := s.univSize + 1
+
+/-- The universe of a concrete finite structure: nonempty and linearly ordered
+by construction. -/
+abbrev Univ (s : FinStruct V) : Type := Fin s.card
+
+/-- The table lookup: does the relation `R` hold of the tuple `x`? -/
+def relMapBool (s : FinStruct V) {n : ℕ} (R : L.Relations n) (x : Fin n → s.Univ) : Bool :=
+  (s.table.getD (V.index R) []).getD (tupleIdx s.card (List.ofFn fun j => (x j : ℕ))) false
+
+/-- **The structure a piece of data denotes.** -/
+instance instStructure [L.IsRelational] (s : FinStruct V) : L.Structure s.Univ where
+  funMap f := isEmptyElim f
+  RelMap R x := s.relMapBool R x = true
+
+/-- The coding of a concrete finite structure as a pair. -/
+def equivProd (V : FinVocab L) : FinStruct V ≃ ℕ × List (List Bool) where
+  toFun s := (s.univSize, s.table)
+  invFun p := ⟨p.1, p.2⟩
+  left_inv := fun ⟨_, _⟩ => rfl
+  right_inv := fun _ => rfl
+
+/-- **Concrete finite structures are a `Primcodable` type**: the object
+`ComputablePred` and `REPred` are defined on. -/
+instance instPrimcodable (V : FinVocab L) : Primcodable (FinStruct V) :=
+  Primcodable.ofEquiv _ (equivProd V)
+
+end FinStruct
+
+open FirstOrder Language Structure
+
+variable {L : Language.{0, 0}} [L.IsRelational]
+
+/-- **The set of concrete instances a decision problem denotes.** This is the
+object `ComputablePred` and `REPred` are about: a problem is an
+isomorphism-closed property of finite structures, and the numbering of
+`FirstOrder.Language.FinStruct` turns it into a property of a `Primcodable`
+type, with nothing to write per problem. -/
+def DecisionProblem.toPred (P : DecisionProblem L) (V : FinVocab L) :
+    FinStruct V → Prop := fun s => P s.Univ
+
+open FirstOrder
+
+open FirstOrder.Language
+
+namespace FinVocab
+
+variable {L L' : Language.{0, 0}}
+
+end FinVocab
+
+open Lax904597.Machines Lax624099.FiniteSatisfiability Lax624099.CodeHalting
+
+instance instDecidableEqSigmaNatRelationsTuring : DecidableEq ((n : ℕ) × turing.Relations n) := by
+  show DecidableEq ((n : ℕ) × turingRel n)
+  infer_instance
+
+instance instDecidableEqSigmaNatRelationsFinsat : DecidableEq ((n : ℕ) × finsat.Relations n) := by
+  show DecidableEq ((n : ℕ) × finsatRel n)
+  infer_instance
+
+instance instDecidableEqSigmaNatRelationsCode : DecidableEq ((n : ℕ) × code.Relations n) := by
+  show DecidableEq ((n : ℕ) × codeRel n)
+  infer_instance
+
+end Lax624099.ConcreteInstances
+end
+
+-- Lax624099.Halting
+section
+namespace Lax624099.Halting
+end Lax624099.Halting
+
+namespace Lax624099.Halting.ConfigU
+end Lax624099.Halting.ConfigU
+
+namespace Lax624099.Halting.TMData
+end Lax624099.Halting.TMData
+
+namespace Lax624099.Halting.ConfigU.ext
+end Lax624099.Halting.ConfigU.ext
+
+namespace Lax624099.Halting.TMData.StepsInU
+end Lax624099.Halting.TMData.StepsInU
+end
+
+-- Lax624099.PostCorrespondence
+section
+namespace Lax624099.PostCorrespondence
+
+open FirstOrder
+
+open FirstOrder.Language
+
+/-- Relation symbols of the language of Post correspondence systems. -/
+inductive pcpRel : ℕ → Type
+  /-- `le x y`: the order of the positions. -/
+  | le : pcpRel 2
+  /-- `dom d`: the element `d` is one of the dominoes. -/
+  | dom : pcpRel 1
+  /-- `uAt d p c`: the top word of the domino `d` has the letter `c` at the
+  position `p`. -/
+  | uAt : pcpRel 3
+  /-- `vAt d p c`: the bottom word of the domino `d` has the letter `c` at the
+  position `p`. -/
+  | vAt : pcpRel 3
+  deriving DecidableEq
+
+/-- The relational vocabulary of Post correspondence systems: marked dominoes
+carrying two words each, over a universe ordered by the order of the positions
+of those words. -/
+def pcp : Language :=
+  ⟨fun _ => Empty, pcpRel⟩
+
+instance instIsRelationalPcp : IsRelational pcp :=
+  fun _ => ⟨fun f => Empty.elim f⟩
+
+/-- The order symbol of the positions. -/
+abbrev pcpLeSym : pcp.Relations 2 := .le
+
+/-- The symbol marking the dominoes. -/
+abbrev pcpDomSym : pcp.Relations 1 := .dom
+
+/-- The symbol giving the letters of the top words. -/
+abbrev pcpUSym : pcp.Relations 3 := .uAt
+
+/-- The symbol giving the letters of the bottom words. -/
+abbrev pcpVSym : pcp.Relations 3 := .vAt
+
+open FirstOrder
+
+open Language Structure
+
+namespace Pcp
+
+section Reading
+
+variable {A : Type} [pcp.Structure A]
+
+/-- `x` precedes `y` in the order of the positions. -/
+def Ord (x y : A) : Prop := RelMap pcpLeSym ![x, y]
+
+/-- `x` strictly precedes `y` in the order of the positions. -/
+def OrdLt (x y : A) : Prop := Ord x y ∧ x ≠ y
+
+/-- The element `d` is one of the dominoes. -/
+def DomG (d : A) : Prop := RelMap pcpDomSym ![d]
+
+/-- The top word of the domino `d` has the letter `c` at the position `p`. -/
+def UAt (d p c : A) : Prop := RelMap pcpUSym ![d, p, c]
+
+/-- The bottom word of the domino `d` has the letter `c` at the position
+`p`. -/
+def VAt (d p c : A) : Prop := RelMap pcpVSym ![d, p, c]
+
+/-- The position `p` carries a letter of the top word of the domino `d`. -/
+def UsedU (d p : A) : Prop := ∃ c, UAt d p c
+
+/-- The position `p` carries a letter of the bottom word of the domino `d`. -/
+def UsedV (d p : A) : Prop := ∃ c, VAt d p c
+
+end Reading
+
+/-- **Well-formedness of a Post correspondence system**: the order symbol is a
+linear order, and each domino carries at most one letter at each position of
+each of its two words. -/
+structure IsWF (A : Type) [pcp.Structure A] : Prop where
+  /-- The order of the positions is reflexive. -/
+  ord_refl : ∀ x : A, Ord x x
+  /-- The order of the positions is transitive. -/
+  ord_trans : ∀ x y z : A, Ord x y → Ord y z → Ord x z
+  /-- The order of the positions is antisymmetric. -/
+  ord_antisymm : ∀ x y : A, Ord x y → Ord y x → x = y
+  /-- The order of the positions is total. -/
+  ord_total : ∀ x y : A, Ord x y ∨ Ord y x
+  /-- A top word has at most one letter at each position. -/
+  uAt_fun : ∀ d p c c' : A, UAt d p c → UAt d p c' → c = c'
+  /-- A bottom word has at most one letter at each position. -/
+  vAt_fun : ∀ d p c c' : A, VAt d p c → VAt d p c' → c = c'
+
+section Words
+
+variable {A : Type} [pcp.Structure A]
+
+/-- **The top word of the domino `d` is `w`**: some strictly increasing list
+enumerates exactly the positions used by the top word of `d`, and `w` carries
+the letters at them. -/
+def IsWordU (d : A) (w : List A) : Prop :=
+  ∃ ps : List A, ps.Pairwise OrdLt ∧ (∀ p, p ∈ ps ↔ UsedU d p) ∧ List.Forall₂ (UAt d) ps w
+
+/-- **The bottom word of the domino `d` is `w`**, as in
+`DescriptiveComplexity.Pcp.IsWordU`. -/
+def IsWordV (d : A) (w : List A) : Prop :=
+  ∃ ps : List A, ps.Pairwise OrdLt ∧ (∀ p, p ∈ ps ↔ UsedV d p) ∧ List.Forall₂ (VAt d) ps w
+
+end Words
+
+/-- **The system has a match**: the instance is well-formed and there is a
+nonempty sequence of dominoes whose top words and whose bottom words have the
+same concatenation. -/
+def PcpOn (A : Type) [pcp.Structure A] : Prop :=
+  IsWF A ∧ ∃ (l : List A) (us vs : List (List A)),
+    l ≠ [] ∧ (∀ d ∈ l, DomG d) ∧
+      List.Forall₂ IsWordU l us ∧ List.Forall₂ IsWordV l vs ∧ us.flatten = vs.flatten
+
+end Pcp
+
+open Lax904597.Problems Lax624099.Problems
+
+/-- PCP: does the Post correspondence system have a match? -/
+def PCP : DecisionProblem pcp :=
+  DecisionProblem.ofPred Pcp.PcpOn
+
+end Lax624099.PostCorrespondence
+end
+
+-- Lax624099.PcpUndecidable
+section
+namespace Lax624099.PcpUndecidable
+
+open FirstOrder FirstOrder.Language
+
+open Lax904597.Problems Lax904597.Interpretations Lax904597.Relativized Lax904597.Classes
+
+open Lax904597.Machines Lax624099.Problems Lax624099.ValueInvention Lax624099.ClassRE
+
+open Lax624099.FiniteSatisfiability
+
+open Lax624099.Halting Lax624099.CodeHalting Lax624099.PostCorrespondence
+
+open Lax624099.ConcreteInstances
+
+/-- PCP is undecidable. -/
+axiom pcp_not_computable : ∀ V : FinVocab pcp, ¬ComputablePred (DecisionProblem.toPred PCP V)
+
+end Lax624099.PcpUndecidable
+end

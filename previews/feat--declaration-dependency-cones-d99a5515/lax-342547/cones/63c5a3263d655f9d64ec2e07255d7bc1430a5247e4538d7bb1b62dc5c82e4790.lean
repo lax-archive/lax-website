@@ -1,0 +1,1105 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Field
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Field.ZMod
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Algebra.Order.BigOperators.Group.List
+import Mathlib.Analysis.Calculus.Deriv.Slope
+import Mathlib.Analysis.Convex.StdSimplex
+import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.Analysis.SpecificLimits.Normed
+import Mathlib.Data.Fin.Tuple.Basic
+import Mathlib.Data.Finset.Max
+import Mathlib.Data.Finset.Powerset
+import Mathlib.Data.Finset.Union
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Powerset
+import Mathlib.Data.List.Sort
+import Mathlib.Data.Matrix.ColumnRowPartitioned
+import Mathlib.Data.Matrix.Mul
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.InformationTheory.KullbackLeibler.KLFun
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+import Mathlib.LinearAlgebra.BilinearForm.Basic
+import Mathlib.LinearAlgebra.BilinearForm.Properties
+import Mathlib.LinearAlgebra.DFinsupp
+import Mathlib.LinearAlgebra.Dimension.Constructions
+import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+import Mathlib.LinearAlgebra.Isomorphisms
+import Mathlib.LinearAlgebra.Matrix.BilinearForm
+import Mathlib.LinearAlgebra.Matrix.Rank
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Pi
+import Mathlib.LinearAlgebra.Prod
+import Mathlib.LinearAlgebra.Quotient.Basic
+import Mathlib.Logic.Equiv.Set
+import Mathlib.Probability.Distributions.Uniform
+import Mathlib.Probability.ProbabilityMassFunction.Constructions
+import Mathlib.Tactic
+import Mathlib.Topology.Instances.Real.Lemmas
+
+-- Lax342547.MomentSpace
+section
+namespace Lax342547.MomentSpace.baseEval
+end Lax342547.MomentSpace.baseEval
+
+namespace Lax342547.MomentSpace
+
+abbrev Binary := ZMod 2
+
+variable {Label Coord Base : Type}
+
+end Lax342547.MomentSpace
+end
+
+-- Lax342547.FiniteLinearLaw
+section
+namespace Lax342547.FiniteLinearLaw
+end Lax342547.FiniteLinearLaw
+end
+
+-- Lax342547.RawFrames
+section
+namespace Lax342547.RawFrames
+
+open Lax342547.MomentSpace
+
+variable (B H N : Type) [Fintype B] [Fintype H] [Fintype N]
+
+structure Frame (E : Matrix B B Binary) where
+  P : Matrix N B Binary
+  Q : Matrix N B Binary
+  X : Matrix N H Binary
+  Y : Matrix N H Binary
+  plus_injective : Function.Injective
+    (fun z : (B → Binary) × (H → Binary) => P.mulVec z.1 + X.mulVec z.2)
+  minus_injective : Function.Injective
+    (fun z : (B → Binary) × (H → Binary) => Q.mulVec z.1 + Y.mulVec z.2)
+  gram : P.transpose * Q = E
+  plus_annihilator : X.transpose * Q = 0
+  minus_annihilator : P.transpose * Y = 0
+
+variable {B H N}
+
+abbrev FrameData := Matrix N B Binary × Matrix N B Binary × Matrix N H Binary × Matrix N H Binary
+
+def frameData {E : Matrix B B Binary} (F : Frame B H N E) : FrameData (B := B) (H := H) (N := N) :=
+  (F.P, F.Q, F.X, F.Y)
+
+theorem frameData_injective {E : Matrix B B Binary} :
+    Function.Injective (frameData (E := E) (H := H) (N := N)) := by
+  intro F G h
+  cases F
+  cases G
+  simp only [frameData, Prod.mk.injEq] at h
+  obtain ⟨hP, hQ, hX, hY⟩ := h
+  cases hP
+  cases hQ
+  cases hX
+  cases hY
+  rfl
+
+noncomputable instance {E : Matrix B B Binary} : Fintype (Frame B H N E) :=
+  by classical exact Fintype.ofInjective frameData frameData_injective
+
+variable {Comp : Type}
+
+end Lax342547.RawFrames
+end
+
+-- Lax342547.RawLaw
+section
+namespace Lax342547.RawLaw
+end Lax342547.RawLaw
+end
+
+-- Lax342547.FrameSymmetry
+section
+namespace Lax342547.FrameSymmetry.Change
+end Lax342547.FrameSymmetry.Change
+
+namespace Lax342547.FrameSymmetry
+
+open Lax342547.MomentSpace Lax342547.RawFrames
+
+variable {B H N : Type} [Fintype B] [Fintype H] [Fintype N] [DecidableEq N]
+
+abbrev Injection (I N : Type) [Fintype I] :=
+  {A : Matrix N I Binary // Function.Injective A.mulVec}
+
+def plus {E : Matrix B B Binary} (F : Frame B H N E) : Injection (B ⊕ H) N :=
+  ⟨Matrix.fromCols F.P F.X, by
+    intro x y h
+    have h' := F.plus_injective (a₁ := (x ∘ Sum.inl, x ∘ Sum.inr))
+      (a₂ := (y ∘ Sum.inl, y ∘ Sum.inr)) (by simpa [Matrix.fromCols_mulVec] using h)
+    funext i
+    cases i with
+    | inl b => exact congrFun (congrArg Prod.fst h') b
+    | inr h => exact congrFun (congrArg Prod.snd h') h⟩
+
+def minus {E : Matrix B B Binary} (F : Frame B H N E) : Injection (B ⊕ H) N :=
+  ⟨Matrix.fromCols F.Q F.Y, by
+    intro x y h
+    have h' := F.minus_injective (a₁ := (x ∘ Sum.inl, x ∘ Sum.inr))
+      (a₂ := (y ∘ Sum.inl, y ∘ Sum.inr)) (by simpa [Matrix.fromCols_mulVec] using h)
+    funext i
+    cases i with
+    | inl b => exact congrFun (congrArg Prod.fst h') b
+    | inr h => exact congrFun (congrArg Prod.snd h') h⟩
+
+end Lax342547.FrameSymmetry
+end
+
+-- Lax342547.AffineImages
+section
+namespace Lax342547.AffineImages
+end Lax342547.AffineImages
+end
+
+-- Lax342547.GramColumns
+section
+namespace Lax342547.GramColumns
+end Lax342547.GramColumns
+end
+
+-- Lax342547.GramNormalization
+section
+namespace Lax342547.GramNormalization
+end Lax342547.GramNormalization
+end
+
+-- Lax342547.ChannelDensity
+section
+namespace Lax342547.ChannelDensity
+end Lax342547.ChannelDensity
+end
+
+-- Lax342547.Walsh
+section
+namespace Lax342547.Walsh
+end Lax342547.Walsh
+end
+
+-- Lax342547.PushforwardWalsh
+section
+namespace Lax342547.PushforwardWalsh
+
+open Lax342547.MomentSpace Lax342547.Walsh
+
+noncomputable def push {Ω X : Type} [Fintype Ω] (ρ : Ω → ℝ) (image : Ω → X) (x : X) : ℝ := by
+  classical
+  exact ∑ ω, if image ω = x then ρ ω else 0
+
+end Lax342547.PushforwardWalsh
+end
+
+-- Lax342547.RetainedImages
+section
+namespace Lax342547.RetainedImages
+
+open Lax342547.PushforwardWalsh
+
+noncomputable def cellMass {Ω : Type} [Fintype Ω] (ρ : Ω → ℝ) (C : Ω → Prop) : ℝ := by
+  classical
+  exact ∑ ω, if C ω then ρ ω else 0
+
+end Lax342547.RetainedImages
+end
+
+-- Lax342547.RelativeEntropy
+section
+namespace Lax342547.RelativeEntropy
+
+open scoped BigOperators
+
+def Probability {Ω : Type} [Fintype Ω] (ρ : Ω → ℝ) : Prop :=
+  (∀ x, 0 ≤ ρ x) ∧ ∑ x, ρ x = 1
+
+end Lax342547.RelativeEntropy
+end
+
+-- Lax342547.EntropyLines
+section
+namespace Lax342547.EntropyLines
+end Lax342547.EntropyLines
+end
+
+-- Lax342547.EntropyProjection
+section
+namespace Lax342547.EntropyProjection
+end Lax342547.EntropyProjection
+end
+
+-- Lax342547.Conditioning
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.Conditioning
+end Lax342547.Conditioning
+end
+
+-- Lax342547.RealCellLaws
+section
+namespace Lax342547.RealCellLaws
+
+open Lax342547.RetainedImages Lax342547.PushforwardWalsh
+
+open scoped ENNReal
+
+noncomputable def weights {Ω : Type} (p : PMF Ω) : Ω → ℝ := fun ω => (p ω).toReal
+
+end Lax342547.RealCellLaws
+end
+
+-- Lax342547.PairRecovery
+section
+namespace Lax342547.PairRecovery
+end Lax342547.PairRecovery
+end
+
+-- Lax342547.UnitLaws
+section
+namespace Lax342547.UnitLaws
+end Lax342547.UnitLaws
+end
+
+-- Lax342547.ContainerLaws
+section
+namespace Lax342547.ContainerLaws
+end Lax342547.ContainerLaws
+end
+
+-- Lax342547.FiniteSampling
+section
+namespace Lax342547.FiniteSampling
+end Lax342547.FiniteSampling
+end
+
+-- Lax342547.FiniteMoments
+section
+namespace Lax342547.FiniteMoments
+end Lax342547.FiniteMoments
+end
+
+-- Lax342547.MomentTails
+section
+namespace Lax342547.MomentTails
+end Lax342547.MomentTails
+end
+
+-- Lax342547.BilinearWalsh
+section
+namespace Lax342547.BilinearWalsh
+end Lax342547.BilinearWalsh
+end
+
+-- Lax342547.BilinearMean
+section
+namespace Lax342547.BilinearMean
+end Lax342547.BilinearMean
+end
+
+-- Lax342547.ChannelCharacters
+section
+namespace Lax342547.ChannelCharacters
+end Lax342547.ChannelCharacters
+end
+
+-- Lax342547.ChannelMoments
+section
+namespace Lax342547.ChannelMoments
+end Lax342547.ChannelMoments
+end
+
+-- Lax342547.TensorCharacters
+section
+namespace Lax342547.TensorCharacters
+end Lax342547.TensorCharacters
+end
+
+-- Lax342547.ComponentMoments
+section
+namespace Lax342547.ComponentMoments
+end Lax342547.ComponentMoments
+end
+
+-- Lax342547.DyadicDeficits
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.DyadicDeficits
+end Lax342547.DyadicDeficits
+end
+
+-- Lax342547.DyadicTails
+section
+namespace Lax342547.DyadicTails
+end Lax342547.DyadicTails
+end
+
+-- Lax342547.DyadicScale
+section
+namespace Lax342547.DyadicScale
+end Lax342547.DyadicScale
+end
+
+-- Lax342547.RestrictionRank
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.RestrictionRank
+end Lax342547.RestrictionRank
+end
+
+-- Lax342547.SpanDeficits
+section
+namespace Lax342547.SpanDeficits
+end Lax342547.SpanDeficits
+end
+
+-- Lax342547.GreedySpans
+section
+namespace Lax342547.GreedySpans
+end Lax342547.GreedySpans
+
+namespace Lax342547.GreedySpans.Greedy
+end Lax342547.GreedySpans.Greedy
+end
+
+-- Lax342547.ListTails
+section
+namespace Lax342547.ListTails
+end Lax342547.ListTails
+end
+
+-- Lax342547.GreedyTails
+section
+namespace Lax342547.GreedyTails
+end Lax342547.GreedyTails
+end
+
+-- Lax342547.ProjectedSpans
+section
+namespace Lax342547.ProjectedSpans
+end Lax342547.ProjectedSpans
+end
+
+-- Lax342547.ActualDeficits
+section
+namespace Lax342547.ActualDeficits
+end Lax342547.ActualDeficits
+end
+
+-- Lax342547.MappedSpans
+section
+namespace Lax342547.MappedSpans
+end Lax342547.MappedSpans
+end
+
+-- Lax342547.SpanDeficitMono
+section
+namespace Lax342547.SpanDeficitMono
+end Lax342547.SpanDeficitMono
+end
+
+-- Lax342547.DirectRanks
+section
+namespace Lax342547.DirectRanks
+end Lax342547.DirectRanks
+end
+
+-- Lax342547.QuotientRank
+section
+namespace Lax342547.QuotientRank
+end Lax342547.QuotientRank
+end
+
+-- Lax342547.RankLoss
+section
+namespace Lax342547.RankLoss
+end Lax342547.RankLoss
+end
+
+-- Lax342547.BlockDeficits
+section
+namespace Lax342547.BlockDeficits
+end Lax342547.BlockDeficits
+end
+
+-- Lax342547.SumRank
+section
+namespace Lax342547.SumRank
+end Lax342547.SumRank
+end
+
+-- Lax342547.SumEnvelope
+section
+namespace Lax342547.SumEnvelope
+end Lax342547.SumEnvelope
+end
+
+-- Lax342547.ListDeficits
+section
+namespace Lax342547.ListDeficits
+end Lax342547.ListDeficits
+end
+
+-- Lax342547.ModeBudgets
+section
+namespace Lax342547.ModeBudgets
+end Lax342547.ModeBudgets
+end
+
+-- Lax342547.CoverClasses
+section
+namespace Lax342547.CoverClasses
+end Lax342547.CoverClasses
+end
+
+-- Lax342547.ComponentSpaces
+section
+namespace Lax342547.ComponentSpaces
+end Lax342547.ComponentSpaces
+end
+
+-- Lax342547.ComponentDuals
+section
+namespace Lax342547.ComponentDuals
+end Lax342547.ComponentDuals
+end
+
+-- Lax342547.CoordinateRestrictions
+section
+namespace Lax342547.CoordinateRestrictions
+end Lax342547.CoordinateRestrictions
+end
+
+-- Lax342547.AdaptiveSampling
+section
+namespace Lax342547.AdaptiveSampling
+end Lax342547.AdaptiveSampling
+end
+
+-- Lax342547.AdaptiveSets
+section
+namespace Lax342547.AdaptiveSets
+end Lax342547.AdaptiveSets
+end
+
+-- Lax342547.AdaptiveUnion
+section
+namespace Lax342547.AdaptiveUnion
+end Lax342547.AdaptiveUnion
+end
+
+-- Lax342547.CombinedSpans
+section
+namespace Lax342547.CombinedSpans
+end Lax342547.CombinedSpans
+end
+
+-- Lax342547.SmallExposure
+section
+namespace Lax342547.SmallExposure
+end Lax342547.SmallExposure
+end
+
+-- Lax342547.CoverCounts
+section
+namespace Lax342547.CoverCounts
+end Lax342547.CoverCounts
+end
+
+-- Lax342547.CoverProjection
+section
+namespace Lax342547.CoverProjection
+end Lax342547.CoverProjection
+end
+
+-- Lax342547.PartitionLists
+section
+namespace Lax342547.PartitionLists
+end Lax342547.PartitionLists
+end
+
+-- Lax342547.ExposedSums
+section
+namespace Lax342547.ExposedSums
+end Lax342547.ExposedSums
+end
+
+-- Lax342547.FilterOccurrences
+section
+namespace Lax342547.FilterOccurrences
+end Lax342547.FilterOccurrences
+end
+
+-- Lax342547.ProjectedCounts
+section
+namespace Lax342547.ProjectedCounts
+end Lax342547.ProjectedCounts
+end
+
+-- Lax342547.NoCoverCertificate
+section
+namespace Lax342547.NoCoverCertificate
+end Lax342547.NoCoverCertificate
+end
+
+-- Lax342547.NoCoverRank
+section
+namespace Lax342547.NoCoverRank
+end Lax342547.NoCoverRank
+end
+
+-- Lax342547.IndexedRankGrowth
+section
+namespace Lax342547.IndexedRankGrowth
+end Lax342547.IndexedRankGrowth
+end
+
+-- Lax342547.NoCoverMoments
+section
+namespace Lax342547.NoCoverMoments
+end Lax342547.NoCoverMoments
+end
+
+-- Lax342547.ChannelColumns
+section
+namespace Lax342547.ChannelColumns
+end Lax342547.ChannelColumns
+end
+
+-- Lax342547.LowRankCounting
+section
+namespace Lax342547.LowRankCounting
+end Lax342547.LowRankCounting
+end
+
+-- Lax342547.TotalRankCount
+section
+namespace Lax342547.TotalRankCount
+end Lax342547.TotalRankCount
+end
+
+-- Lax342547.UniformPhaseTails
+section
+namespace Lax342547.UniformPhaseTails
+end Lax342547.UniformPhaseTails
+end
+
+-- Lax342547.PhaseAverages
+section
+namespace Lax342547.PhaseAverages
+end Lax342547.PhaseAverages
+end
+
+-- Lax342547.InjectiveFrames
+section
+namespace Lax342547.InjectiveFrames
+end Lax342547.InjectiveFrames
+end
+
+-- Lax342547.InjectiveDensity
+section
+namespace Lax342547.InjectiveDensity
+end Lax342547.InjectiveDensity
+end
+
+-- Lax342547.PrimalAvoidance
+section
+namespace Lax342547.PrimalAvoidance
+end Lax342547.PrimalAvoidance
+end
+
+-- Lax342547.RawPrimalAvoidance
+section
+namespace Lax342547.RawPrimalAvoidance
+end Lax342547.RawPrimalAvoidance
+end
+
+-- Lax342547.UnitSpanAvoidance
+section
+namespace Lax342547.UnitSpanAvoidance
+end Lax342547.UnitSpanAvoidance
+end
+
+-- Lax342547.FrameTranspose
+section
+namespace Lax342547.FrameTranspose
+end Lax342547.FrameTranspose
+end
+
+-- Lax342547.MomentBudgets
+section
+namespace Lax342547.MomentBudgets
+end Lax342547.MomentBudgets
+end
+
+-- Lax342547.InjectionBudgets
+section
+namespace Lax342547.InjectionBudgets
+end Lax342547.InjectionBudgets
+end
+
+-- Lax342547.InjectionAsymptotics
+section
+namespace Lax342547.InjectionAsymptotics
+end Lax342547.InjectionAsymptotics
+end
+
+-- Lax342547.InjectionThresholds
+section
+namespace Lax342547.InjectionThresholds
+end Lax342547.InjectionThresholds
+end
+
+-- Lax342547.InjectionUnion
+section
+namespace Lax342547.InjectionUnion
+end Lax342547.InjectionUnion
+end
+
+-- Lax342547.AcceptingFamilies
+section
+namespace Lax342547.AcceptingFamilies
+end Lax342547.AcceptingFamilies
+end
+
+-- Lax342547.AmplifiedTests
+section
+namespace Lax342547.AmplifiedTests
+end Lax342547.AmplifiedTests
+end
+
+-- Lax342547.GreedySpaces
+section
+namespace Lax342547.GreedySpaces
+end Lax342547.GreedySpaces
+end
+
+-- Lax342547.SequentialTests
+section
+namespace Lax342547.SequentialTests
+end Lax342547.SequentialTests
+
+namespace Lax342547.SequentialTests.accepts
+end Lax342547.SequentialTests.accepts
+end
+
+-- Lax342547.IndependentSampling
+section
+namespace Lax342547.IndependentSampling
+end Lax342547.IndependentSampling
+end
+
+-- Lax342547.ProtectedChannels
+section
+namespace Lax342547.ProtectedChannels
+end Lax342547.ProtectedChannels
+end
+
+-- Lax342547.SmallSubspaceCount
+section
+namespace Lax342547.SmallSubspaceCount
+end Lax342547.SmallSubspaceCount
+end
+
+-- Lax342547.AdaptiveProtection
+section
+namespace Lax342547.AdaptiveProtection
+end Lax342547.AdaptiveProtection
+end
+
+-- Lax342547.IndependentWitnesses
+section
+namespace Lax342547.IndependentWitnesses
+end Lax342547.IndependentWitnesses
+end
+
+-- Lax342547.UniversalWitnesses
+section
+namespace Lax342547.UniversalWitnesses
+end Lax342547.UniversalWitnesses
+end
+
+-- Lax342547.FiniteInjection
+section
+namespace Lax342547.FiniteInjection
+end Lax342547.FiniteInjection
+end
+
+-- Lax342547.AcceptingInjection
+section
+namespace Lax342547.AcceptingInjection
+end Lax342547.AcceptingInjection
+end
+
+-- Lax342547.RawAcceptingInjection
+section
+namespace Lax342547.RawAcceptingInjection
+end Lax342547.RawAcceptingInjection
+end
+
+-- Lax342547.ExactPins
+section
+namespace Lax342547.ExactPins
+
+open Lax342547.MomentSpace
+
+def Pin (Axis I N : Type) :=
+  Σ S : Axis → Submodule Binary (I → Binary), ∀ a, S a →ₗ[Binary] (N → Binary)
+
+namespace Pin
+
+variable {Axis I N : Type}
+
+def space (P : Pin Axis I N) (a : Axis) : Submodule Binary (I → Binary) := P.1 a
+
+noncomputable def rank [Fintype Axis] (P : Pin Axis I N) : ℕ :=
+  ∑ a, Module.finrank Binary (P.space a)
+
+end Pin
+
+end Lax342547.ExactPins
+end
+
+-- Lax342547.ConditionalMinus
+section
+namespace Lax342547.ConditionalMinus
+end Lax342547.ConditionalMinus
+end
+
+-- Lax342547.ProductImages
+section
+namespace Lax342547.ProductImages
+
+open Lax342547.MomentSpace Lax342547.FrameSymmetry Lax342547.RawFrames
+
+open scoped ENNReal
+
+def jointMatrix {Draw I N : Type} (A : Draw → Matrix N I Binary) : Matrix N (Draw × I) Binary :=
+  fun n j => A j.1 n j.2
+
+end Lax342547.ProductImages
+end
+
+-- Lax342547.ProductMinusImages
+section
+namespace Lax342547.ProductMinusImages
+end Lax342547.ProductMinusImages
+end
+
+-- Lax342547.ReferenceImages
+section
+namespace Lax342547.ReferenceImages
+end Lax342547.ReferenceImages
+end
+
+-- Lax342547.ImageScale
+section
+namespace Lax342547.ImageScale
+end Lax342547.ImageScale
+end
+
+-- Lax342547.ReferencePins
+section
+namespace Lax342547.ReferencePins
+
+open Lax342547.MomentSpace Lax342547.RawFrames Lax342547.FrameSymmetry
+
+open Lax342547.ProductImages Lax342547.ExactPins
+
+open scoped ENNReal
+
+variable {Comp B H N : Type} [Fintype B] [Fintype H] [Fintype N]
+
+def observationMatrix {E : Matrix B B Binary} (o : Fin 2 → Comp → Frame B H N E)
+    (a : Comp × Bool) : Matrix N (Fin 2 × (B ⊕ H)) Binary :=
+  if a.2 then jointMatrix (fun i => (plus (o i a.1)).val)
+  else jointMatrix (fun i => (minus (o i a.1)).val)
+
+def observation {E : Matrix B B Binary} (o : Fin 2 → Comp → Frame B H N E)
+    (a : Comp × Bool) : ((Fin 2 × (B ⊕ H)) → Binary) →ₗ[Binary] (N → Binary) :=
+  (observationMatrix o a).mulVecLin
+
+end Lax342547.ReferencePins
+end
+
+-- Lax342547.ProjectedPins
+section
+namespace Lax342547.ProjectedPins
+
+open Lax342547.MomentSpace Lax342547.ExactPins
+
+def primalProjection {B H : Type} (i : Fin 2) :
+    ((Fin 2 × (B ⊕ H)) → Binary) →ₗ[Binary] (B → Binary) where
+  toFun v b := v (i, Sum.inl b)
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+def projected {Comp B H N : Type} (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N)
+    (i : Fin 2) (a : Comp × Bool) : Submodule Binary (B → Binary) :=
+  (P.space a).map (primalProjection i)
+
+end Lax342547.ProjectedPins
+end
+
+-- Lax342547.TableSpaces
+section
+namespace Lax342547.TableSpaces
+
+open Lax342547.MomentSpace Lax342547.ExactPins Lax342547.ProjectedPins
+
+def primalEmbedding {B H : Type} (i : Fin 2) :
+    (B → Binary) →ₗ[Binary] ((Fin 2 × (B ⊕ H)) → Binary) where
+  toFun v x := if x.1 = i then Sum.elim v (fun _ => 0) x.2 else 0
+  map_add' v w := by ext ⟨j, b | h⟩ <;> by_cases hj : j = i <;> simp [hj]
+  map_smul' c v := by ext ⟨j, b | h⟩ <;> by_cases hj : j = i <;> simp [hj]
+
+def channelProjection {B H : Type} (i : Fin 2) :
+    ((Fin 2 × (B ⊕ H)) → Binary) →ₗ[Binary] (H → Binary) where
+  toFun v h := v (i, Sum.inr h)
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+def channelEmbedding {B H : Type} (i : Fin 2) :
+    (H → Binary) →ₗ[Binary] ((Fin 2 × (B ⊕ H)) → Binary) where
+  toFun v x := if x.1 = i then Sum.elim (fun _ => 0) v x.2 else 0
+  map_add' v w := by ext ⟨j, b | h⟩ <;> by_cases hj : j = i <;> simp [hj]
+  map_smul' c v := by ext ⟨j, b | h⟩ <;> by_cases hj : j = i <;> simp [hj]
+
+def protectedChannel {Comp B H N : Type}
+    (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N) (i : Fin 2) (a : Comp × Bool) :
+    Submodule Binary (H → Binary) := (P.space a).map (channelProjection i)
+
+def tableSpace {Comp B H N : Type}
+    (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N) (a : Comp × Bool) :
+    Submodule Binary ((Fin 2 × (B ⊕ H)) → Binary) where
+  carrier := {v | ∀ i, primalProjection i v ∈ projected P i a}
+  zero_mem' := fun i => (projected P i a).zero_mem
+  add_mem' := fun hv hw i => (projected P i a).add_mem (hv i) (hw i)
+  smul_mem' := fun c _ hv i => (projected P i a).smul_mem c (hv i)
+
+def pinnedPrimal {Comp B H N : Type}
+    (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N) (i : Fin 2) (a : Comp × Bool) :
+    Submodule Binary (B → Binary) := (P.space a).comap (primalEmbedding i)
+
+end Lax342547.TableSpaces
+end
+
+-- Lax342547.SmallTables
+section
+namespace Lax342547.SmallTables
+
+open Lax342547.MomentSpace Lax342547.ExactPins Lax342547.ProjectedPins Lax342547.TableSpaces
+
+variable {Comp B H N : Type}
+
+structure Table (P Q : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N) where
+  forward : ∀ e, tableSpace P (e, true) →ₗ[Binary] tableSpace Q (e, false) →ₗ[Binary] Binary
+  reverse : ∀ e, tableSpace Q (e, true) →ₗ[Binary] tableSpace P (e, false) →ₗ[Binary] Binary
+
+def tableChannel (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N) (a : Comp × Bool) (i : Fin 2) :
+    (H → Binary) →ₗ[Binary] tableSpace P a where
+  toFun v := ⟨channelEmbedding i v, by
+    intro j
+    have hz : primalProjection j (channelEmbedding (B := B) i v) = 0 := by
+      ext b
+      simp [primalProjection, channelEmbedding]
+    rw [hz]
+    exact (projected P j a).zero_mem⟩
+  map_add' v w := Subtype.ext ((channelEmbedding i).map_add v w)
+  map_smul' c v := Subtype.ext ((channelEmbedding i).map_smul c v)
+
+def tablePinnedPrimal (P : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N)
+    (a : Comp × Bool) (i : Fin 2) : pinnedPrimal P i a →ₗ[Binary] tableSpace P a where
+  toFun v := ⟨primalEmbedding i v.val, fun _j => ⟨primalEmbedding i v.val, v.property, rfl⟩⟩
+  map_add' v w := Subtype.ext ((primalEmbedding i).map_add v.val w.val)
+  map_smul' c v := Subtype.ext ((primalEmbedding i).map_smul c v.val)
+
+noncomputable def rowChannels (P Q : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N)
+    (a b : Comp × Bool)
+    (T : tableSpace P a →ₗ[Binary] tableSpace Q b →ₗ[Binary] Binary) (i z : Fin 2) :
+    pinnedPrimal P i a →ₗ[Binary] (H → Binary) := by
+  classical
+  exact
+    { toFun := fun d h => T (tablePinnedPrimal P a i d) (tableChannel Q b z (Pi.single h 1))
+      map_add' := by intro d d'; ext h; simp
+      map_smul' := by intro c d; ext h; simp }
+
+noncomputable def columnChannels (P Q : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N)
+    (a b : Comp × Bool)
+    (T : tableSpace P a →ₗ[Binary] tableSpace Q b →ₗ[Binary] Binary) (z i : Fin 2) :
+    pinnedPrimal Q i b →ₗ[Binary] (H → Binary) := by
+  classical
+  exact
+    { toFun := fun d h => T (tableChannel P a z (Pi.single h 1)) (tablePinnedPrimal Q b i d)
+      map_add' := by intro d d'; ext h; simp
+      map_smul' := by intro c d; ext h; simp }
+
+def Injecting {P Q : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N} (T : Table P Q) : Prop :=
+  ∀ e i z,
+    Function.Injective (((protectedChannel Q z (e, true)).mkQ).comp
+      (rowChannels P Q (e, true) (e, false) (T.forward e) i z)) ∧
+    Function.Injective (((protectedChannel Q z (e, false)).mkQ).comp
+      (columnChannels Q P (e, true) (e, false) (T.reverse e) z i)) ∧
+    Function.Injective (((protectedChannel P z (e, true)).mkQ).comp
+      (rowChannels Q P (e, true) (e, false) (T.reverse e) i z)) ∧
+    Function.Injective (((protectedChannel P z (e, false)).mkQ).comp
+      (columnChannels P Q (e, true) (e, false) (T.forward e) z i))
+
+variable [Fintype N] {ΩA ΩB : Type}
+
+def Admissible {P Q : Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N} (T : Table P Q)
+    (A : ΩA → (Comp × Bool) → ((Fin 2 × (B ⊕ H)) → Binary) →ₗ[Binary] (N → Binary))
+    (Bmap : ΩB → (Comp × Bool) → ((Fin 2 × (B ⊕ H)) → Binary) →ₗ[Binary] (N → Binary))
+    (oA : ΩA) (oB : ΩB) : Prop :=
+  (∀ e (v : tableSpace P (e, true)) (w : tableSpace Q (e, false)),
+    v.val ∈ P.space (e, true) ∨ w.val ∈ Q.space (e, false) →
+    T.forward e v w = dotProduct (A oA (e, true) v.val) (Bmap oB (e, false) w.val)) ∧
+  (∀ e (v : tableSpace Q (e, true)) (w : tableSpace P (e, false)),
+    v.val ∈ Q.space (e, true) ∨ w.val ∈ P.space (e, false) →
+    T.reverse e v w = dotProduct (Bmap oB (e, true) v.val) (A oA (e, false) w.val))
+
+end Lax342547.SmallTables
+end
+
+-- Lax342547.HoleRelation
+section
+namespace Lax342547
+end Lax342547
+
+namespace Lax342547.HoleRelation
+end Lax342547.HoleRelation
+
+namespace Lax342547.HoleRelation.HoleData
+end Lax342547.HoleRelation.HoleData
+end
+
+-- Lax342547.GradientForm
+section
+namespace Lax342547.GradientForm
+end Lax342547.GradientForm
+end
+
+-- Lax342547.CutProfiles
+section
+namespace Lax342547.CutProfiles
+end Lax342547.CutProfiles
+end
+
+-- Lax342547.TagGeometry
+section
+namespace Lax342547.TagGeometry
+end Lax342547.TagGeometry
+
+namespace Lax342547.TagGeometry.allowedBase
+end Lax342547.TagGeometry.allowedBase
+
+namespace Lax342547.TagGeometry.commonBase
+end Lax342547.TagGeometry.commonBase
+end
+
+-- Lax342547.ConcreteGeometry
+section
+namespace Lax342547.ConcreteGeometry
+end Lax342547.ConcreteGeometry
+
+namespace Lax342547.ConcreteGeometry.changeZ
+end Lax342547.ConcreteGeometry.changeZ
+end
+
+-- Lax342547.TensorContractions
+section
+namespace Lax342547.TensorContractions
+end Lax342547.TensorContractions
+end
+
+-- Lax342547.TableContractions
+section
+namespace Lax342547.TableContractions
+end Lax342547.TableContractions
+
+namespace Lax342547.TableContractions.CrossForms
+end Lax342547.TableContractions.CrossForms
+end
+
+-- Lax342547.RawContractions
+section
+namespace Lax342547.RawContractions
+end Lax342547.RawContractions
+end
+
+-- Lax342547.TableInjection
+section
+namespace Lax342547.TableInjection
+end Lax342547.TableInjection
+end
+
+-- Lax342547.PreparedInjection
+section
+namespace Lax342547.PreparedInjection
+
+open Lax342547.MomentSpace Lax342547.RawFrames Lax342547.ExactPins
+
+open Lax342547.TableSpaces Lax342547.SmallTables Lax342547.TableInjection
+
+open Lax342547.RealCellLaws Lax342547.PushforwardWalsh Lax342547.RetainedImages
+
+open Lax342547.RelativeEntropy
+
+open scoped BigOperators
+
+structure Budget (K m t Cs p h N : ℕ) (η : ℝ) : Prop where
+  gap : 1/(2 : ℝ)^t ≤ η/2
+  ambient : p+h+1 ≤ N
+  primal : p ≤ N/8
+  density : m+h+1 ≤ N/10
+  channel : 2*K+t+20*(K+1)*(Cs+3) ≤ h
+  probes : 20*(K+1) ≤ N
+  constant : m+h*K ≤ N
+  small : 1/(2 : ℝ)^(N/2) ≤ η/2
+
+variable {Comp B H N U I : Type} [Fintype Comp] [Fintype B] [Fintype H] [Fintype N]
+  [Fintype U] [Fintype I] [DecidableEq B] [DecidableEq H] [DecidableEq N]
+  {E : Matrix B B Binary} [Nonempty (Frame B H N E)]
+
+axiom actual_relative_table_injection (ρ : U → ℝ)
+    (P : U → Pin (Comp × Bool) (Fin 2 × (B ⊕ H)) N)
+    (A : U → Fin 2 → Comp → Frame B H N E)
+    (accept : U → U → Prop) (CL CR : I → U → Prop) (keyL keyR : U → I)
+    (T : ∀ a b,Table (P a) (P b)) (K m t Cs : ℕ) (M η ε : ℝ)
+    (hρ : Probability ρ) (hM : 0 ≤ M)
+    (hbudget : Budget K m t Cs (Fintype.card B) (Fintype.card H) (Fintype.card N) η)
+    (hcapM : M ≤ (2 : ℝ)^m) (hcapMB : 2*M ≤ (2 : ℝ)^(m+Fintype.card N))
+    (hcount : (Fintype.card I : ℝ) ≤ (2 : ℝ)^(Cs*Fintype.card N))
+    (hP : ∀ u,(P u).rank ≤ K)
+    (hcap : ∀ i e f,push ρ (fun u => A u i e) f ≤
+      M*weights (PMF.uniformOfFintype (Frame B H N E)) f)
+    (hleft : ∀ a b,accept a b ↔ CL (keyL b) a)
+    (hright : ∀ a b,accept b a ↔ CR (keyR b) a)
+    (hT : ∀ a b,accept a b → Admissible (T a b)
+      Lax342547.ReferencePins.observation Lax342547.ReferencePins.observation (A a) (A b))
+    (c : ℕ) (hJ : 0 < 16*Fintype.card Comp) (hε : 0 ≤ ε)
+    (hη : η = ε/(2*(16*Fintype.card Comp : ℕ)))
+    (haccept : 1/(Fintype.card N : ℝ)^c ≤ cellMass (fun ab : U × U => ρ ab.1*ρ ab.2)
+      (fun ab => accept ab.1 ab.2))
+    (htail : (16*Fintype.card Comp : ℕ)*(1/(2 : ℝ)^(Fintype.card N/100)+1/(2 : ℝ)^Fintype.card N) ≤
+      (ε/2)/(Fintype.card N : ℝ)^c) :
+    cellMass (fun ab : U × U => ρ ab.1*ρ ab.2)
+      (fun ab => accept ab.1 ab.2 ∧ ¬ Injecting (T ab.1 ab.2)) ≤
+      ε*cellMass (fun ab : U × U => ρ ab.1*ρ ab.2) (fun ab => accept ab.1 ab.2)
+
+end Lax342547.PreparedInjection
+end

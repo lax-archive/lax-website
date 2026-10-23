@@ -1,0 +1,79 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Combinatorics.SimpleGraph.DeleteEdges
+import Mathlib.Combinatorics.SimpleGraph.Finite
+
+-- Lax17.Degree
+section
+namespace Lax17
+end Lax17
+
+namespace Lax17.Degree
+end Lax17.Degree
+end
+
+-- Lax17.Expansion
+section
+namespace Lax17.Expansion.BalancedSeparator
+end Lax17.Expansion.BalancedSeparator
+
+namespace Lax17.Expansion
+
+universe u
+
+open Lax17.Degree
+
+/-- One cut-matching round: a bisection and a perfect matching from its left
+half to its right half. -/
+structure MatchingRound (V : Type u) [Fintype V] [DecidableEq V] where
+  left : Finset V
+  right : Finset V
+  sides_disjoint : Disjoint left right
+  sides_equipotent : left.card = right.card
+  sides_cover : left ∪ right = Finset.univ
+  partner : {x : V // x ∈ left} ≃ {x : V // x ∈ right}
+
+namespace MatchingRound
+
+/-- Whether the matching edge starting at `x` crosses `S`. -/
+def Crosses {V : Type u} [Fintype V] [DecidableEq V]
+    (R : MatchingRound V) (S : Finset V)
+    (x : {x : V // x ∈ R.left}) : Prop :=
+  (x.1 ∈ S ∧ (R.partner x).1 ∉ S) ∨
+    ((R.partner x).1 ∈ S ∧ x.1 ∉ S)
+
+/-- Matching edges of one round that cross `S`, indexed by their endpoint on
+the left side of the bisection. -/
+noncomputable def boundary {V : Type u} [Fintype V] [DecidableEq V]
+    (R : MatchingRound V) (S : Finset V) :
+    Finset {x : V // x ∈ R.left} :=
+  @Finset.filter {x : V // x ∈ R.left}
+    (R.Crosses S) (Classical.decPred _) Finset.univ
+
+end MatchingRound
+
+/-- A finite cut-matching transcript. -/
+abbrev CutMatchingTranscript (V : Type u) [Fintype V] [DecidableEq V] :=
+  List (MatchingRound V)
+
+namespace CutMatchingTranscript
+
+/-- Number of matching-edge instances crossing `S`; edges from different
+rounds are counted with multiplicity. -/
+noncomputable def edgeBoundaryCount {V : Type u} [Fintype V] [DecidableEq V]
+    (T : CutMatchingTranscript V) (S : Finset V) : ℕ :=
+  (T.map fun R => (R.boundary S).card).sum
+
+/-- Every nonempty set of at most half the vertices has at least half as many
+crossing matching-edge instances as vertices. -/
+def IsHalfEdgeExpander {V : Type u} [Fintype V] [DecidableEq V]
+    (T : CutMatchingTranscript V) : Prop :=
+  ∀ S : Finset V, 0 < S.card → 2 * S.card ≤ Fintype.card V →
+    S.card ≤ 2 * T.edgeBoundaryCount S
+
+end CutMatchingTranscript
+
+end Lax17.Expansion
+end

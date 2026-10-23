@@ -1,0 +1,35 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Computability.Primrec.List
+import Mathlib.Computability.Reduce
+
+-- Lax503819.Mortality
+section
+namespace Lax503819.Mortality.run
+end Lax503819.Mortality.run
+
+namespace Lax503819.Mortality.step
+end Lax503819.Mortality.step
+
+namespace Lax503819.Mortality
+
+abbrev Instruction := ℕ × ℕ × Bool
+
+structure Machine where
+  statesMinusOne : ℕ
+  symbolsMinusOne : ℕ
+  table : List (List (Option Instruction))
+
+structure Configuration where
+  state : ℕ
+  tape : List ℕ
+  head : ℕ
+
+def WellFormed (m : Machine) (c : Configuration) : Prop :=
+  c.state < m.statesMinusOne + 1 ∧
+  (∀ a ∈ c.tape, a < m.symbolsMinusOne + 1) ∧ c.head < c.tape.length
+
+end Lax503819.Mortality
+end

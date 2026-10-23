@@ -1,0 +1,223 @@
+-- Lax dependency cone
+-- Lean: v4.33.0
+-- Mathlib: db584cd6d46c92f209a44c0f1c829460d327499d
+
+import Mathlib.Algebra.BigOperators.Expect
+import Mathlib.Algebra.Ring.Parity
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Combinatorics.SimpleGraph.Clique
+import Mathlib.Computability.TuringMachine.Computable
+import Mathlib.Computability.TuringMachine.PostTuringMachine
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.List.FinRange
+import Mathlib.Data.Rat.Defs
+import Mathlib.Data.Real.Basic
+
+-- Lax323828.Graphs
+section
+namespace Lax323828.Graphs
+
+/-- A simple graph represented by a symmetric Boolean adjacency matrix with zero diagonal. -/
+structure Graph (n : ℕ) where
+  /-- Whether the two labeled vertices are adjacent. -/
+  adjacent : Fin n → Fin n → Bool
+  /-- No vertex is adjacent to itself. -/
+  loopless : ∀ v, adjacent v v = false
+  /-- Adjacency is unchanged when the endpoints are exchanged. -/
+  symmetric : ∀ u v, adjacent u v = adjacent v u
+
+/-- Read the Boolean matrix as a mathematical simple graph. -/
+def Graph.simpleGraph {n : ℕ} (G : Graph n) : SimpleGraph (Fin n) where
+  Adj u v := G.adjacent u v = true
+  symm := ⟨fun u v h ↦ (G.symmetric u v).symm.trans h⟩
+  loopless := ⟨fun v h ↦ Bool.noConfusion ((G.loopless v).symm.trans h)⟩
+
+/-- The vertex count in unary, a separator, and the adjacency matrix in row order. -/
+def Graph.encode {n : ℕ} (G : Graph n) : List Bool :=
+  List.replicate n true ++ [false] ++
+    (List.finRange n).flatMap (fun u ↦ (List.finRange n).map (G.adjacent u))
+
+/-- The maximum number of pairwise adjacent vertices. -/
+noncomputable def Graph.cliqueNumber {n : ℕ} (G : Graph n) : ℕ :=
+  G.simpleGraph.cliqueNum
+
+end Lax323828.Graphs
+end
+
+-- Lax434930.PolynomialTime
+section
+namespace Lax434930.PolynomialTime
+
+/-- A finite binary string. -/
+abbrev Word := List Bool
+
+/-- A language of finite binary strings. -/
+abbrev Language := Set Word
+
+/-- Languages whose Boolean characteristic functions are computable in polynomial time. -/
+def P : Set Language :=
+  {L | ∃ f : Word → Bool,
+    (∀ w, f w = true ↔ w ∈ L) ∧
+    Nonempty (Turing.TM2ComputableInPolyTime id Computability.encodeBool f)}
+
+end Lax434930.PolynomialTime
+end
+
+-- Lax323828.Approximation
+section
+namespace Lax323828.Approximation
+end Lax323828.Approximation
+end
+
+-- Lax323828.FiniteProbability
+section
+namespace Lax323828.FiniteProbability
+
+open scoped Classical
+
+open scoped BigOperators
+
+/-- The proportion of points in the finite sample space satisfying the event `P`. -/
+noncomputable def probability {α : Type} [Fintype α] (P : α → Prop) : ℝ :=
+  ((Finset.univ.filter P).card : ℝ) / (Fintype.card α : ℝ)
+
+end Lax323828.FiniteProbability
+end
+
+-- Lax434930.Certificates
+section
+namespace Lax434930.Certificates.unpair
+end Lax434930.Certificates.unpair
+
+namespace Lax434930.Certificates
+
+open PolynomialTime
+
+/-- A self-delimiting encoding of the first string, followed by the second. -/
+def pair : Word → Word → Word
+  | [], y => true :: y
+  | b :: x, y => false :: b :: pair x y
+
+end Lax434930.Certificates
+end
+
+-- Lax323828.RandomizedApproximation
+section
+namespace Lax323828.RandomizedApproximation
+
+open Graphs FiniteProbability Lax434930.PolynomialTime
+
+def Good {n : ℕ} (ε : ℝ) (G : Graph n) (a : ℕ) : Prop :=
+  a ≤ G.cliqueNumber ∧
+    (G.cliqueNumber : ℝ) ≤ Real.rpow (n : ℝ) (1 - ε) * (a : ℝ)
+
+def Approximable (ε : ℝ) : Prop :=
+  ∃ (coins : Polynomial ℕ) (estimate : Word → ℕ),
+    Nonempty (Turing.TM2ComputableInPolyTime id Computability.encodeNat estimate) ∧
+    ∀ (n : ℕ), 0 < n → ∀ G : Graph n,
+      (2 / 3 : ℝ) ≤ probability (fun r : Fin (coins.eval G.encode.length) → Bool ↦
+        Good ε G (estimate (Lax434930.Certificates.pair G.encode (List.ofFn r))))
+
+end Lax323828.RandomizedApproximation
+end
+
+-- Lax434930.NondeterministicPolynomialTime
+section
+namespace Lax434930.NondeterministicPolynomialTime
+
+open PolynomialTime Certificates
+
+/-- Languages with polynomially bounded, polynomial-time verifiable certificates. -/
+def NP : Set Language :=
+  {A | ∃ V : Language, V ∈ P ∧ ∃ p : Polynomial ℕ, ∀ x : Word,
+    x ∈ A ↔ ∃ y : Word, y.length ≤ p.eval x.length ∧ pair x y ∈ V}
+
+end Lax434930.NondeterministicPolynomialTime
+end
+
+-- Lax666725.ProbabilisticMachines
+section
+namespace Lax666725.ProbabilisticMachines
+
+open Lax434930.PolynomialTime Turing
+
+/-- Two finite local transition tables, with common halting configurations. -/
+structure Machine where
+  Γ : Type
+  Q : Type
+  [alphabet : Fintype Γ]
+  [control : Fintype Q]
+  [blank : Inhabited Γ]
+  [initial : Inhabited Q]
+  input : Bool ↪ Γ
+  input_ne_blank : ∀ b, input b ≠ default
+  transition : Bool → TM0.Machine Γ Q
+  same_halts : ∀ q a, transition false q a = none ↔ transition true q a = none
+
+attribute [instance] Machine.alphabet Machine.control Machine.blank Machine.initial
+
+/-- Perform one coin-selected transition, keeping terminal configurations fixed. -/
+def Machine.advance (M : Machine) (c : TM0.Cfg M.Γ M.Q) (b : Bool) :
+    TM0.Cfg M.Γ M.Q :=
+  (TM0.step (M.transition b) c).getD c
+
+/-- Execute a finite sequence of fair coin choices. -/
+def Machine.run (M : Machine) (x coins : Word) : TM0.Cfg M.Γ M.Q :=
+  coins.foldl M.advance (TM0.init (x.map M.input))
+
+/-- A uniform procedure with a worst-case polynomial bound on every branch. -/
+structure Procedure (α : Type) where
+  machine : Machine
+  time : Polynomial ℕ
+  output : machine.Q → α
+  halts : ∀ (x : Word) (r : Fin (time.eval x.length) → Bool),
+    TM0.step (machine.transition false) (machine.run x (List.ofFn r)) = none
+
+/-- The finite sample space of coin sequences on a particular input. -/
+abbrev Procedure.Coins {α : Type} (A : Procedure α) (x : Word) :=
+  Fin (A.time.eval x.length) → Bool
+
+/-- Read the output from the terminal control state. -/
+def Procedure.eval {α : Type} (A : Procedure α) (x : Word) (r : A.Coins x) : α :=
+  A.output (A.machine.run x (List.ofFn r)).q
+
+/-- Exact probability under independent uniform bits. -/
+noncomputable def Procedure.probability {α : Type} (A : Procedure α)
+    (x : Word) (E : α → Prop) : ℚ := by
+  classical
+  exact ((Finset.univ.filter (fun r : A.Coins x => E (A.eval x r))).card : ℚ) /
+    Fintype.card (A.Coins x)
+
+/-- A Boolean answer correctly decides membership of the given input. -/
+def Correct (L : Language) (x : Word) (b : Bool) : Prop :=
+  (b = true ↔ x ∈ L)
+
+end Lax666725.ProbabilisticMachines
+end
+
+-- Lax666725.RandomizedPolynomialTime
+section
+namespace Lax666725.RandomizedPolynomialTime
+
+open Lax434930.PolynomialTime ProbabilisticMachines
+
+def BPP : Set Language :=
+  {L | ∃ A : Procedure Bool, ∀ x, (2 / 3 : ℚ) ≤ A.probability x (Correct L x)}
+
+end Lax666725.RandomizedPolynomialTime
+end
+
+-- Lax323828.RandomizedCliqueHardness
+section
+namespace Lax323828.RandomizedCliqueHardness
+
+open RandomizedApproximation Lax434930.NondeterministicPolynomialTime
+
+open Lax666725.RandomizedPolynomialTime
+
+axiom approximation_implies_np_subset_bpp (ε : ℝ) (hε : 0 < ε) :
+  Approximable ε → NP ⊆ BPP
+
+end Lax323828.RandomizedCliqueHardness
+end
