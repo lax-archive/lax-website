@@ -313,6 +313,10 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
     fs.mkdirSync(path.join(options.cache, "cones"), { recursive: true });
     const validations = new Map<string, Promise<string>>();
     const exports = await Promise.allSettled(pending.map(async id => {
+      // Keep a module on one worker so successive cones can reuse its imports
+      // and common declarations in the incremental document.
+      const client = await acquire();
+      try {
       const data = model.leanCode.get(id)!, source = model.conceptHome.get(id)!.concept.sourceText;
       const entries: NonNullable<ConeModule["exports"]> = [];
       const declarations = coneDeclarations(data.cones!, source);
@@ -322,7 +326,6 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
         if (!task) {
           task = (async () => {
             try { verifiedConeFile(options.cache, digest); return digest; } catch { /* Validate before publishing. */ }
-            const client = await acquire();
             try {
               const fileToCheck = path.join(options.work, `LaxWebsiteCone${clients.indexOf(client)}.lean`);
               try { await client.check(fileToCheck, text); }
@@ -337,7 +340,7 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
               return digest;
             } catch (error) {
               throw new Error(`${declaration.name}: dependency cone does not elaborate: ${error instanceof Error ? error.message : error}`);
-            } finally { release(client); }
+            }
           })();
           validations.set(digest, task);
         }
@@ -350,6 +353,7 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       const cacheFile = path.join(options.cache, `${data.digest}.json`);
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       options.log?.(`${options.version}: ${id}: ${entries.length} checked dependency cones`);
+      } finally { release(client); }
     }));
     const failures = exports.flatMap(result => result.status === "rejected" ?
       [result.reason instanceof Error ? result.reason.message : String(result.reason)] : []);
