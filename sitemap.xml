@@ -401,6 +401,60 @@
   <url><loc>https://laxarchive.org/lax-146103/Lax146103Proofs.mso_definable_is_nfaRecognizable_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-146103/Lax146103Proofs.nfaRecognizable_iff_msoDefinable_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-146103/Lax146103Proofs.nfa_definable_by_mso_proof.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.AperiodicCompleteness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.BundleLemma.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.Cancellation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ConjugacyCompleteness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ConjugacyRule.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.DecidableEquivalence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.DerivedTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.EmptySummands.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.EquationalTheory.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.Exchange.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ExpressiveCompleteness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.FiniteAxiomatisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.GuardedReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.GuardedTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.InjectiveTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.JointSimplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftDropFactorisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftInverses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftsAndDrops.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.NonemptyReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ProvableSimplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.RationalFunctions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleCompleteness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleRationalFunctions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleRationalTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.Simplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.StringRepresentations.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SynchronisedLengths.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.Terms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.Types.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ValueConcatenation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.ValueNormalisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.cancel.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.claim_same_lengths.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.completeness_aperiodic.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.completeness_simple.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.concatMap_bundle_iso_arbitrarily_large'.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.conjugacy_completeness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.conjugacy_of_syntactic.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.decidable_equivalence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.drops_to_simple.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.exchange.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.exists_injective_binary_encoding.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.finite_axiomatisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.hom_factors.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.lift_drop_factorisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.lift_iso.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.normalisation_of_values.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.provable_simplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.simplification_of_rational_terms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.value_assoc.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.wlog_kguarded.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335Proofs.Results.wlog_nonempty.html</loc></url>
   <url><loc>https://laxarchive.org/lax-153141/</loc></url>
   <url><loc>https://laxarchive.org/lax-153141/Lax153141.FunctionalEquivalence.html</loc></url>
   <url><loc>https://laxarchive.org/lax-153141/Lax153141.GraphParameters.html</loc></url>

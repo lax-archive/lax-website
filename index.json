@@ -2525,6 +2525,197 @@
       ]
     },
     {
+      "id": "lax-149335",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The equational theory of rational string-to-string functions",
+      "concepts": [
+        {
+          "id": "Lax149335.AperiodicCompleteness",
+          "title": "Aperiodic completeness",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax149335.BundleLemma",
+          "title": "The bundle lemma",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.Cancellation",
+          "title": "Cancelling injective and surjective terms",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.ConjugacyCompleteness",
+          "title": "Conjugacy completeness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax149335.ConjugacyRule",
+          "title": "The conjugacy rule for syntactic conjugates",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.DecidableEquivalence",
+          "title": "Equivalence of simple rational terms is decidable",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax149335.DerivedTerms",
+          "title": "Derived terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.EmptySummands",
+          "title": "Ignoring empty summands",
+          "type": "claim"
+        },
+        {
+          "id": "Lax149335.EquationalTheory",
+          "title": "The equational theory",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.Exchange",
+          "title": "Exchange",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.ExpressiveCompleteness",
+          "title": "Expressive completeness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax149335.FiniteAxiomatisation",
+          "title": "Finite axiomatisation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax149335.GuardedReduction",
+          "title": "Reduction to co-pairings of guarded terms",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.GuardedTerms",
+          "title": "Guarded terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.InjectiveTerms",
+          "title": "Injective, surjective and isomorphic terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.JointSimplification",
+          "title": "Provable simplification of drops",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.LiftDropFactorisation",
+          "title": "Lift-drop factorisation",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.LiftInverses",
+          "title": "Lifts are isomorphisms",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.LiftsAndDrops",
+          "title": "Lifts and drops",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.NonemptyReduction",
+          "title": "Reduction to nonempty summands",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.ProvableSimplification",
+          "title": "Provable simplification of rational terms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax149335.RationalFunctions",
+          "title": "Rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.SimpleCompleteness",
+          "title": "Completeness for simple rational terms",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.SimpleRationalFunctions",
+          "title": "Simple rational functions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.SimpleRationalTerms",
+          "title": "Simple rational terms and conjugacy",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.Simplification",
+          "title": "Simplification of rational terms",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax149335.StringRepresentations",
+          "title": "Injective string representations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.SynchronisedLengths",
+          "title": "Synchronised output lengths",
+          "type": "claim"
+        },
+        {
+          "id": "Lax149335.Terms",
+          "title": "Rational terms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.Types",
+          "title": "Types",
+          "type": "definition"
+        },
+        {
+          "id": "Lax149335.ValueConcatenation",
+          "title": "Concatenation with values",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax149335.ValueNormalisation",
+          "title": "Normalisation of values",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax149335Proofs.Results.cancel",
+        "Lax149335Proofs.Results.claim_same_lengths",
+        "Lax149335Proofs.Results.completeness_aperiodic",
+        "Lax149335Proofs.Results.completeness_simple",
+        "Lax149335Proofs.Results.concatMap_bundle_iso_arbitrarily_large'",
+        "Lax149335Proofs.Results.conjugacy_completeness",
+        "Lax149335Proofs.Results.conjugacy_of_syntactic",
+        "Lax149335Proofs.Results.decidable_equivalence",
+        "Lax149335Proofs.Results.drops_to_simple",
+        "Lax149335Proofs.Results.exchange",
+        "Lax149335Proofs.Results.exists_injective_binary_encoding",
+        "Lax149335Proofs.Results.finite_axiomatisation",
+        "Lax149335Proofs.Results.hom_factors",
+        "Lax149335Proofs.Results.lift_drop_factorisation",
+        "Lax149335Proofs.Results.lift_iso",
+        "Lax149335Proofs.Results.normalisation_of_values",
+        "Lax149335Proofs.Results.provable_simplification",
+        "Lax149335Proofs.Results.simplification_of_rational_terms",
+        "Lax149335Proofs.Results.value_assoc",
+        "Lax149335Proofs.Results.wlog_kguarded",
+        "Lax149335Proofs.Results.wlog_nonempty"
+      ]
+    },
+    {
       "id": "lax-153141",
       "state": "registered",
       "environment": "v4.33.0",
