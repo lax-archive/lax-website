@@ -409,6 +409,7 @@
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.ConjugacyRule.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.DecidableEquivalence.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.DerivedTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.DropsJointSimplification.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.EmptySummands.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.EquationalTheory.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.Exchange.html</loc></url>
@@ -416,8 +417,7 @@
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.FiniteAxiomatisation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.GuardedReduction.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.GuardedTerms.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-149335/Lax149335.InjectiveTerms.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-149335/Lax149335.JointSimplification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.InjectiveSurjectiveTerms.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftDropFactorisation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftInverses.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.LiftsAndDrops.html</loc></url>
@@ -425,8 +425,8 @@
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.ProvableSimplification.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.RationalFunctions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleCompleteness.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleRationalFunctions.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleRationalTerms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-149335/Lax149335.SimpleRationalWithinSyntax.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.Simplification.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.StringRepresentations.html</loc></url>
   <url><loc>https://laxarchive.org/lax-149335/Lax149335.SynchronisedLengths.html</loc></url>

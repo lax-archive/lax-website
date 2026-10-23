@@ -2566,6 +2566,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax149335.DropsJointSimplification",
+          "title": "Provable simplification of drops",
+          "type": "lemma"
+        },
+        {
           "id": "Lax149335.EmptySummands",
           "title": "Ignoring empty summands",
           "type": "claim"
@@ -2601,14 +2606,9 @@
           "type": "definition"
         },
         {
-          "id": "Lax149335.InjectiveTerms",
+          "id": "Lax149335.InjectiveSurjectiveTerms",
           "title": "Injective, surjective and isomorphic terms",
           "type": "definition"
-        },
-        {
-          "id": "Lax149335.JointSimplification",
-          "title": "Provable simplification of drops",
-          "type": "lemma"
         },
         {
           "id": "Lax149335.LiftDropFactorisation",
@@ -2646,13 +2646,13 @@
           "type": "lemma"
         },
         {
-          "id": "Lax149335.SimpleRationalFunctions",
-          "title": "Simple rational functions",
+          "id": "Lax149335.SimpleRationalTerms",
+          "title": "Simple rational terms",
           "type": "definition"
         },
         {
-          "id": "Lax149335.SimpleRationalTerms",
-          "title": "Simple rational terms and conjugacy",
+          "id": "Lax149335.SimpleRationalWithinSyntax",
+          "title": "Simple rational terms within the compositional syntax",
           "type": "definition"
         },
         {
