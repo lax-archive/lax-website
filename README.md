@@ -177,7 +177,7 @@ bytes therefore differ from production's, deterministically per flag set).
   structure fields, on concept pages and paper cards. Both actions use the
   same `.lean` file, with the declaration and its recursive archive dependencies
   in source order; Lean and Mathlib remain imports. Structures and mutual
-  declarations stay together, with their source notation and scope context.
+  declarations stay together, with their source notation, instances and scope context.
   Definitions produced by custom commands are expanded into ordinary Lean
   declarations, so their elaborators do not need to initialize across file boundaries.
   Each export is checked against the submission's pinned Lean/Mathlib

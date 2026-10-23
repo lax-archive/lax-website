@@ -26,7 +26,7 @@ export interface DeclarationAction extends SourceRange { name: string; href: str
 
 export const CONE_VERSION = 1;
 export const CONE_EXTRACTION_VERSION = 3;
-export const CONE_EXPORT_VERSION = 3;
+export const CONE_EXPORT_VERSION = 4;
 const SHA256 = /^[0-9a-f]{64}$/;
 export const coneDigest = (source: string): string => createHash("sha256").update(source).digest("hex");
 export const coneCacheFile = (cache: string, digest: string): string => {
@@ -36,6 +36,7 @@ export const coneCacheFile = (cache: string, digest: string): string => {
 
 const sourceInventories = new WeakMap<SiteModel, Map<string, {
   source: string; namespaces: Set<string>; declaredNamespaces: Set<string>; identifiers: Map<number, number>;
+  instanceCommands: Set<number>;
 }>>();
 
 /** A module can contain thousands of roots. Scan its source once, not once
@@ -56,8 +57,18 @@ function sourceInventory(model: SiteModel, module: string, source: string) {
     const parts = nameParts(declaration.name);
     for (let n = 1; n <= parts.length; n++) declaredNamespaces.add(nameKey(parts.slice(0, n)));
   }
+  // Coercion instances can reduce away during elaboration. Their names then
+  // disappear from kernel dependencies, while the original source still
+  // needs them. Include explicit, attributed and deriving instance commands.
+  const instanceCommands = new Set<number>();
+  let command = 0;
+  if (data) for (const token of scanned.tokens) {
+    if (token.text !== "instance") continue;
+    while (data.commands[command] && data.commands[command]!.end <= token.start) command++;
+    if (data.commands[command] && data.commands[command]!.start <= token.start) instanceCommands.add(command);
+  }
   inventory = { source, namespaces, declaredNamespaces,
-    identifiers: new Map(scanned.tokens.filter(t => t.name?.length === 1).map(t => [t.start, t.end])) };
+    identifiers: new Map(scanned.tokens.filter(t => t.name?.length === 1).map(t => [t.start, t.end])), instanceCommands };
   modules.set(module, inventory); return inventory;
 }
 
@@ -164,9 +175,13 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
   // Imported syntax and elaborators affect parsing even when their generated
   // constants do not occur in the resulting kernel expressions. Retain their
   // commands and dependencies, together with each module's scope context.
-  for (const module of ordered) model.leanCode.get(module)!.cones!.commands.forEach((cmd, i) => {
-    if (environmentCommand(cmd.kind)) select(module, i);
-  });
+  for (const module of ordered) {
+    const source = model.conceptHome.get(module)!.concept.sourceText;
+    const instances = sourceInventory(model, module, source).instanceCommands;
+    model.leanCode.get(module)!.cones!.commands.forEach((cmd, i) => {
+      if (environmentCommand(cmd.kind) || instances.has(i)) select(module, i);
+    });
+  }
   while (pending.length) {
     const name = pending.pop()!, found = names.get(name);
     if (found) select(found.module, found.declaration.command);
