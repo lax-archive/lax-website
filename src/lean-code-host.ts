@@ -39,6 +39,7 @@ export class LeanHoverClient {
   private process: ChildProcessWithoutNullStreams;
   private buffer = Buffer.alloc(0);
   private sequence = 0;
+  private failure?: Error;
   private pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void; timer: NodeJS.Timeout }>();
   private errors = new Map<string, string[]>();
   private checkedDocument?: { uri: string; text: string; version: number };
@@ -47,11 +48,9 @@ export class LeanHoverClient {
       LEAN_SRC_PATH: [root, process.env.LEAN_SRC_PATH].filter(Boolean).join(path.delimiter) } });
     let stderr = "";
     this.process.stderr.on("data", data => { stderr = (stderr + data.toString()).slice(-4096); });
-    const fail = (error: Error) => {
-      for (const pending of this.pending.values()) { clearTimeout(pending.timer); pending.reject(error); }
-      this.pending.clear();
-    };
+    const fail = (error: Error) => this.fail(error);
     this.process.on("error", fail);
+    this.process.stdin.on("error", fail);
     this.process.on("exit", code => fail(new Error(`Lean server exited (${code}): ${stderr}`)));
     this.process.stdout.on("data", data => {
       this.buffer = Buffer.concat([this.buffer, data]);
@@ -80,14 +79,23 @@ export class LeanHoverClient {
       }
     });
   }
+  private fail(error: Error): void {
+    this.failure ??= error;
+    for (const pending of this.pending.values()) { clearTimeout(pending.timer); pending.reject(this.failure); }
+    this.pending.clear();
+  }
   private send(message: object): void {
+    if (this.failure) return;
     const body = JSON.stringify({ jsonrpc: "2.0", ...message });
     this.process.stdin.write(`Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`);
   }
   private request(method: string, params: unknown): Promise<any> {
+    if (this.failure) return Promise.reject(this.failure);
     const id = ++this.sequence;
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => { this.pending.delete(id); reject(new Error(`Lean timed out: ${method}`)); this.process.kill(); }, 120_000);
+      const timer = setTimeout(() => {
+        this.fail(new Error(`Lean timed out: ${method}`)); this.process.kill();
+      }, 120_000);
       this.pending.set(id, { resolve, reject, timer }); this.send({ id, method, params });
     });
   }
@@ -197,6 +205,7 @@ export class LeanHoverClient {
     }
   }
   async check(file: string, source: string): Promise<void> {
+    if (this.failure) throw this.failure;
     const uri = pathToFileURL(file).href;
     const previous = this.checkedDocument;
     if (previous?.uri === uri && previous.text === source) {
@@ -234,7 +243,7 @@ export class LeanHoverClient {
     if (errors.length) throw new Error(errors.join("\n"));
   }
   async close(): Promise<void> {
-    try { await this.request("shutdown", null); this.send({ method: "exit" }); }
+    try { if (!this.failure) { await this.request("shutdown", null); this.send({ method: "exit" }); } }
     finally { this.process.kill(); }
   }
 }
