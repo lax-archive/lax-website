@@ -26,7 +26,7 @@ export interface DeclarationAction extends SourceRange { name: string; href: str
 
 export const CONE_VERSION = 1;
 export const CONE_EXTRACTION_VERSION = 3;
-export const CONE_EXPORT_VERSION = 2;
+export const CONE_EXPORT_VERSION = 3;
 const SHA256 = /^[0-9a-f]{64}$/;
 export const coneDigest = (source: string): string => createHash("sha256").update(source).digest("hex");
 export const coneCacheFile = (cache: string, digest: string): string => {
@@ -148,7 +148,7 @@ export function dependencyCone(model: SiteModel, rootModule: string, rootName: s
   if (!names.has(rootName)) throw new Error(`missing dependency cone root ${rootName}`);
   const included = new Map<string, Set<number>>();
   const pending = [rootName];
-  const environmentCommand = (kind: string) => /^Lean\.Parser\.Command\.(?:syntax|macro|macro_rules|elab|elab_rules|initialize|notation|infixl?|infixr|prefix|postfix|declare_syntax_cat|register_option|attribute|export)$/.test(kind);
+  const environmentCommand = (kind: string) => /^Lean\.Parser\.Command\.(?:syntax|macro|macro_rules|elab|elab_rules|initialize|notation|mixfix|infixl?|infixr|prefix|postfix|declare_syntax_cat|register_option|attribute|export)$/.test(kind);
   const select = (module: string, index: number) => {
     const selected = included.get(module) ?? new Set<number>();
     if (selected.has(index)) return;

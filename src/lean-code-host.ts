@@ -244,18 +244,24 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
 }): Promise<void> {
   const ids = [...model.conceptHome].filter(([, c]) => c.output.manifest.leanVersion === options.version).map(([id]) => id);
   const inputs = new Map(ids.map(id => [id, leanCodeInputs(model, id)]));
+  const cachedData = new Map<string, LeanCodeData>();
   const pending = ids.filter(id => {
     const { digest } = inputs.get(id)!;
     try {
       const source = model.conceptHome.get(id)!.concept.sourceText;
       const data = parseLeanCode(fs.readFileSync(path.join(options.cache, `${digest}.json`), "utf8"), digest, source);
+      cachedData.set(id, data);
       requireCones(data, source, options.cache);
       return false;
     } catch { return true; }
   });
   if (!pending.length) return;
   const ordered = [...new Set(pending.flatMap(id => inputs.get(id)!.modules))];
-  const neededObjects = new Set(ordered.flatMap(id => model.conceptHome.get(id)!.concept.imports));
+  const prepared = (data?: LeanCodeData) => data?.cones?.references && data.cones.extractionVersion === CONE_EXTRACTION_VERSION;
+  // Export-only retries use the cached compiler metadata. Compile archive
+  // imports only when a module must be opened again for metadata extraction.
+  const neededObjects = new Set(ordered.filter(id => !prepared(cachedData.get(id)))
+    .flatMap(id => inputs.get(id)?.modules.slice(0, -1) ?? []));
   fs.mkdirSync(options.work, { recursive: true }); fs.mkdirSync(options.cache, { recursive: true });
   const libraries = fs.readdirSync(options.packages).sort().map(p => path.join(options.packages, p, ".lake/build/lib/lean"));
   const leanPath = [options.work, ...libraries].join(path.delimiter);
@@ -290,10 +296,9 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       const input = inputs.get(id);
       if (!input) return;
       const cacheFile = path.join(options.cache, `${input.digest}.json`);
-      let cached: LeanCodeData | undefined;
-      try { cached = parseLeanCode(fs.readFileSync(cacheFile, "utf8"), input.digest, source); } catch { /* Rebuild missing/corrupt cache. */ }
+      const cached = cachedData.get(id);
       let cones = cached?.cones;
-      if (cones?.references && cones.extractionVersion === CONE_EXTRACTION_VERSION) { model.leanCode.set(id, cached!); done++; return; }
+      if (prepared(cached)) { model.leanCode.set(id, cached!); done++; return; }
       const hovers = await client.hovers(file, source, data => { cones = data; }, cached?.hovers);
       const data: LeanCodeData = { version: 1, projectionHovers: 1, numericHovers: 1, digest: input.digest, hovers, cones };
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
@@ -346,7 +351,9 @@ export async function prepareLeanEnvironment(model: SiteModel, options: {
       fs.writeFileSync(`${cacheFile}.tmp`, JSON.stringify(data) + "\n"); fs.renameSync(`${cacheFile}.tmp`, cacheFile);
       options.log?.(`${options.version}: ${id}: ${entries.length} checked dependency cones`);
     }));
-    const exportFailure = exports.find(result => result.status === "rejected");
-    if (exportFailure?.status === "rejected") throw exportFailure.reason;
+    const failures = exports.flatMap(result => result.status === "rejected" ?
+      [result.reason instanceof Error ? result.reason.message : String(result.reason)] : []);
+    if (failures.length) throw new Error(failures.map(message => message.length > 2000 ?
+      `${message.slice(0, 2000)}\n(further diagnostics omitted)` : message).join("\n\n"));
   } finally { await Promise.all(clients.map(client => client.close())); }
 }
