@@ -11885,6 +11885,35 @@
       ]
     },
     {
+      "id": "lax-512892",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Gaifman's Theorem",
+      "concepts": [
+        {
+          "id": "Lax512892.FirstOrder",
+          "title": "First-order logic over a relational vocabulary",
+          "type": "definition"
+        },
+        {
+          "id": "Lax512892.GaifmanNormalForm",
+          "title": "Gaifman's normal-form theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax512892.Locality",
+          "title": "Gaifman distance and local formulas",
+          "type": "definition"
+        },
+        {
+          "id": "Lax512892.RelationalStructures",
+          "title": "Finite relational vocabularies and structures",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-535992",
       "state": "registered",
       "environment": "v4.33.0",
