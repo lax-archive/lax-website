@@ -6,7 +6,7 @@ import os from 'node:os';
 import {execFileSync} from 'node:child_process';
 import {loadSubmissions} from '../dist/database.js';
 import {SiteModel} from '../dist/sitegen/model.js';
-import {leanCodeInputs, parseLeanCode} from '../dist/sitegen/lean-code.js';
+import {leanCodeInputs, parseLeanCode, requireCones} from '../dist/sitegen/lean-code.js';
 import {prepareLeanEnvironment} from '../dist/lean-code-host.js';
 import {landingLeanModel} from '../dist/sitegen/pages/index.js';
 
@@ -33,7 +33,11 @@ for (const [version, revision] of [...environments].sort()) {
   const ids = [...model.conceptHome].filter(([, c]) => c.output.manifest.leanVersion === version).map(([id]) => id);
   const missing = ids.filter(id => {
     const {digest} = leanCodeInputs(model, id);
-    try { parseLeanCode(fs.readFileSync(path.join(cache, `${digest}.json`), 'utf8'), digest, model.conceptHome.get(id).concept.sourceText); return false; }
+    try {
+      const source = model.conceptHome.get(id).concept.sourceText;
+      requireCones(parseLeanCode(fs.readFileSync(path.join(cache, `${digest}.json`), 'utf8'), digest, source), source, cache);
+      return false;
+    }
     catch { return true; }
   });
   if (!missing.length) { console.log(`${version}: all ${ids.length} modules cached`); continue; }

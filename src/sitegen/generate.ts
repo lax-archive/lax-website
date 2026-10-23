@@ -22,6 +22,7 @@ import { submissionsPage } from "./pages/submissions.js";
 import { workshopPage } from "./pages/workshop.js";
 import { createGraphPreparationSession, type GraphPreparationOptions, type GraphPreparationResult } from "./graph-prepare.js";
 import { loadLeanCode } from "./lean-code.js";
+import { verifiedConeFile } from "./dependency-cones.js";
 import type { SkippedRecord } from "../types.js";
 
 export type { SiteSubmission } from "./model.js";
@@ -193,6 +194,14 @@ async function* renderPages(
     for (const [id, data] of examples.leanCode) model.leanCode.set(`example:${id}`, data);
   }
   const context = { model, markdown: new MarkdownRenderer(model) };
+  if (leanCode) for (const submission of model.submissions) {
+    if (rendered && !rendered.has(submission.record.id)) continue;
+    const digests = new Set((submission.output?.concepts ?? []).flatMap(concept =>
+      model.leanCode.get(concept.id)?.cones?.exports?.map(entry => entry.digest) ?? []));
+    for (const digest of [...digests].sort()) yield {
+      relative: `${submission.record.id}/cones/${digest}.lean`, sourceFile: verifiedConeFile(leanCode.cacheDir, digest),
+    };
+  }
   // The header's "Introduction" leads into the introduction's paper, once
   // the archive holds it.
   const intro = model.submissions.find((submission) => submission.record.id === INTRO_SUBMISSION_ID && submission.output?.paper);

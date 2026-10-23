@@ -170,8 +170,19 @@ bytes therefore differ from production's, deterministically per flag set).
   For declarations absent from the index, `references:fetch` verifies the
   defining module at the submission's full Mathlib commit and caches whether
   it exists; a verified module gets a pinned GitHub source link. Missing
-  modules remain plain. Local variables, other external libraries, and names
-  at their own definition sites stay plain. Imported archive module names link
+  modules remain plain. Local variables and other external libraries stay
+  plain. Declaration names at their definition sites open a two-item menu:
+  **Download dependency cone** and **Open dependency cone in live-lean**.
+  This includes named definitions, statements, instances, constructors and
+  structure fields, on concept pages and paper cards. Both actions use the
+  same `.lean` file, with the declaration and its recursive archive dependencies
+  in source order; Lean and Mathlib remain imports. Structures and mutual
+  declarations stay together, with their source notation and scope context.
+  Each export is checked against the submission's pinned Lean/Mathlib
+  environment. Those pins appear in the file header; live-lean opens it in
+  its hosted Mathlib project, whose version may differ. Without JavaScript,
+  clicking a declaration downloads the file directly.
+  Imported archive module names link
   to their concept pages; Mathlib import names in the Lean source link to their
   module documentation. Archive namespaces in `open` commands link to their
   owning concept or declaration; standalone submission namespaces such as
@@ -250,10 +261,15 @@ bytes therefore differ from production's, deterministically per flag set).
   qualified constants such as `Nat.succ` remain one identifier.
   `npm run lean:prepare` elaborates concept modules and the landing
   examples with their pinned Lean and Mathlib environments, caching UTF-16
-  ranges and plain type text in `data/lean-code/`. It omits documentation from
+  ranges, plain type text and compiler-derived dependency metadata in
+  `data/lean-code/`. Checked cone files live in `data/lean-code/cones/` and
+  are published as `lax-<id>/cones/<sha256>.lean`. It omits documentation from
   compiler hovers. Source and transitive dependency changes invalidate this
   cache; corrupt entries are rebuilt. Public deployment requires complete
   metadata with `--require-lean-code`; local rendering can proceed without it.
+  Cone checking reuses Lean's incremental document state and shares identical
+  exports. Only successfully checked files are published; completed files are
+  reused if preparation must resume.
   Browsers receive static type text and a small local interaction script,
   with no Lean server, runtime downloads, or CSP changes.
 - Type preparation needs `elan` when the pinned toolchains are not installed.

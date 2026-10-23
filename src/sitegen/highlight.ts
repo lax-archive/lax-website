@@ -6,6 +6,7 @@ import { leanDeclarations, nameKey, nameParts, scanLeanSource, typedBinderNames,
 import type { SourceLink } from "./source-links.js";
 import type { SourceHover } from "./lean-code.js";
 import { mathlibLinkTitle } from "../mathlib-links.js";
+import type { DeclarationAction } from "./dependency-cones.js";
 
 let highlighterPromise: Promise<Highlighter> | undefined;
 
@@ -15,7 +16,7 @@ function highlighter(): Promise<Highlighter> {
 
 interface HastNode { type: string; value?: string; tagName?: string; properties?: Record<string, unknown>; children?: HastNode[] }
 
-interface Decoration extends SourceRange { href?: string; hover?: string; hoverLinks?: SourceLink[]; html?: string; contentLine?: number }
+interface Decoration extends SourceRange { href?: string; declaration?: string; hover?: string; hoverLinks?: SourceLink[]; html?: string; contentLine?: number }
 
 function escapedAt(source: string, index: number): boolean {
   let slashes = 0;
@@ -61,7 +62,7 @@ function commentMath(source: string, comments: SourceRange[]): Decoration[] {
 // documentation and pinned Mathlib source destinations.
 const ARCHIVE_HREF = /^(?:\.\.?\/)*[a-zA-Z0-9_%.'-]+\/[a-zA-Z0-9_%.'-]+\.html(?:#[a-zA-Z0-9_%.'-]+)?$/u;
 
-function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[], hovers: readonly SourceHover[], typeLinks?: SourceOptions["typeLinks"]): Decoration[][] {
+function decorationsByLine(source: string, links: readonly SourceLink[], comments: SourceRange[], hovers: readonly SourceHover[], typeLinks?: SourceOptions["typeLinks"], actions: readonly DeclarationAction[] = []): Decoration[][] {
   const lines = source.split("\n");
   const offsets = [0];
   for (const line of lines) offsets.push(offsets.at(-1)! + line.length + 1);
@@ -71,6 +72,12 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
     link.end > link.start && link.end <= source.length && (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)),
   ).map(link => ({ ...link }));
   const identifierRanges = new Map(identifiers.map(link => [`${link.start}:${link.end}`, link]));
+  for (const action of actions) {
+    if (!Number.isInteger(action.start) || !Number.isInteger(action.end) || action.start < 0 || action.end <= action.start ||
+        action.end > source.length || !/^(?:\.\.\/)*lax-\d+\/cones\/[0-9a-f]{64}\.lean$/.test(action.href)) continue;
+    const decoration = { start: action.start, end: action.end, href: action.href, declaration: action.name };
+    identifiers.push(decoration); identifierRanges.set(`${action.start}:${action.end}`, decoration);
+  }
   for (const hover of hovers) {
     if (!Number.isInteger(hover.start) || !Number.isInteger(hover.end) || hover.start < 0 || hover.end <= hover.start ||
         hover.end > source.length || typeof hover.text !== "string") continue;
@@ -82,6 +89,7 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
       link.start >= (first?.end ?? 0) && link.end > link.start && link.end <= hover.text.length &&
       (ARCHIVE_HREF.test(link.href) || mathlibLinkTitle(link.href)))
       .map(link => ({ ...link, title: mathlibLinkTitle(link.href) }));
+    if (linked?.declaration) continue;
     if (linked) { linked.hover = hover.text; linked.hoverLinks = safeLinks; }
     else identifiers.push({ start: hover.start, end: hover.end, hover: hover.text, hoverLinks: safeLinks });
   }
@@ -98,6 +106,7 @@ function decorationsByLine(source: string, links: readonly SourceLink[], comment
         start: Math.max(0, decoration.start - offsets[row]!),
         end: Math.min(lines[row]!.length, decoration.end - offsets[row]!),
         href: decoration.href,
+        declaration: decoration.declaration,
         hover: decoration.hover,
         hoverLinks: decoration.hoverLinks,
         html: row === contentLine ? decoration.html : "",
@@ -151,7 +160,9 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
     const destination = decoration.href ? mathlibLinkTitle(decoration.href) : undefined;
     const title = decoration.hover ? undefined : destination;
     const hover = decoration.hover ? ` data-lean-type="${attr(decoration.hover)}" aria-haspopup="dialog"${decoration.hoverLinks?.length ? ` data-lean-type-links="${attr(JSON.stringify(decoration.hoverLinks))}"` : ""}` : "";
-    html.push(decoration.href
+    html.push(decoration.declaration
+      ? `<a class="lean-declaration" href="${attr(decoration.href!)}" download="${attr(declarationFilename(decoration.declaration))}" data-lean-declaration="${attr(decoration.declaration)}" aria-haspopup="menu" aria-expanded="false" aria-label="${attr(`Dependency cone for ${decoration.declaration}`)}">${content}</a>`
+      : decoration.href
       ? `<a class="lean-identifier-link" href="${attr(decoration.href)}"${hover}${decoration.hover && destination ? ` data-lean-destination="${attr(destination)}"` : ""}${title ? ` title="${attr(title)}"` : ""}>${content}</a>`
       : decoration.hover ? `<span class="lean-typed-identifier" role="button" tabindex="0"${hover}>${content}</span>`
       : decoration.html ?? "");
@@ -159,6 +170,8 @@ function renderDecoratedLine(nodes: HastNode[], decorations: Decoration[]): stri
   html.push(take(Infinity));
   return html.join("");
 }
+
+function declarationFilename(name: string): string { return `${name.replace(/[^\p{L}\p{N}_.-]/gu, "_")}.lean`; }
 
 function renderNode(node: HastNode): string {
   if (node.type === "text") return esc(node.value ?? "");
@@ -231,6 +244,7 @@ export interface SourceOptions {
   /** Verified archive destinations at offsets in the original source. */
   links?: readonly SourceLink[];
   hovers?: readonly SourceHover[];
+  declarations?: readonly DeclarationAction[];
   /** Validated links within a compiler type, using this page's relative root. */
   typeLinks?: (text: string) => readonly SourceLink[];
 }
@@ -299,7 +313,7 @@ export async function highlightSource(
   const declarations = leanDeclarations(parsed);
   const annotated = explicitTypeSites(parsed, declarations);
   const hovers = (options.hovers ?? []).filter(hover => !annotated.has(`${hover.start}:${hover.end}`));
-  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, hovers, options.typeLinks);
+  const decorations = decorationsByLine(source, options.links ?? [], parsed.comments, hovers, options.typeLinks, options.declarations);
   // Keep stable statement IDs, but place them at their complete comment
   // preamble. Archive ranges may begin after leading ordinary line comments.
   const starts = anchors && statements.length

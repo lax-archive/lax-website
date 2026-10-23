@@ -45,3 +45,112 @@ def operatorInfo (p : Lsp.Position) : RequestM (RequestTask (Option Operator)) :
         type := type.pretty }
 
 end LaxWebsiteNotation
+
+namespace LaxWebsiteCones
+
+structure Declaration where
+  name : String
+  command : Nat
+  start : Option Lsp.Position
+  stop : Option Lsp.Position
+  dependencies : Array String
+  deriving FromJson, ToJson
+
+structure Command where
+  start : Lsp.Position
+  stop : Lsp.Position
+  kind : String
+  uses : Array String
+  deriving FromJson, ToJson
+
+structure Reference where
+  name : String
+  start : Lsp.Position
+  stop : Lsp.Position
+  deriving FromJson, ToJson
+
+structure Module where
+  declarations : Array Declaration
+  commands : Array Command
+  namespaces : Array String
+  references : Array Reference := #[]
+  deriving FromJson, ToJson
+
+private def constants (ci : ConstantInfo) : NameSet := Id.run do
+  let mut names := ci.getUsedConstantsAsSet
+  if let .inductInfo v := ci then
+    for name in v.ctors do names := names.insert name
+  return names
+
+private partial def infoConstants (tree : InfoTree) (names : NameSet := {}) : NameSet :=
+  match tree with
+  | .context _ child => infoConstants child names
+  | .node info children =>
+    let names := match info with
+      | .ofTermInfo ti => ti.expr.getUsedConstants.foldl (fun s n => s.insert n) names
+      | .ofFieldInfo fi => names.insert fi.projName
+      | _ => names
+    children.foldl (fun s child => infoConstants child s) names
+  | .hole _ => names
+
+private partial def infoReferences (text : FileMap) (tree : InfoTree)
+    (refs : Array Reference := #[]) : Array Reference := Id.run do
+  match tree with
+  | .context _ child => return infoReferences text child refs
+  | .node info children =>
+    let mut refs := refs
+    if let .ofTermInfo ti := info then
+      if !ti.isBinder && ti.stx.isIdent then
+        if let .const name _ := ti.expr.getAppFn then
+          if let some range := ti.stx.getRange? then
+            refs := refs.push {
+              name := name.toString
+              start := text.utf8PosToLspPos range.start
+              stop := text.utf8PosToLspPos range.stop }
+    return children.foldl (fun rs child => infoReferences text child rs) refs
+  | .hole _ => return refs
+
+/-- Record command boundaries and both kernel and source dependencies. The
+source edges retain names used by tactics even if absent from the final term.
+Whole commands keep structures, mutual blocks and their helpers together. -/
+@[server_rpc_method]
+def moduleInfo (_ : Lsp.Position) : RequestM (RequestTask Module) := do
+  let doc ← readDoc
+  mapTaskCostly doc.cmdSnaps.waitAll fun (snaps, _) => do
+    let some last := snaps.getLast? | return { declarations := #[], commands := #[], namespaces := #[] }
+    let env := last.env
+    let some first := snaps[0]? | return { declarations := #[], commands := #[], namespaces := #[] }
+    let imported := first.env
+    let namespaces := env.getNamespaces.toArray.filter (fun n => !imported.isNamespace n)
+      |>.qsort Name.lt |>.map Name.toString
+    let coreCtx : Core.Context := { fileName := doc.meta.uri, fileMap := doc.meta.text }
+    let mut declarations := #[]
+    let mut commands := #[]
+    let mut references := #[]
+    let mut seen : NameSet := {}
+    for snap in snaps do
+      if snap.stx.isOfKind ``Lean.Parser.Module.header || Parser.isTerminalCommand snap.stx then continue
+      let some range := snap.stx.getRange? | continue
+      let trees := snap.cmdState.infoState.substituteLazy.get.trees
+      let uses := trees.foldl (fun names tree => infoConstants tree names) ({} : NameSet)
+      references := trees.foldl (fun refs tree => infoReferences doc.meta.text tree refs) references
+      let names := snap.env.checked.get.constants.foldStage2 (fun ns n _ => ns.push n) #[]
+      for name in names.qsort Name.lt do
+        if seen.contains name then continue
+        seen := seen.insert name
+        let some ci := env.find? name | continue
+        let (range, _) ← (findDeclarationRanges? (m := CoreM) name).toIO coreCtx { env }
+        declarations := declarations.push {
+          name := name.toString
+          command := commands.size
+          start := range.map (fun r => doc.meta.text.leanPosToLspPos r.selectionRange.pos)
+          stop := range.map (fun r => doc.meta.text.leanPosToLspPos r.selectionRange.endPos)
+          dependencies := (constants ci).toArray.qsort Name.lt |>.map Name.toString }
+      commands := commands.push {
+        start := doc.meta.text.utf8PosToLspPos range.start
+        stop := doc.meta.text.utf8PosToLspPos range.stop
+        kind := snap.stx.getKind.toString
+        uses := uses.toArray.qsort Name.lt |>.map Name.toString }
+    return { declarations, commands, namespaces, references }
+
+end LaxWebsiteCones

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { dottedIdentifierPrefix, identifierComponents, leanHoverTokens, nameKey, nameParts, scanLeanSource, type SourceRange } from "./lean-source.js";
 import type { SiteModel } from "./model.js";
+import { validateConeModule, verifiedConeFile, coneDeclarations, type ConeModule } from "./dependency-cones.js";
 
 export interface SourceHover extends SourceRange {
   text: string;
@@ -15,6 +16,7 @@ export interface LeanCodeData {
   numericHovers?: 1;
   digest: string;
   hovers: SourceHover[];
+  cones?: ConeModule;
 }
 
 /** Changing the extractor or pretty-print options invalidates prepared data. */
@@ -69,7 +71,18 @@ export function parseLeanCode(json: string, digest: string, source: string): Lea
       throw new Error("invalid Lean notation destination");
     end = hover.end;
   }
+  if (data.cones !== undefined) validateConeModule(data.cones, source);
   return data;
+}
+
+export function requireCones(data: LeanCodeData, source: string, directory: string): void {
+  if (!data.cones?.exports) throw new Error("missing dependency cones");
+  const exports = new Map(data.cones.exports.map(entry => [entry.name, entry.digest]));
+  for (const declaration of coneDeclarations(data.cones, source)) {
+    const digest = exports.get(declaration.name);
+    if (!digest) throw new Error(`missing dependency cone for ${declaration.name}`);
+    verifiedConeFile(directory, digest);
+  }
 }
 
 export function loadLeanCode(model: SiteModel, directory: string, required = false): void {
@@ -79,6 +92,12 @@ export function loadLeanCode(model: SiteModel, directory: string, required = fal
     const { digest } = leanCodeInputs(model, id);
     try {
       const data = parseLeanCode(fs.readFileSync(path.join(directory, `${digest}.json`), "utf8"), digest, concept.sourceText);
+      try { requireCones(data, concept.sourceText, directory); }
+      catch (error) {
+        if (required) throw error;
+        // Local rendering can reuse types while cone preparation is pending.
+        delete data.cones;
+      }
       // Compiler signatures start with the resolved declaration name. Match
       // its full name, so imported statements are excluded too, while local
       // variables with the same short spelling retain their type hovers.
@@ -87,7 +106,7 @@ export function loadLeanCode(model: SiteModel, directory: string, required = fal
         return hover.definition || !name || !statements.has(nameKey(name));
       }) });
     } catch (error) {
-      if (required) throw new Error(`${id}: run npm run lean:prepare to refresh type hovers (${error})`);
+      if (required) throw new Error(`${id}: run npm run lean:prepare to refresh types and dependency cones (${error})`);
     }
   }
 }

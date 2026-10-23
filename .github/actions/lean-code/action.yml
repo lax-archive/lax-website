@@ -1,4 +1,4 @@
-name: Prepare Lean type hovers
+name: Prepare Lean types and dependency cones
 description: Cache compiler-derived information separately from public rendering
 runs:
   using: composite
@@ -7,7 +7,7 @@ runs:
       id: lean-code-cache
       with:
         path: data/lean-code
-        key: lean-code-v1-${{ hashFiles('src/lean-code-host.ts', 'scripts/lean-code-notation.lean', 'src/sitegen/lean-source.ts', 'src/sitegen/lean-code.ts', 'src/sitegen/pages/index.ts', 'scripts/prepare-lean-code.mjs') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+        key: lean-code-v1-${{ hashFiles('src/lean-code-host.ts', 'scripts/lean-code-notation.lean', 'src/sitegen/lean-source.ts', 'src/sitegen/lean-code.ts', 'src/sitegen/dependency-cones.ts', 'src/sitegen/pages/index.ts', 'scripts/prepare-lean-code.mjs') }}-${{ hashFiles('data/lax-db/*/build-output.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: lean-code-v1-
     - name: Install the Lean toolchain manager
       shell: bash
@@ -17,7 +17,7 @@ runs:
           sh "$RUNNER_TEMP/lax-elan-init.sh" -y --default-toolchain none
         fi
         echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-    - name: Prepare compiler types
+    - name: Prepare compiler types and dependency cones
       shell: bash
       run: npm run lean:prepare -- --database data/lax-db
     # Each entry is validated independently. Preserve completed modules even

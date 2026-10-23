@@ -21,6 +21,7 @@ import { siteAssetVersion } from "../assets.js";
 import { attr, code, esc, page, plural, proofBadge, typeBadge } from "../html.js";
 import { inertJsonScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
+import { declarationActions } from "../dependency-cones.js";
 import { sourceLinks, sourceTypeLinks } from "../source-links.js";
 import { compareIds, type SiteModel, type SiteSubmission } from "../model.js";
 import type { PaperWebPage } from "../paper-web.js";
@@ -123,6 +124,7 @@ async function markBody(ctx: PageContext, mark: PaperMark, home: string, rootRel
       ? await highlightSource(concept.sourceText, concept.statements, proven, {
         omitModuleDoc: true, anchors: false, links: sourceLinks(model, concept.id, rootRel),
         hovers: model.leanCode.get(concept.id)?.hovers,
+        declarations: declarationActions(model, concept.id, rootRel),
         typeLinks: text => sourceTypeLinks(model, concept.id, rootRel, text),
       })
       : "";
@@ -347,7 +349,7 @@ ${body}
     content,
     noIndex: output!.manifest.unlisted === true,
     detailClass: "detail-manuscript",
-    scripts: [...scripts, "assets/lean-code.js"],
+    scripts: [...scripts, "assets/lean-code.js", "assets/declaration-menu.js"],
   });
 }
 

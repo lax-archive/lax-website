@@ -2,6 +2,7 @@ import { attr, code, countsPill, esc, page } from "../html.js";
 import { conceptGraph, graphDataScript } from "../graphs.js";
 import { highlightSource } from "../highlight.js";
 import { sourceLinks, sourceTypeLinks } from "../source-links.js";
+import { declarationActions } from "../dependency-cones.js";
 import type { LocatedConcept } from "../model.js";
 import { discussion, pageReactions } from "./discussion.js";
 import { inPaperBlock } from "./paper.js";
@@ -133,6 +134,7 @@ export async function conceptPage(ctx: PageContext, located: LocatedConcept): Pr
   const sourceRows = await highlightSource(concept.sourceText, concept.statements, proven, {
     links: sourceLinks(ctx.model, concept.id, "../"),
     hovers: ctx.model.leanCode.get(concept.id)?.hovers,
+    declarations: declarationActions(ctx.model, concept.id, "../"),
     typeLinks: text => sourceTypeLinks(ctx.model, concept.id, "../", text),
   });
 
@@ -182,6 +184,6 @@ ${graphDataScript({
     content,
     noIndex: output.manifest.unlisted === true,
     description: ctx.markdown.plainAuthorTitle(concept.description),
-    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/lean-code.js", "assets/version-history.js", "assets/comments.js"],
+    scripts: ["assets/graph-interaction.js", "assets/source-proof.js", "assets/lean-code.js", "assets/declaration-menu.js", "assets/version-history.js", "assets/comments.js"],
   });
 }
