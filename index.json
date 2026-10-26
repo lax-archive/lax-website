@@ -12073,6 +12073,115 @@
       ]
     },
     {
+      "id": "lax-560391",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Ten Graph Parameters",
+      "concepts": [
+        {
+          "id": "Lax560391.BlockGraphs",
+          "title": "Block graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.Boxicity",
+          "title": "Boxicity",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.BoxRepresentation",
+          "title": "Box representations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.CClosedGraphs",
+          "title": "c-closed graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.ChordalGraphs",
+          "title": "Chordal graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.ChordalIntersectionDimension",
+          "title": "Chordal intersection dimension",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.ChordalIntersectionRepresentation",
+          "title": "Chordal intersection representations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.Closure",
+          "title": "c-closure",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.CochromaticNumber",
+          "title": "Cochromatic number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.CochromaticPartition",
+          "title": "Cochromatic partitions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.DistanceHereditaryGraphs",
+          "title": "Distance-hereditary graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.DistanceToBlock",
+          "title": "Distance to block graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.DistanceToChordal",
+          "title": "Distance to chordal graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.DistanceToDistanceHereditary",
+          "title": "Distance to distance-hereditary graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.DistanceToInterval",
+          "title": "Distance to interval graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.EdgeCliqueCover",
+          "title": "Edge clique cover number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.EdgeCliqueCovering",
+          "title": "Edge clique covers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.IntervalGraphs",
+          "title": "Interval graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.IntervalRepresentation",
+          "title": "Interval representations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax560391.VertexIntegrity",
+          "title": "Vertex integrity",
+          "type": "definition"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-560851",
       "state": "registered",
       "environment": "v4.33.0",
