@@ -8836,6 +8836,38 @@
       ]
     },
     {
+      "id": "lax-343628",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "An $O(\\mu{}n)$ runtime bound for the $(\\mu+1)$ GA on $\\mathrm{Jump}_k$ with crossover probability 1",
+      "concepts": [
+        {
+          "id": "Lax343628.Algorithm",
+          "title": "The $(\\mu+1)$ GA and the function $\\mathrm{Jump}_k$",
+          "type": "definition"
+        },
+        {
+          "id": "Lax343628.LogJumpSizes",
+          "title": "$O(\\mu{}n)$ expected optimization time for jump sizes $k \\le c \\operatorname{ln} n$",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax343628.LogLogJumpSizes",
+          "title": "$O(\\mu{}n)$ expected optimization time for jump sizes $k \\le c \\operatorname{ln} \\operatorname{ln} n$",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax343628.Runtime",
+          "title": "Expected optimization time",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax343628Proofs.LogJumpSizes.runtime_bound",
+        "Lax343628Proofs.LogLogJumpSizes.runtime_bound"
+      ]
+    },
+    {
       "id": "lax-345067",
       "state": "registered",
       "environment": "v4.33.0",
