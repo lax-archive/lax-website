@@ -10817,6 +10817,101 @@
       "proofs": []
     },
     {
+      "id": "lax-461425",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Depth Hierarchies for Symmetric Algebraic Circuits",
+      "concepts": [
+        {
+          "id": "Lax461425.BoundedDepthCharacterisation",
+          "title": "Characterisation of bounded-depth matrix-symmetric circuits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.Circuits",
+          "title": "Algebraic circuits",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.CircuitsForPatterns",
+          "title": "Circuits for patterns of bounded forestwidth",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.DepthHierarchy",
+          "title": "Symmetric depth hierarchy",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.DixonMortimer",
+          "title": "Subgroups of small index in the symmetric group",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.Forestwidth",
+          "title": "Δ-forestwidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.HomomorphismPolynomials",
+          "title": "Homomorphism polynomials",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.MatrixSymmetry",
+          "title": "Matrix-symmetric circuits",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.NonUniformClosure",
+          "title": "Homomorphism polynomials outside the span of a graph class",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.Oddomorphisms",
+          "title": "Oddomorphisms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.PatternsFromCircuits",
+          "title": "Homomorphism polynomials from symmetric circuits",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax461425.ReducedRigid",
+          "title": "Reduced circuits are rigid",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax461425.Rigidification",
+          "title": "Rigidification",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax461425.Supports",
+          "title": "Supports and support depth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax461425.SupportTheorem",
+          "title": "Support theorem",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax461425Proofs.characterisation",
+        "Lax461425Proofs.DepthHierarchy.exists_circuit",
+        "Lax461425Proofs.DepthHierarchy.orbitSize_ge",
+        "Lax461425Proofs.exists_circuit",
+        "Lax461425Proofs.exists_fixingSubgroup_inf_alternatingGroup_le",
+        "Lax461425Proofs.hom_not_mem_homSpan",
+        "Lax461425Proofs.PatternsFromCircuits.mem_span_hom",
+        "Lax461425Proofs.ReducedRigid.isRigid",
+        "Lax461425Proofs.Rigidification.exists_reduced",
+        "Lax461425Proofs.SupportTheorem.supportSize_le"
+      ]
+    },
+    {
       "id": "lax-470956",
       "state": "registered",
       "environment": "v4.33.0",
