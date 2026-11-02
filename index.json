@@ -13406,6 +13406,42 @@
       ]
     },
     {
+      "id": "lax-630294",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Gossiping and the Characterization by T-Graphs and M-Graphs",
+      "concepts": [
+        {
+          "id": "Lax630294.Characterization",
+          "title": "Characterization of Label-Connected Multigraphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax630294.Gossiping",
+          "title": "The Gossiping Problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax630294.MGraph",
+          "title": "M-Witness and M-Graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax630294.SpanningStructures",
+          "title": "Cycles, Spanning Trees and Spanning Forests of a Multigraph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax630294.TGraph",
+          "title": "T-Graph",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax630294Proofs.isLabelConnected_iff"
+      ]
+    },
+    {
       "id": "lax-666725",
       "state": "registered",
       "environment": "v4.33.0",
