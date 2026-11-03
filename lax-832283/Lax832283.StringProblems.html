@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://comments.laxarchive.org; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; frame-src https://comments.laxarchive.org; connect-src 'self' https://comments.laxarchive.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A vocabulary of the NP core, with finitely many relation symbols, is numbered by a list of arities: a FinVocab. A table of the Immerman–Vardi entry, of that list of arities, then reads as a structure on Fin n, and a decision problem of the core reads as a property of tables and as a Boolean query…">
+<meta name="description" content="A vocabulary of the NP core, with finitely many relation symbols, is numbered by a list of arities. A table of the Immerman–Vardi entry, of that list of arities, then reads as a structure on an initial segment of the natural numbers, and a decision problem of the core reads as a property of tables…">
 
 <title>Decision problems of the core on bit strings</title>
 <link rel="canonical" href="https://laxarchive.org/lax-832283/Lax832283.StringProblems.html">
@@ -188,11 +188,11 @@
 </section>
 <h3 class="figure-title">Natural Language Statement</h3>
 <div class="block block-statement"><h3>Definition</h3><div class="latex-content"><p>A vocabulary of the NP core, with finitely many relation symbols, is numbered by a
-list of arities: a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>V</mi><mi>o</mi><mi>c</mi><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">FinVocab</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal" style="margin-right:0.2222em;">inV</span><span class="mord mathnormal">oc</span><span class="mord mathnormal">ab</span></span></span></span>. A table of the Immerman–Vardi entry, of that list of
-arities, then reads as a structure on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">Fin n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mord mathnormal">inn</span></span></span></span>, and a decision problem of the core reads
-as a property of tables and as a Boolean query. The empty table is a no-instance, the
-classes of the core being about nonempty structures. A word that encodes no table is in
-no language of the two entries, so nothing else needs care.</p>
+list of arities. A table of the Immerman–Vardi entry, of that list of arities, then reads
+as a structure on an initial segment of the natural numbers, and a decision problem of
+the core reads as a property of tables and as a Boolean query. The empty table is a
+no-instance, the classes of the core being about nonempty structures. A word that encodes
+no table is in no language of the two entries, so nothing else needs care.</p>
 </div></div>
 <details class="figure-details" open>
 <summary>Concept map</summary>
@@ -205,7 +205,7 @@ no language of the two entries, so nothing else needs care.</p>
 </details>
 
 
-<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/PierreSenellart/descriptive-complexity/blob/850b8184a137386232c9918552072f9634bdf9a9/lax/machine-bridge/concepts/Lax832283/StringProblems.lean">view on GitHub</a></h3>
+<h3 class="figure-title">Lean source <a class="source-link" href="https://github.com/PierreSenellart/descriptive-complexity/blob/f06e25be6233d30b93495d59e7c0c5a360a1596b/lax/machine-bridge/concepts/Lax832283/StringProblems.lean">view on GitHub</a></h3>
 <div class="block block-lean">
 <div class="inline-contract-shell"><div class="source-controls"><button class="comment-toggle" type="button" aria-pressed="false" aria-label="Hide comments">Hide comments</button><label class="type-hover-toggle"><input type="checkbox" role="switch" data-type-hover-toggle checked> Show types on hover</label></div><div class="inline-contract-wrap"><table class="inline-contract-table">
 <tr id="L1" class=""><td class="line-num"><a href="#L1">1</a></td><td class="line-code"><span style="color:#D73A49">import</span><span style="color:#24292E"> </span><a class="lean-identifier-link" href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/ModelTheory/Syntax.html" title="mathlib ↗"><span style="color:#24292E">Mathlib.ModelTheory.Syntax</span></a></td></tr>
@@ -230,11 +230,11 @@ no language of the two entries, so nothing else needs care.</p>
 <tr id="L20" class="line-comment"><td class="line-num"><a href="#L20">20</a></td><td class="line-code"><span style="color:#6A737D">type: definition</span></td></tr>
 <tr id="L21" class="line-comment"><td class="line-num"><a href="#L21">21</a></td><td class="line-code"><span style="color:#6A737D">---</span></td></tr>
 <tr id="L22" class="line-comment"><td class="line-num"><a href="#L22">22</a></td><td class="line-code"><span style="color:#6A737D">A vocabulary of the NP core, with finitely many relation symbols, is numbered by a</span></td></tr>
-<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">list of arities: a `FinVocab`. A table of the Immerman–Vardi entry, of that list of</span></td></tr>
-<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">arities, then reads as a structure on `Fin n`, and a decision problem of the core reads</span></td></tr>
-<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">as a property of tables and as a Boolean query. The empty table is a no-instance, the</span></td></tr>
-<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">classes of the core being about nonempty structures. A word that encodes no table is in</span></td></tr>
-<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">no language of the two entries, so nothing else needs care.</span></td></tr>
+<tr id="L23" class="line-comment"><td class="line-num"><a href="#L23">23</a></td><td class="line-code"><span style="color:#6A737D">list of arities. A table of the Immerman–Vardi entry, of that list of arities, then reads</span></td></tr>
+<tr id="L24" class="line-comment"><td class="line-num"><a href="#L24">24</a></td><td class="line-code"><span style="color:#6A737D">as a structure on an initial segment of the natural numbers, and a decision problem of</span></td></tr>
+<tr id="L25" class="line-comment"><td class="line-num"><a href="#L25">25</a></td><td class="line-code"><span style="color:#6A737D">the core reads as a property of tables and as a Boolean query. The empty table is a</span></td></tr>
+<tr id="L26" class="line-comment"><td class="line-num"><a href="#L26">26</a></td><td class="line-code"><span style="color:#6A737D">no-instance, the classes of the core being about nonempty structures. A word that encodes</span></td></tr>
+<tr id="L27" class="line-comment"><td class="line-num"><a href="#L27">27</a></td><td class="line-code"><span style="color:#6A737D">no table is in no language of the two entries, so nothing else needs care.</span></td></tr>
 <tr id="L28" class="line-comment"><td class="line-num"><a href="#L28">28</a></td><td class="line-code"><span style="color:#6A737D">-/</span></td></tr>
 <tr id="L29" class=""><td class="line-num"><a href="#L29">29</a></td><td class="line-code"> </td></tr>
 <tr id="L30" class=""><td class="line-num"><a href="#L30">30</a></td><td class="line-code"><span style="color:#D73A49">namespace</span><span style="color:#24292E"> Lax832283.StringProblems</span></td></tr>
