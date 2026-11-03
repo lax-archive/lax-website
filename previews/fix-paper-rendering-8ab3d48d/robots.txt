@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /previews/
+
+Sitemap: https://laxarchive.org/sitemap.xml
