@@ -84,6 +84,17 @@
   }
 
   function analyzePage(items) {
+    // TeX margin notes are interleaved with the paragraph in PDF stream
+    // order. Including them turns a short passage into a page-sized box.
+    // Infer the text area only when there is ample paragraph evidence;
+    // sparse pages retain the original conservative behaviour.
+    const prose = items.filter((it) => it.w >= 100 && /[a-zA-Z]{4}/.test(it.str || ''));
+    if (prose.length >= 8) {
+      const left = Math.min(...prose.map((it) => it.x));
+      const right = Math.max(...prose.map((it) => it.x + it.w));
+      const tolerance = 6;
+      items = items.filter((it) => it.x + it.w >= left - tolerance && it.x <= right + tolerance);
+    }
     const blocks = computeBlocks(items);
     const blockOf = new Array(items.length);
     blocks.forEach((b, index) => { for (const i of b.idx) blockOf[i] = index; });
@@ -105,14 +116,21 @@
     return best;
   }
 
-  function sameLine(pd, blk, y) {
-    return blk.idx.filter((i) => Math.abs(pd.items[i].y - y) <= Y_TOL);
+  function sameLine(pd, blk, y, wholeLine = false) {
+    const seeds = blk.idx.filter((i) => Math.abs(pd.items[i].y - y) <= Y_TOL);
+    if (!wholeLine || !seeds.length) return seeds;
+    // Vertical TeX markers can report a subscript's baseline. Resolve the
+    // entire visual line, not just glyphs within three points of that
+    // baseline, or trailing punctuation leaks into the next passage.
+    const lines = segmentLines(pd, { from: blk.idx[0], to: blk.idx[blk.idx.length - 1] });
+    const matching = lines.filter((line) => seeds.some((i) => i >= line.from && i <= line.to));
+    return matching.length ? blk.idx.filter((i) => matching.some((line) => i >= line.from && i <= line.to)) : seeds;
   }
 
   function resolveBegin(pd, point) {
     if (!pd.blocks.length) return { overflow: true };
     const blk = findBlock(pd.blocks, point.x, point.y);
-    const S = sameLine(pd, blk, point.y);
+    const S = sameLine(pd, blk, point.y, point.mode === "v");
     if (S.length) {
       if (point.mode === "h") {
         for (const i of S) {
@@ -132,7 +150,7 @@
   function resolveEnd(pd, point) {
     if (!pd.blocks.length) return { underflow: true };
     const blk = findBlock(pd.blocks, point.x, point.y);
-    const S = sameLine(pd, blk, point.y);
+    const S = sameLine(pd, blk, point.y, point.mode === "v");
     if (S.length) {
       if (point.mode === "h") {
         for (let k = S.length - 1; k >= 0; k--) {
@@ -225,12 +243,13 @@
       const joins = cur && x0 >= cur.x0 - 60
         && (Math.abs(cur.y - it.y) <= Y_TOL || (top > cur.bot + 1 && bot < cur.top + 3));
       if (joins) {
+        cur.to = i;
         cur.x0 = Math.min(cur.x0, x0);
         cur.x1 = Math.max(cur.x1, x1);
         cur.top = Math.max(cur.top, top);
         cur.bot = Math.min(cur.bot, bot);
       } else {
-        cur = { y: it.y, x0, x1, top, bot, block };
+        cur = { y: it.y, x0, x1, top, bot, block, from: i, to: i };
         lines.push(cur);
       }
     }

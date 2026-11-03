@@ -448,14 +448,6 @@
     syncHighlights();
   }
 
-  // A card's height with its body closed: the room it takes in the rail
-  // unless pinned. A card opening under the pointer lies over the cards
-  // below it (the stylesheet raises it) rather than shoving them down.
-  function closedHeight(card) {
-    const body = card.el.querySelector('.manuscript-card-body');
-    if (!body || body.hidden) return card.el.offsetHeight;
-    return card.el.offsetHeight - body.offsetHeight - parseFloat(getComputedStyle(body).marginTop || '0');
-  }
 
   // Beside the text: every card in the rail, stacked by its passage —
   // `active` being the mark cards and the footnote cards showing.
@@ -477,7 +469,7 @@
       cards.push(...sorted, ...others);
       railEl.append(...sorted.map((card) => card.el));
     }
-    const result = place(sorted.map((card) => ({ n: card.n, height: card.pinned ? card.el.offsetHeight : closedHeight(card) })), byMark, CARD_GAP, railTop - docTop);
+    const result = place(sorted.map((card) => ({ n: card.n, height: card.el.offsetHeight })), byMark, CARD_GAP, railTop - docTop);
     let bottom = 0;
     sorted.forEach((card, index) => {
       card.el.style.top = `${result.tops[index]}px`;
@@ -588,7 +580,15 @@
   function paintHighlights() {
     const width = docEl.getBoundingClientRect().width;
     const placed = markCards().filter((card) => card.band);
-    const prepared = regions.prepare(placed.map((card) => ({ points: outline(card.band, width), left: 0, right: width })));
+    const prepared = regions.prepare(placed.map((card) => {
+      const last = card.band.lines?.at(-1);
+      // Match the printed view: let the ribbon reach the final line when
+      // its remaining space is empty, retaining a cutout for following text.
+      const extend = !narrow() && card.band.lines?.length > 1 && last
+        && Math.min(last.lineRight, width) <= last.right + 0.5;
+      const band = extend ? { ...card.band, end: { ...card.band.end, inline: false } } : card.band;
+      return { points: outline(band, width), left: 0, right: width };
+    }));
     placed.forEach((card, i) => { card.points = prepared[i]; });
     for (const card of markCards()) {
       card.ribbon = null;

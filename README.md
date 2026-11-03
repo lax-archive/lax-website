@@ -93,7 +93,8 @@ treating equation labels as whitespace. When other text follows it, a thin
 probe leaves its top-right corner and passes
 above that text. The probe shares the passage's fill and widens to the
 card's full height in the gutter.
-Pinned highlights take priority over other regions. Submission annotations
+Overlapping highlights accumulate color; hovering or pinning expands the
+whole band and reserves the open card’s height in the rail. Submission annotations
 use lavender.
 A card opens while its first line or passage is hovered and stays open when
 its first line is clicked outside the links. Moving into an unpinned card's
