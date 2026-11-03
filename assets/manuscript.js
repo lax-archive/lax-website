@@ -199,8 +199,23 @@
       for (const seg of segments) {
         const state = pageState[seg.page - 1];
         const viewport = await viewportOf(state);
-        const pageRight = Math.max(...state.analysed.blocks.map((block) => block.x1));
         for (const shape of place.segmentShapes(state.analysed, seg)) {
+          // If the final line ends in empty space, carry the right edge
+          // down to its bottom before joining the card. Keeping the inset
+          // here makes the ribbon stop a line above the passage's end.
+          // Preserve the inset when another passage follows on that line.
+          if (shape.points.length === 8) {
+            const endX = shape.points[4][0];
+            const lastTop = shape.points[3][1];
+            const occupied = state.analysed.items.some((it, i) =>
+              (i < seg.from || i > seg.to) && it.w > 0 && it.str.trim()
+              && it.x + it.w > endX + 0.5 && it.x < shape.columnRight
+              && it.y + it.h * 0.86 > shape.bot && it.y - it.h * 0.22 < lastTop);
+            if (!occupied) {
+              shape.points[3][0] = shape.columnRight;
+              shape.points[4][0] = shape.columnRight;
+            }
+          }
           let line = null;
           if (shape.points.length === 4) {
             const after = state.analysed.items.filter((it) => it.w > 0 && it.str.trim()
@@ -221,7 +236,11 @@
             left: viewport.convertToViewportPoint(shape.columnLeft, 0)[0],
             right: viewport.convertToViewportPoint(shape.columnRight, 0)[0],
             line,
-            connects: shape.columnRight >= pageRight - 1 });
+            // Overhanging headings and formulas do not create a new column.
+            // Only a separate text block to the right prevents a connection.
+            connects: !state.analysed.blocks.some((block) =>
+              block.x0 >= shape.columnRight + 8
+              && block.x1 - block.x0 > state.page.view[2] * 0.2) });
         }
       }
     }
@@ -253,21 +272,13 @@
     stack();
   }
 
-  // A card's height with its body closed: the room it takes in the rail
-  // unless pinned. A card opening under the pointer lies over the cards
-  // below it (the stylesheet raises it) rather than shoving them down.
-  function closedHeight(card) {
-    const body = card.el.querySelector('.manuscript-card-body');
-    if (!body || body.hidden) return card.el.offsetHeight;
-    return card.el.offsetHeight - body.offsetHeight - parseFloat(getComputedStyle(body).marginTop || '0');
-  }
 
   // The rail is always beside the pages (the body scrolls sideways where
   // the screen is narrower than the two together), so cards sit at their
   // passages' y from the first layout on.
   function stack() {
     railEl.classList.add('manuscript-rail-live');
-    const tops = place.stackCards(cards.map((card) => ({ want: card.want, height: card.pinned ? card.el.offsetHeight : closedHeight(card) })), CARD_GAP);
+    const tops = place.stackCards(cards.map((card) => ({ want: card.want, height: card.el.offsetHeight })), CARD_GAP);
     let bottom = 0;
     cards.forEach((card, index) => {
       card.el.style.top = `${tops[index]}px`;
@@ -308,13 +319,16 @@
       const xr = box.left - bodyBox.left + bodyEl.scrollLeft + 2;
       const ct = box.top - bodyBox.top + bodyEl.scrollTop;
       const cb = ct + box.height;
+      // A continuation on another page must not send a ribbon across the
+      // page break (or through intervening cards) to the original card.
+      const connectionRect = card.rects.find((rect) => rect.page === card.rects[0].page && rect.connects);
       const d = card.rects.map((rect) => {
         const page = pageState[rect.page - 1].el;
         const pageBox = page.getBoundingClientRect();
         const x = pageBox.left - bodyBox.left + bodyEl.scrollLeft + page.clientLeft;
         const y = pageBox.top - bodyBox.top + bodyEl.scrollTop + page.clientTop;
         const points = rect.points.map(([px, py]) => [x + px, y + py]);
-        const band = rect.connects ? regions.connection(points, x + rect.margin, xr, ct, cb,
+        const band = rect === connectionRect ? regions.connection(points, x + rect.margin, xr, ct, cb,
           rect.line && { ...rect.line, top: y + rect.line.top }) : null;
         if (band) card.bands.push(band);
         return regions.path(band?.points || points, band);

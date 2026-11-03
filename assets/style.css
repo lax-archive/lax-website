@@ -5437,8 +5437,8 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 }
 
 /* Each passage and its gutter band share one continuous rounded path.
-   Opaque fills let a pinned region cover other highlights.
-   The whole SVG is multiplied onto the paper, preserving the text. */
+   Individual paths multiply together so overlaps remain visible; the
+   whole SVG also multiplies onto the paper, preserving the text. */
 .manuscript-links{
   display: none;
   position: absolute;
@@ -5451,7 +5451,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   mix-blend-mode: multiply;
 }
 .manuscript-links-live{ display: block; }
-.manuscript-link{ fill: var(--mark-ink); stroke: none; transition: fill 150ms ease; }
+.manuscript-link{ fill: var(--mark-ink); stroke: none; mix-blend-mode: multiply; transition: fill 150ms ease; }
 .manuscript-link.manuscript-link-hover, .manuscript-link.manuscript-link-active,
 .manuscript-link.manuscript-link-pinned{ fill: var(--mark-ink-hot); }
 
@@ -5480,6 +5480,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   overflow: visible;
 }
 .manuscript-hl{
+  mix-blend-mode: multiply;
   fill: var(--mark-ink);
   stroke: none;
   transition: fill 150ms ease;
@@ -5493,8 +5494,7 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
 .manuscript-rail{ list-style: none; margin: 0; padding: 0; min-width: 0; }
 .manuscript-rail-live{ position: relative; }
 .manuscript-rail-live .manuscript-card{ position: absolute; left: 0; right: 0; margin: 0; }
-/* A card open under the pointer takes no room in the rail: it lies over
-   the cards below it. A pinned card takes its room. */
+/* Expanded cards take their full room in the rail on hover and when pinned. */
 .manuscript-rail-live .manuscript-card-expanded{ z-index: 2; }
 .manuscript-rail-live .manuscript-card:focus-within{ z-index: 3; }
 .manuscript-rail-live .manuscript-card-hover{ z-index: 4; }
@@ -5614,6 +5614,10 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
    down to the stylesheet's mobile breakpoint, where the rail goes and the
    cards open in the text instead (manuscript-reflow.js). The body keeps
    room on the left for the rounded highlights' small overhang. */
+body:has(.manuscript-reflow-body){
+  --bg: #ffffff;
+  background: var(--bg);
+}
 .manuscript-reflow-body{
   grid-template-columns: minmax(22rem, 1fr) minmax(19rem, min(40rem, 36%));
   padding-left: 1.2rem;
