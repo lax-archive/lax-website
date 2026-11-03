@@ -15531,6 +15531,38 @@
       ]
     },
     {
+      "id": "lax-832283",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "NP and PTIME on bit strings: the descriptive-complexity library against Fagin and Immerman–Vardi",
+      "concepts": [
+        {
+          "id": "Lax832283.LogicalBridge",
+          "title": "NP and PTIME against the logics of the two entries",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax832283.MachineBridge",
+          "title": "NP and PTIME are the textbook classes on bit strings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax832283.StringProblems",
+          "title": "Decision problems of the core on bit strings",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax832283Proofs.Bridge.HORNSAT_inP",
+        "Lax832283Proofs.Bridge.mem_NP_iff_definable",
+        "Lax832283Proofs.Bridge.mem_NP_iff_inNP",
+        "Lax832283Proofs.Bridge.mem_NP_iff_languageInNP",
+        "Lax832283Proofs.Bridge.mem_PTIME_iff_definable",
+        "Lax832283Proofs.Bridge.mem_PTIME_iff_inP",
+        "Lax832283Proofs.Bridge.SAT_languageInNP"
+      ]
+    },
+    {
       "id": "lax-842588",
       "state": "registered",
       "environment": "v4.33.0",
