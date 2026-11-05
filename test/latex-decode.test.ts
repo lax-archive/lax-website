@@ -223,3 +223,24 @@ describe("the viewer's fixed-schema decoder", () => {
     expect(() => decodeBlock(new Uint8Array([0x80, 0x80, 0x80]))).toThrow(/truncated varint/);
   });
 });
+
+describe("the viewer's links and breaks", () => {
+  const viewer = viewerContext().window.laxLatexViewer;
+
+  it("follows destinations and web addresses, and nothing else from a paper", () => {
+    expect(viewer.linkHref("#cite.0@a:b/c")).toBe("#dest:cite.0%40a%3Ab%2Fc");
+    expect(viewer.linkHref("https://arxiv.org/abs/1")).toBe("https://arxiv.org/abs/1");
+    expect(viewer.linkHref("mailto:a@b.c")).toBe("mailto:a@b.c");
+    expect(viewer.linkHref("javascript:alert(1)")).toBeNull();
+    expect(viewer.linkHref("2209.11229")).toBeNull();
+  });
+
+  it("may break at the fill between a title's authors, but not at a fill after text", () => {
+    const box = { type: "hlist", width: 100, children: [] };
+    const fill = { type: "glue", width: 10, stretch: 1, stretch_order: 2 };
+    const end = { type: "glue", subtype: 15, width: 0, stretch: 0 };
+    const kinds = (nodes: unknown[]) => viewer.buildBreakCandidates(nodes).map((bc: { kind: string }) => bc.kind);
+    expect(kinds([box, fill, box, end])).toEqual(["start", "space", "end"]);
+    expect(kinds([box, { ...fill, width: 0 }, box, end])).toEqual(["start", "end"]);
+  });
+});
