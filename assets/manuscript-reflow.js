@@ -206,7 +206,7 @@
   function syncViewLinks() {
     for (const link of viewLinks) {
       const target = (link.getAttribute('href') || '').split('#')[0];
-      link.setAttribute('href', target + (/^#m\d+$/.test(location.hash) ? location.hash : ''));
+      link.setAttribute('href', target + (/^#(m\d+$|dest:)/.test(location.hash) ? location.hash : ''));
     }
   }
   syncViewLinks();
@@ -837,6 +837,13 @@
     window.addEventListener(type, () => { userMoved = true; }, { passive: true, once: true });
 
   function honourHash() {
+    const dest = /^#dest:(.+)$/.exec(location.hash);
+    if (dest) {
+      let name;
+      try { name = decodeURIComponent(dest[1]); } catch { return; }
+      document.getElementById(`dest:${name}`)?.scrollIntoView({ block: 'start' });
+      return;
+    }
     const match = /^#m(\d+)$/.exec(location.hash);
     if (!match) return;
     const card = cards.find((c) => c.n === Number(match[1]));

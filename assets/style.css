@@ -5466,6 +5466,15 @@ html:not(.graphs-interactive) .graph-controls{ visibility: hidden; }
   overflow: hidden;
 }
 .manuscript-page canvas{ display: block; width: 100%; }
+.manuscript-link-layer{ position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.manuscript-link{ position: absolute; display: block; pointer-events: auto; border-radius: 2px; }
+.manuscript-link:hover, .manuscript-link:focus-visible{ background: rgba(42, 127, 143, 0.14); outline: none; }
+.manuscript-dest-flash{
+  position: absolute; left: 0; right: 0; height: 2.2em; z-index: 2;
+  background: rgba(42, 127, 143, 0.16); pointer-events: none;
+  animation: manuscript-dest-flash 1.2s ease-out forwards;
+}
+@keyframes manuscript-dest-flash{ from{ opacity: 1; } to{ opacity: 0; } }
 .manuscript-page-rendered{ border-color: transparent; }
 /* Highlights: one flat region per passage and column, with clipped first
    and last lines and padding that separates adjacent declarations. */
@@ -5667,6 +5676,9 @@ body:has(.manuscript-reflow-body){
 /* Zero-size, invisible; a deep link lands the passage below the sticky
    header. The viewer positions in-paragraph anchors absolutely itself. */
 .latex-anchor{ display: block; width: 0; height: 0; scroll-margin-top: 7rem; }
+.latex-links a{ cursor: pointer; }
+.latex-links a:hover rect, .latex-links a:focus-visible rect{ fill: rgba(42, 127, 143, 0.14); }
+.latex-links a:focus{ outline: none; }
 /* Footnotes as sidenotes (manuscript-reflow.js). While the rail stands
    beside the text the body carries manuscript-sidenotes: each footnote's
    segment is lifted into a .manuscript-footnote card in the rail and the

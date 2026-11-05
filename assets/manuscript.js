@@ -41,7 +41,7 @@
   const syncViewLinks = () => {
     for (const link of viewLinks) {
       const target = (link.getAttribute('href') || '').split('#')[0];
-      link.setAttribute('href', target + (/^#m\d+$/.test(location.hash) ? location.hash : ''));
+      link.setAttribute('href', target + (/^#(m\d+$|dest:)/.test(location.hash) ? location.hash : ''));
     }
   };
   syncViewLinks();
@@ -150,6 +150,98 @@
     state.el.prepend(canvas);
     state.el.classList.add('manuscript-page-rendered');
     state.rendered = true;
+    await renderLinks(state, viewport);
+  }
+
+  // ---- links ----
+
+  // The PDF's link annotations as anchors over the page. An internal link
+  // is a `#dest:<name>` fragment, so the browser's own history gives the
+  // reader Back to where they were, and a link can be opened or shared.
+  const DEST_HASH = /^#dest:(.+)$/;
+  const WEB_URL = /^(https?|mailto):/i;
+
+  function linkAnchor(annotation) {
+    const anchor = document.createElement('a');
+    anchor.className = 'manuscript-link';
+    if (annotation.url) {
+      if (!WEB_URL.test(annotation.url)) return null;
+      anchor.href = annotation.url;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer';
+      anchor.setAttribute('aria-label', annotation.url);
+      return anchor;
+    }
+    const dest = annotation.dest;
+    if (typeof dest === 'string') anchor.href = `#dest:${encodeURIComponent(dest)}`;
+    else if (Array.isArray(dest)) anchor.href = '#';
+    else return null;
+    anchor.setAttribute('aria-label', 'Go to the linked place in the paper');
+    anchor.addEventListener('click', (event) => {
+      // A fragment change is followed by the hashchange listener; only a
+      // repeat of the current fragment, or a destination without a name,
+      // needs following here.
+      if (typeof dest === 'string' && anchor.hash !== location.hash) return;
+      event.preventDefault();
+      followDestination(dest).catch((error) => console.error('link failed', error));
+    });
+    return anchor;
+  }
+
+  async function renderLinks(state, viewport) {
+    const annotations = await state.page.getAnnotations({ intent: 'display' });
+    if (state.viewport !== viewport || !state.rendered) return; // a resize won
+    const layer = document.createElement('div');
+    layer.className = 'manuscript-link-layer';
+    for (const annotation of annotations) {
+      if (annotation.subtype !== 'Link') continue;
+      const anchor = linkAnchor(annotation);
+      if (!anchor) continue;
+      const [left, top, right, bottom] = pdfjs.Util.normalizeRect(viewport.convertToViewportRectangle(annotation.rect));
+      anchor.style.left = `${left}px`;
+      anchor.style.top = `${top}px`;
+      anchor.style.width = `${right - left}px`;
+      anchor.style.height = `${bottom - top}px`;
+      layer.append(anchor);
+    }
+    if (layer.childElementCount > 0) state.el.append(layer);
+  }
+
+  // A PDF destination is [page, mode, ...]: the modes that name a height
+  // are XYZ (left, top, zoom) and FitH / FitBH (top); the rest mean the top
+  // of the page.
+  function destinationTop(mode, args) {
+    if (mode === 'XYZ') return args[1];
+    if (mode === 'FitH' || mode === 'FitBH') return args[0];
+    return null;
+  }
+
+  async function followDestination(dest) {
+    const explicit = typeof dest === 'string' ? await doc.getDestination(dest) : dest;
+    if (!Array.isArray(explicit)) return;
+    const [pageRef, mode, ...args] = explicit;
+    const index = typeof pageRef === 'number' ? pageRef : await doc.getPageIndex(pageRef);
+    const state = pageState[index];
+    if (!state) return;
+    const viewport = await viewportOf(state);
+    const top = destinationTop(mode && mode.name, args);
+    const y = typeof top === 'number' ? Math.max(0, viewport.convertToViewportPoint(0, top)[1]) : 0;
+    const box = state.el.getBoundingClientRect();
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
+    window.scrollTo({ top: window.scrollY + box.top + y - header * 16 - 24, behavior: 'auto' });
+    const marker = document.createElement('div');
+    marker.className = 'manuscript-dest-flash';
+    marker.style.top = `${y}px`;
+    state.el.append(marker);
+    setTimeout(() => marker.remove(), 1200);
+  }
+
+  function followHash() {
+    const match = DEST_HASH.exec(location.hash);
+    if (!match) return;
+    let name;
+    try { name = decodeURIComponent(match[1]); } catch { return; }
+    followDestination(name).catch((error) => console.error('link failed', error));
   }
 
   function clearPage(state) {
@@ -502,7 +594,7 @@
     });
     hoverSurface.addEventListener('mouseleave', () => hover(null));
     hoverSurface.addEventListener('click', (event) => {
-      if (event.target.closest('.manuscript-rail')) return;
+      if (event.target.closest('.manuscript-rail, .manuscript-link')) return;
       const best = cardAt(event) || cardAtRibbon(event);
       if (!best) return;
       const pinned = !best.pinned;
@@ -564,7 +656,9 @@
     setStatus(`${doc.numPages} page${doc.numPages === 1 ? '' : 's'} · ${located} of ${cards.length} passages located`);
     root.classList.add('manuscript-ready');
     openFromHash();
+    followHash();
     window.addEventListener('hashchange', openFromHash);
+    window.addEventListener('hashchange', followHash);
     window.addEventListener('resize', onResize);
     if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(pagesEl);
     document.fonts?.ready.then(() => stack());
