@@ -4121,27 +4121,71 @@
   <url><loc>https://laxarchive.org/lax-457868/</loc></url>
   <url><loc>https://laxarchive.org/lax-457868/Lax457868.RefinedWelzlOrders.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.ABPsForPatterns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.BooleanSumSymmetry.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.BoundedDepthCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.CircuitProperties.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.Circuits.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.CircuitsForPatterns.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.DepthHierarchy.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.DixonMortimer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.Forestwidth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.FormulaSupportDepth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.FormulaWitnessEquivalence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.FormulasForPatterns.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.HomomorphismPolynomials.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.HomomorphismSpanning.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.MatrixSymmetry.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.NonUniformClosure.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.Oddomorphisms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.PatternWidths.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.PatternsFromCircuits.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.Permanent.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.PermanentCompleteness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.ReducedRigid.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.Rigidification.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SkewCircuitCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SkewFromABP.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.SupportTheorem.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425.Supports.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricABPCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricABPs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricClasses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricFamilies.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricFormulaWitness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricVFCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricVNP.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricVNPCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.SymmetricVPCharacterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.TreedepthForestwidth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425.TreewidthForestwidth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.BooleanWitnesses.matrixInvariant_of_mem.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.DepthHierarchy.exists_circuit.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.DepthHierarchy.orbitSize_ge.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.HomomorphismSpanning.invariant_mem_span_hom.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.PatternsFromCircuits.mem_span_hom.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Permanent.permanent_membership.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.PermanentProjection.hardness.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.ReducedRigid.isRigid.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Rigidification.exists_reduced.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section6ABPForPatterns.exists_abp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section6ABPToSkew.family_inclusion.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section6Characterisation.equivalence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section6Characterisation.skew_to_abp.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section6Characterisation.symVS_characterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section7FormulaConstruction.all_matrix_symmetric_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section7FormulaConstruction.formula_witness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.Section7FormulaConstruction.formula_witnesses_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SkewCircuitCharacterisation.mem_span_hom.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SupportTheorem.supportSize_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SymVFCharacterisation.characterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SymVFFormulasForPatterns.exists_formula.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SymVFSupportDepth.exists_reduced.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.SymVPCharacterisation.characterisation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.TreedepthForestwidth.forestwidthLE_of_treedepthLE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.TreedepthForestwidth.treedepthLE_of_forestwidthLE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.TreewidthForestwidth.exists_forestwidthLE_of_treewidthLE.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.TreewidthForestwidth.treewidthLE_of_forestwidthLE.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.characterisation.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.exists_circuit.html</loc></url>
   <url><loc>https://laxarchive.org/lax-461425/Lax461425Proofs.exists_fixingSubgroup_inf_alternatingGroup_le.html</loc></url>
