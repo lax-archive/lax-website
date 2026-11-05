@@ -850,7 +850,13 @@ function buildBreakCandidates(nodes) {
         // that contains it as "filled" (cumFill), so its slack is absorbed there
         // rather than justified, exactly like a last line. Treating the first such
         // fill as the end would silently drop everything after a \\.
+        // lax: except where it stands between two boxes with width of its own:
+        // \and between the authors of a title is \hskip 1em plus .17fil, and
+        // TeX may break there. Without the break the authors can never wrap.
         if (n.type==='glue' && n.stretch_order>0) {
+            if (n.width>0 && nodes[i-1]?.type==='hlist' && nodes[i+1]?.type==='hlist') {
+                bcs.push({ kind:'space', nodeIdx:i, penalty:0, preW:0,postW:0,replaceW:0, preGlyphW:0,postGlyphW:0,replaceGlyphW:0, spaceW:n.width,spaceS:0,spaceZ:0, cumW,cumS,cumZ,cumGlyphW,cumFill, rightProtrusion:0, leftProtrusion:0 });
+            }
             cumW+=n.width; cumFill+=1;
             continue;
         }
@@ -1655,6 +1661,9 @@ function renderNodes(fontInfo, sink, nodes, x, baselineY, ratio, expandRatio, fi
             // lax: a footnote's reference point — the same shape, its own
             // sink method (the superscript glyph before it is ordinary ink).
             case 'fnref': if (sink.footnote) sink.footnote(n, x, baselineY); break;
+            // lax: a hyperlink's ends and a destination, the same shape again.
+            case 'link':  if (sink.link) sink.link(n); break;
+            case 'dest':  if (sink.dest) sink.dest(n, x, baselineY); break;
             case 'math':  x+=n.surround*SP_TO_PX; break;
             case 'hlist':{
                 const{ratio:hr,fillOrder:hfo}=hlistGlueRatio(n);
@@ -1730,6 +1739,13 @@ function segmentsOf(doc) {
             text = null;
             continue;
         }
+        // lax: a hyperref destination between flow items (a section's, a
+        // theorem's): an anchor of the same kind, under its own id.
+        if (item.kind === 'dest_item') {
+            if (item.target) pendingMarkers.push({ dest: item.target });
+            text = null;
+            continue;
+        }
         if (item.kind === 'display') {
             // Consecutive alignment rows are the rows of one align/gather, and
             // must be laid out together: they share a single offset so their
@@ -1787,7 +1803,16 @@ function segmentsOf(doc) {
 // lax: the identity an anchor element is pooled under across reflows — a
 // mark's side, or a footnote reference (`fn`, one per footnote).
 function anchorKey(m) {
+    if (m.dest !== undefined) return `dest:${m.dest}`;
     return m.fn ? `fn:${m.n}` : `${m.n}:${m.side}`;
+}
+
+// lax: a link target as an href: a destination by its fragment, which the
+// page's anchors answer to (id="dest:<name>"), and a web address as it is.
+// Anything else came from the paper and is not followed.
+function linkHref(target) {
+    if (target.startsWith('#')) return `#dest:${encodeURIComponent(target.slice(1))}`;
+    return /^(https?|mailto):/i.test(target) ? target : null;
 }
 
 // lax: whether a line's node list carries a marker anywhere — the cheap gate
@@ -1818,8 +1843,10 @@ function anchorSink(out) {
 // lax: record ink in source order, splitting a run at every mark. Empty glue,
 // struts, equation labels and display spacing never become part of a marked
 // passage. The painting traversal accounts for nested math and transforms.
-function passageSink(anchors, events, labelNodes) {
-    let matrix = null, run = null;
+// lax: `links` records the ink of each hyperlink the same way, per line: its
+// `target` carries an open link across the lines of a paragraph.
+function passageSink(anchors, events, labelNodes, links) {
+    let matrix = null, run = null, linkRun = null;
     const stack = [];
     const point = (x, y) => matrix
         ? [matrix[0]*x + matrix[2]*y + matrix[4], matrix[1]*x + matrix[3]*y + matrix[5]] : [x, y];
@@ -1833,6 +1860,16 @@ function passageSink(anchors, events, labelNodes) {
         for (const [px, py] of corners) {
             run.left = Math.min(run.left, px); run.right = Math.max(run.right, px);
             run.top = Math.min(run.top, py); run.bottom = Math.max(run.bottom, py);
+        }
+        if (links?.target) {
+            if (!linkRun) {
+                linkRun = { target: links.target, left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity };
+                links.runs.push(linkRun);
+            }
+            for (const [px, py] of corners) {
+                linkRun.left = Math.min(linkRun.left, px); linkRun.right = Math.max(linkRun.right, px);
+                linkRun.top = Math.min(linkRun.top, py); linkRun.bottom = Math.max(linkRun.bottom, py);
+            }
         }
     };
     return {
@@ -1852,6 +1889,15 @@ function passageSink(anchors, events, labelNodes) {
         footnote(n, x, y) {
             const [px, py] = point(x, y);
             if (n.n) anchors.push({ fn: true, n: n.n, x: px, y: py });
+        },
+        link(n) {
+            if (!links) return;
+            links.target = n.side === 'e' ? null : linkHref(n.target || '');
+            linkRun = null;
+        },
+        dest(n, x, y) {
+            const [px, py] = point(x, y);
+            if (n.target) anchors.push({ dest: n.target, x: px, y: py });
         },
     };
 }
@@ -2067,8 +2113,11 @@ function layoutTextSegment(fontInfo, seg, widthPt, p, cache) {
             } else {
                 const natPx = natSp * SP_TO_PX;
                 switch (align) {
-                    case 'right':  x0 = availPx - natPx; break;
-                    case 'center': x0 = (availPx - natPx) / 2; break;
+                    // lax: a line wider than the column starts at the column's
+                    // edge. Centred or set right it would start left of it,
+                    // off the page, where nothing can scroll to.
+                    case 'right':  x0 = Math.max(0, availPx - natPx); break;
+                    case 'center': x0 = Math.max(0, (availPx - natPx) / 2); break;
                     default:       x0 = protX; break;
                 }
                 // A line with an infinite fill and room to spare distributes the
@@ -2403,10 +2452,11 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         // passage accurately before its glyphs enter the viewport.
         const anchors = [];
         const inkLines = [];
+        const links = { target: null, runs: [] };
         for (let j = 0; j < geom.lines.length; j++) {
             const events = [];
             const { ratio, er, x0, fillRatio, fillOrder } = geom.lrp[j];
-            renderNodes(fontInfo, passageSink(anchors, events, geom.labelNodes), geom.lines[j].nodes, x0, baselineYs[j],
+            renderNodes(fontInfo, passageSink(anchors, events, geom.labelNodes, links), geom.lines[j].nodes, x0, baselineYs[j],
                         fillOrder ? fillRatio : ratio, er, fillOrder || 0);
             inkLines.push(events);
         }
@@ -2423,7 +2473,7 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
             ? baselineYs[1] - profiles[1].reduce((m, it) => Math.max(m, it.h), 0) : 0;
         const tagBottom = n > 1 && geom.lines[n-1].tag
             ? H - (baselineYs[n-2] + profiles[n-2].reduce((m, it) => Math.max(m, it.d), 0)) : 0;
-        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors, inkLines, tagTop, tagBottom,
+        return { ...geom, seg, profiles, baselineYs, H, firstAscent, lastDepth, anchors, links: links.runs, inkLines, tagTop, tagBottom,
                  firstMeta: (geom.meta && geom.meta[0]) || null, gapBefore: seg.gapBefore || 0 };
     });
 
@@ -2437,7 +2487,10 @@ function layoutDocument(fontInfo, doc, widthPt, p, cache) {
         let a = dom.anchors.get(key);
         if (!a) {
             a = document.createElement('span');
-            if (m.fn) {
+            if (m.dest !== undefined) {
+                a.className = 'latex-anchor latex-dest';
+                a.id = `dest:${m.dest}`;
+            } else if (m.fn) {
                 a.className = 'latex-anchor latex-fnref';
                 a.dataset.footnote = String(m.n);
                 a.id = `fn-ref-${m.n}`;
@@ -2613,7 +2666,7 @@ function markedLines(root) {
     const out = {}, active = new Set();
     let previousBottom = -Infinity;
     const marker = m => {
-        if (m.fn) return;
+        if (m.fn || m.dest !== undefined) return;
         if (m.side === 'e') active.delete(m.n); else active.add(m.n);
     };
     for (const block of root.querySelectorAll('.latex-block')) {
@@ -2692,6 +2745,22 @@ function paintSegment(fontInfo, cache, i) {
         }
     }
 
+    // lax: the links, over the lines. Their boxes are the ink layout recorded,
+    // so they stay right at every width.
+    if (L.links.length > 0 || s.links) {
+        if (!s.links) s.links = svgEl('g', { class: 'latex-links' });
+        s.links.replaceChildren(...L.links.map((run) => {
+            const external = !run.target.startsWith('#');
+            const anchor = svgEl('a', external
+                ? { href: run.target, target: '_blank', rel: 'noopener noreferrer' }
+                : { href: run.target });
+            anchor.appendChild(svgEl('rect', { x: run.left, y: run.top, width: run.right - run.left,
+                height: run.bottom - run.top, rx: 2, fill: 'transparent' }));
+            return anchor;
+        }));
+        s.svg.appendChild(s.links);
+    }
+
     for (let j = 0; j < L.lines.length; j++) {
         const { ratio, er, x0, fillRatio, fillOrder } = L.lrp[j];
         sink.beginLine(s.pairs[j].text, s.pairs[j].g);
@@ -2762,6 +2831,7 @@ function unboxPresetParagraph(para) {
     for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         if (n.type === 'vlist') { if (vi >= 0) return false; vi = i; continue; }
+        if (n.type === 'link' || n.type === 'dest') continue;
         if (n.type === 'glue' || n.type === 'kern' || n.type === 'penalty' || n.type === 'mark' || n.type === 'fnref' || n.type === 'local_par') continue;
         if (n.type === 'hlist' && !(n.children && n.children.length)) continue;   // the \parindent box
         return false;
@@ -2853,8 +2923,8 @@ const LAX_ENUMS = {
     // its name for a footnote's reference point — proto2 scopes enum value
     // names to the package, so neither can reuse ItemKind's `marker` and
     // `footnote_ref`.
-    NodeType: ['glyph','glue','kern','rule','hlist','vlist','disc','penalty','math','picture','transform','mark','fnref'],
-    ItemKind: ['paragraph','display','vspace','marker','footnote_ref'],
+    NodeType: ['glyph','glue','kern','rule','hlist','vlist','disc','penalty','math','picture','transform','mark','fnref','link','dest'],
+    ItemKind: ['paragraph','display','vspace','marker','footnote_ref','dest_item'],
 };
 const LAX_MESSAGES = {
     Document: {
@@ -2879,7 +2949,7 @@ const LAX_MESSAGES = {
     ContentItem: {
         1: ['kind','enum','ItemKind'], 2: ['para','u32'], 3: ['box','msg','Node'], 4: ['amount','i32'],
         5: ['display_width','i32'], 6: ['display_indent','i32'], 7: ['display_shift','i32'],
-        8: ['side','str'], 9: ['n','u32'],
+        8: ['side','str'], 9: ['n','u32'], 10: ['target','str'],
     },
     Node: {
         1: ['type','enum','NodeType'], 2: ['char','i32'], 3: ['font','u32'], 4: ['width','i32'],
@@ -2890,6 +2960,8 @@ const LAX_MESSAGES = {
         21: ['penalty','i32'], 22: ['surround','i32'], 23: ['color','str'], 24: ['picture','u32'],
         25: ['leader','msg','Node'], 26: ['m_a','dbl'], 27: ['m_b','dbl'], 28: ['m_c','dbl'], 29: ['m_d','dbl'],
         30: ['cite','u32'], 31: ['citetarget','u32'], 32: ['metrics','u32'], 33: ['side','str'], 34: ['n','u32'],
+        // lax: a link's target and a destination's name.
+        35: ['target','str'],
     },
 };
 const laxUtf8 = new TextDecoder();
@@ -3099,7 +3171,7 @@ document.addEventListener('DOMContentLoaded', init);
 // has just moved from the end of the document to beside its reference,
 // which the re-layout's own pass found far off screen.
 if (typeof window !== 'undefined') window.laxLatexViewer = {
-    decodeBlock, segmentsOf, containsMark, anchorSink, renderNodes, useGlyphMetrics, markedLines,
+    decodeBlock, segmentsOf, containsMark, anchorSink, linkHref, buildBreakCandidates, renderNodes, useGlyphMetrics, markedLines,
     reflow(el) {
         const data = blockData.get(el);
         return Boolean(data && data.painted && reflowBlock(el));
