@@ -2892,6 +2892,519 @@
       "proofs": []
     },
     {
+      "id": "lax-185574",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "First-Order Model Checking on Monadically Dependent Graph Classes",
+      "concepts": [
+        {
+          "id": "Lax185574.Algorithms",
+          "title": "Algorithms and their running times",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.AtomicMatching",
+          "title": "Atomically matched tuples",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.AtomicTypes",
+          "title": "Atomic types of vertices and of pairs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.BallFlip",
+          "title": "A definable flip separating a ball one step further",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.BallTypes",
+          "title": "Few atomic types in balls avoiding a closure",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.BetterMergeSequences",
+          "title": "Merge sequences with definable stages from chains",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.BipartiteFlip",
+          "title": "A four-part flip of a bipartite graph with short edges in both polarities",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.BipartiteGraphs",
+          "title": "Bipartite graphs and bipartite complements",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.BipartiteHomogeneity",
+          "title": "Homogeneous rectangles for colorings of pairs of tuples",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.BoundedVCClasses",
+          "title": "Bounded VC-dimension of monadically dependent classes",
+          "type": "observation"
+        },
+        {
+          "id": "Lax185574.CanonicalForm",
+          "title": "Canonical form",
+          "type": "observation"
+        },
+        {
+          "id": "Lax185574.ChainConstructionSequences",
+          "title": "Locally definable construction sequences from chains",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.Chains",
+          "title": "Chains and their radius-r width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.ChainTheorem",
+          "title": "Chains of vertex sets with few atomic types in flip-metric balls",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.ClosureTheorem",
+          "title": "Closure theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.ClosureTheoremTuples",
+          "title": "Closure theorem for tuples",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.Clustering",
+          "title": "Clustering of a tuple",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.Colorings",
+          "title": "Colorings of graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.ComplementDiameter",
+          "title": "A graph or its complement has diameter at most 3",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ComputeScatterType",
+          "title": "Computing the scatter type",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ComputingChains",
+          "title": "Computing chains of small width",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.ConstructionModelChecking",
+          "title": "Model checking along a construction sequence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.ConstructionSequences",
+          "title": "Construction sequences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.ConstructionWidth",
+          "title": "Radius-r width of a construction sequence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.DefinableFlipFormula",
+          "title": "The edges of a definable flip are quantifier-free definable",
+          "type": "observation"
+        },
+        {
+          "id": "Lax185574.DefinableFlips",
+          "title": "Definable flips",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.DefinableFlipTransitivity",
+          "title": "Transitivity of definable flips",
+          "type": "fact"
+        },
+        {
+          "id": "Lax185574.DefinableSequences",
+          "title": "Computing locally definable construction sequences",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.DefinableToTypes",
+          "title": "Local definability bounds the width",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.DistanceLogic",
+          "title": "Distance logic over partial graphs and distance rank",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.DistanceMatrix",
+          "title": "The distance matrix of a partial graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.Encoding",
+          "title": "Encoding data as lists of numbers",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.Encodings",
+          "title": "How inputs are given to algorithms",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.Evaluation",
+          "title": "Evaluation of distance formulas on type trees",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.FarComposition",
+          "title": "Far composition of type trees",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.FarTrees",
+          "title": "The far tree",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.FewTypes",
+          "title": "Construction sequences with few realized types",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.FirstOrderLogic",
+          "title": "First-order logic on colored graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.FirstOrderTypes",
+          "title": "Types of bounded quantifier rank",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.FlipMetricMonotone",
+          "title": "Refining a partition increases the flip metric",
+          "type": "observation"
+        },
+        {
+          "id": "Lax185574.Flips",
+          "title": "Flips and flip metrics",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.FlipsMonadicallyDependent",
+          "title": "Definable flips preserve monadic dependence",
+          "type": "observation"
+        },
+        {
+          "id": "Lax185574.ForbiddenPhiPatterns",
+          "title": "Monadically dependent classes exclude large φ-patterns",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax185574.ForbiddenPhiPsiPatterns",
+          "title": "Monadically dependent classes exclude large (φ, ψ)-patterns",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.GaifmanGraph",
+          "title": "Gaifman graph, distances, balls and induced substructures",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.GaifmanLocality",
+          "title": "Gaifman's locality theorem with a rank bound",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.GraphBalls",
+          "title": "Balls around vertex sets in a graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.Graphs",
+          "title": "Graphs and graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.HomogeneousSplitting",
+          "title": "Splitting by a transversal gives a partition homogeneous modulo the pair relation",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.IndependenceProperty",
+          "title": "Monadic dependence through the independence property",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.LocalDefinability",
+          "title": "Locally definable construction sequences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.LocalFormulas",
+          "title": "Local formulas and basic local sentences",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.LocalSubstructure",
+          "title": "Local formulas are evaluated in any superset of the ball",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.LocalToGlobal",
+          "title": "Types are determined by types in a neighborhood",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.MatchedTuples",
+          "title": "Many atomic types force atomically matched tuples",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.MergeLift",
+          "title": "Lifting type trees through a merge",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.MergeSequences",
+          "title": "Merge sequences and their radius-r width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.MergeToConstruction",
+          "title": "From merge sequences to locally definable construction sequences",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ModelChecking",
+          "title": "First-order model checking on monadically dependent graph classes",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.MonadicDependence",
+          "title": "Monadically dependent graph classes",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.NeighborhoodComplexityBound",
+          "title": "Polynomial neighborhood complexity from bounded VC-dimension",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.PairRelation",
+          "title": "Pairs at distance at most 5 in both polarities",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.PairRelationBalls",
+          "title": "Balls of the pair relation lie in flip-metric balls",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.PairRelationDefinable",
+          "title": "The pair relation of atomic types is definable",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.PairRelationMonotone",
+          "title": "The pair relation grows under coarsening",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.PartialGraphs",
+          "title": "Partial graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.PartitionMetricConversion",
+          "title": "Converting the flip metric of a partition into a single flip",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.Partitions",
+          "title": "Partitions, transversals and the partition into atomic types",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.PhiPatterns",
+          "title": "φ-patterns",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.PhiPsiPatterns",
+          "title": "(φ, ψ)-patterns",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.RankShift",
+          "title": "Rank shift of type trees",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ResolveLift",
+          "title": "Lifting type trees through a resolve",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.Restriction",
+          "title": "Ordered coordinate restriction of type trees",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ScatterTypeRestriction",
+          "title": "Restriction of scatter types",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ScatterTypes",
+          "title": "Scatter types",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.SeparatingTypes",
+          "title": "Few types far from a parameter set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.SeparatingTypesTuples",
+          "title": "Few types far from a parameter set, with a fixed tuple of parameters",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.SplitBalls",
+          "title": "Splitting by a transversal keeps few parts in flip-metric balls",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.SplittingMonotone",
+          "title": "Splitting by minimal representatives preserves coarsening",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.ToFarTree",
+          "title": "Computing the far tree",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.TreeEquivalence",
+          "title": "Type trees are distance types",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax185574.TreeLocality",
+          "title": "Locality of type trees",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.TypeBound",
+          "title": "Polynomial bound on the number of types over a parameter set",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax185574.TypeSplitting",
+          "title": "Splitting the parts of a partition by atomic types over a set",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.TypeTrees",
+          "title": "Type trees and their canonical representation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.TypeTreeSizes",
+          "title": "Type tree sizes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.VCDimension",
+          "title": "Neighborhood complexity and VC-dimension",
+          "type": "definition"
+        },
+        {
+          "id": "Lax185574.VCDuality",
+          "title": "Bounded-VC duality",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax185574.Width",
+          "title": "Radius-r depth-q width of a construction sequence",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax185574Proofs.BallFlip.exists_ball_flip",
+        "Lax185574Proofs.BallTypes.ball_types",
+        "Lax185574Proofs.BetterMergeSequences.exists_mergeSequence_of_chain",
+        "Lax185574Proofs.BipartiteFlip.exists_flip_close",
+        "Lax185574Proofs.BipartiteHomogeneity.exists_orderType_homogeneous",
+        "Lax185574Proofs.BoundedVCClasses.exists_vcDim_le",
+        "Lax185574Proofs.CanonicalForm.exists_program_canonical",
+        "Lax185574Proofs.ChainConstructionSequences.exists_constructionSequence_of_chain",
+        "Lax185574Proofs.ChainTheorem.exists_program_decreasingChain",
+        "Lax185574Proofs.ClosureTheorem.closure_theorem",
+        "Lax185574Proofs.ClosureTheoremTuples.closure_theorem_tuples",
+        "Lax185574Proofs.Clustering.clustering",
+        "Lax185574Proofs.ComplementDiameter.diameter_le_three_or_compl",
+        "Lax185574Proofs.ComputeScatterType.exists_program_stp",
+        "Lax185574Proofs.ComputingChains.exists_program_chain",
+        "Lax185574Proofs.ConstructionModelChecking.exists_program_modelChecking_sequence",
+        "Lax185574Proofs.DefinableFlipFormula.exists_isQF_flipOver_formula",
+        "Lax185574Proofs.DefinableFlipTransitivity.isDefinableFlip_trans",
+        "Lax185574Proofs.DefinableSequences.exists_program_definableSequence",
+        "Lax185574Proofs.DefinableToTypes.width_le_of_isRadiusDefinable",
+        "Lax185574Proofs.Evaluation.exists_program_eval",
+        "Lax185574Proofs.FarComposition.exists_program_compose",
+        "Lax185574Proofs.FewTypes.exists_program_fewTypes",
+        "Lax185574Proofs.FlipMetricMonotone.flipBall_subset_of_le",
+        "Lax185574Proofs.FlipMetricMonotone.isFlip_of_le",
+        "Lax185574Proofs.FlipsMonadicallyDependent.monadicallyDependent_definableFlipClass",
+        "Lax185574Proofs.ForbiddenPhiPatterns.forbidden_phi_patterns",
+        "Lax185574Proofs.ForbiddenPhiPsiPatterns.forbidden_phiPsi_patterns",
+        "Lax185574Proofs.GaifmanLocality.exists_local_equivalent",
+        "Lax185574Proofs.HomogeneousSplitting.homogeneousModulo_split",
+        "Lax185574Proofs.IndependenceProperty.monadicallyDependent_iff_forall_not_hasIP",
+        "Lax185574Proofs.IndependencePropertyTuples.not_hasIP_of_monadicallyDependent",
+        "Lax185574Proofs.LocalSubstructure.realize_iff_realize_induced",
+        "Lax185574Proofs.LocalToGlobal.rankType_eq_of_rankType_induced_eq",
+        "Lax185574Proofs.MatchedTuples.exists_atomicallyMatched",
+        "Lax185574Proofs.MergeLift.exists_program_mergeLift",
+        "Lax185574Proofs.MergeToConstruction.exists_constructionSequence_of_mergeSequence",
+        "Lax185574Proofs.ModelChecking.exists_program_modelChecking",
+        "Lax185574Proofs.NeighborhoodComplexityBound.neighborhoodComplexity_le",
+        "Lax185574Proofs.PairRelationBalls.graphBall_pairRelation_subset",
+        "Lax185574Proofs.PairRelationDefinable.exists_formula_pairRelation",
+        "Lax185574Proofs.PairRelationMonotone.pairRelation_mono",
+        "Lax185574Proofs.PartitionMetricConversion.exists_refinement_flip",
+        "Lax185574Proofs.RankShift.exists_program_shift",
+        "Lax185574Proofs.ResolveLift.exists_program_resolveLift",
+        "Lax185574Proofs.Restriction.exists_program_restrict",
+        "Lax185574Proofs.ScatterTypeRestriction.stp_restrict",
+        "Lax185574Proofs.SeparatingTypes.typeCountOver_far_le",
+        "Lax185574Proofs.SeparatingTypesTuples.ncard_rankTypeOver_append_le",
+        "Lax185574Proofs.SplitBalls.partCount_split_le",
+        "Lax185574Proofs.SplittingMonotone.split_minimalVertices_mono",
+        "Lax185574Proofs.ToFarTree.exists_program_ftree",
+        "Lax185574Proofs.TreeEquivalence.tree_eq_iff",
+        "Lax185574Proofs.TreeLocality.ball_of_guarded",
+        "Lax185574Proofs.TypeBound.typeCountOver_le",
+        "Lax185574Proofs.TypeTreeSizes.tree_length_le",
+        "Lax185574Proofs.TypeTreeSizes.treeCount_le",
+        "Lax185574Proofs.VCDuality.vc_duality"
+      ]
+    },
+    {
       "id": "lax-194892",
       "state": "registered",
       "environment": "v4.33.0",
