@@ -6200,6 +6200,271 @@
       "proofs": []
     },
     {
+      "id": "lax-330177",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Temporal graphs, temporal settings, traversal times, reachability, and optimal temporal paths",
+      "concepts": [
+        {
+          "id": "Lax330177.ActiveLabel",
+          "title": "Snapshot adjacency and edge labels",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.BidirectPaths",
+          "title": "Replacing undirected edges by opposite arcs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.BounceSameTime",
+          "title": "A proper graph can have a walk with equal departure times",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.ChainFailure",
+          "title": "Reachability can fail transitivity",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.CostExamples",
+          "title": "Three-vertex examples separating path objectives",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.DirectChoices",
+          "title": "Early and late direct paths",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.Durations",
+          "title": "Traversal times",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.ElapsedEq",
+          "title": "Elapsed time splits into travel and waiting",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax330177.Examples",
+          "title": "Counterexamples",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.HappyAsymmetry",
+          "title": "Reachability can be asymmetric even on a happy graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.LabelsSnapshots",
+          "title": "Labels to snapshots and back",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.NoWaitDetour",
+          "title": "A detour with no waiting",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.OptimaExist",
+          "title": "Each objective attains its optimum",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax330177.OptimalPaths",
+          "title": "Optimal temporal paths",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.Paths",
+          "title": "Paths, walks and reachability",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.PathTrail",
+          "title": "Paths are static-edge trails",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.ProperModes",
+          "title": "Reachability on a proper graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax330177.ProperPathTimes",
+          "title": "Departure times on a proper graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.ProperReachGraphs",
+          "title": "Proper graphs have the same reachability graph in both modes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.ProperSeparation",
+          "title": "Properness does not imply simplicity",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.ReachabilityGraph",
+          "title": "The temporal reachability graph",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.Reflexivity",
+          "title": "Temporal reachability is reflexive",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.Representations",
+          "title": "Three representations of temporal graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.RestrictedMonotonicity",
+          "title": "Enlarging the allowed vertex set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.Settings",
+          "title": "Temporal graph settings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.SimpleSeparation",
+          "title": "A simple graph can separate the traversal modes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.SlowShortest",
+          "title": "A shortest path can wait longer",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.SnapshotsLabels",
+          "title": "Snapshots to labels and back",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.StreamEdges",
+          "title": "Events and adjacency",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.StreamRoundtrip",
+          "title": "Recovering an event list",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.StrictInclusion",
+          "title": "Strict paths give nonstrict reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.StrictWalkTrail",
+          "title": "Strict walks are temporal-edge trails",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.SupportReach",
+          "title": "Path supports determine reachability",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.SymmetricProper",
+          "title": "Properness of symmetric snapshots",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.TrailInclusion",
+          "title": "Static-edge trails are temporal-edge trails",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.TrailSeparation",
+          "title": "A temporal-edge trail can repeat a static edge",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.UniformCosts",
+          "title": "Optimality under uniform traversal times",
+          "type": "definition"
+        },
+        {
+          "id": "Lax330177.UniformModes",
+          "title": "Feasible departure times",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.UniformPaths",
+          "title": "The same timed paths",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.UniformReaches",
+          "title": "The same reachable pairs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.UnitOptima",
+          "title": "Unit traversal time",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.UnrestrictedVertices",
+          "title": "Allowing all vertices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax330177.WalkPathReach",
+          "title": "Walks and paths have the same reachability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax330177.ZeroOptima",
+          "title": "Zero traversal time",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax330177Proofs.Basic.bidirect_paths",
+        "Lax330177Proofs.Basic.bounce_same_time",
+        "Lax330177Proofs.Basic.chain_failure",
+        "Lax330177Proofs.Basic.happy_asymmetry",
+        "Lax330177Proofs.Basic.labels_snapshots",
+        "Lax330177Proofs.Basic.proper_modes",
+        "Lax330177Proofs.Basic.proper_path_times",
+        "Lax330177Proofs.Basic.proper_separation",
+        "Lax330177Proofs.Basic.simple_separation",
+        "Lax330177Proofs.Basic.snapshots_labels",
+        "Lax330177Proofs.Basic.stream_edges",
+        "Lax330177Proofs.Basic.stream_roundtrip",
+        "Lax330177Proofs.Basic.strict_inclusion",
+        "Lax330177Proofs.Basic.support_reach",
+        "Lax330177Proofs.Basic.uniform_modes",
+        "Lax330177Proofs.Basic.uniform_paths",
+        "Lax330177Proofs.Basic.uniform_reaches",
+        "Lax330177Proofs.Basic.walk_path_reach",
+        "Lax330177Proofs.CostExamples.direct_choices",
+        "Lax330177Proofs.CostExamples.no_wait_detour",
+        "Lax330177Proofs.CostExamples.slow_shortest",
+        "Lax330177Proofs.Observations.active_label",
+        "Lax330177Proofs.Observations.allow_all",
+        "Lax330177Proofs.Observations.allowed_mono",
+        "Lax330177Proofs.Observations.path_trail",
+        "Lax330177Proofs.Observations.proper_graphs",
+        "Lax330177Proofs.Observations.reflexive",
+        "Lax330177Proofs.Observations.strict_trail",
+        "Lax330177Proofs.Observations.symmetric_proper",
+        "Lax330177Proofs.Observations.trail_inclusion",
+        "Lax330177Proofs.Observations.trail_separation",
+        "Lax330177Proofs.OptimalPaths.optima_exist",
+        "Lax330177Proofs.UniformCosts.elapsed_eq",
+        "Lax330177Proofs.UniformCosts.unit_optima",
+        "Lax330177Proofs.UniformCosts.zero_optima"
+      ]
+    },
+    {
       "id": "lax-332265",
       "state": "registered",
       "environment": "v4.33.0",
