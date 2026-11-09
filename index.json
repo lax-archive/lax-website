@@ -11327,7 +11327,9 @@
           "type": "theorem"
         }
       ],
-      "proofs": []
+      "proofs": [
+        "Lax457868Proofs.RefinedWelzlOrdersProof.exists_refined_randomized_welzlOrder_program"
+      ]
     },
     {
       "id": "lax-461425",
