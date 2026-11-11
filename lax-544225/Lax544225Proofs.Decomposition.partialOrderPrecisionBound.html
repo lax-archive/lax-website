@@ -151,26 +151,28 @@
 <p class="draft-banner">While this submission is a draft, it cannot be used by other submissions.</p>
 <div class="detail-heading concept-heading proof-heading">
 <div class="proof-heading-content"><h1 class="concept-title">Proof of <span class="proof-concept-title">`Corollary 3 — Precision bound on ordered pieces`</span></h1>
-<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/62ba21d994907b076c31bc2328e0c3209bd1ea17/proofs/Lax544225Proofs/Decomposition.lean"><code>proofs/Lax544225Proofs/Decomposition.lean</code></a> · <a href="index.html">lax-544225</a></span></p></div>
+<p class="concept-microline proof-microline"><span class="status-pills"><span class="status-pill pill-proven" tabindex="0" data-tooltip="No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib." aria-label="Grounded. No open assumptions remain in the archive: every dependency is backed by a checked proof, ultimately reducing to Lean and Mathlib.">grounded</span></span><span><a href="https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/80545d45f49c9ec084a98a6882ac37409889ee1f/proofs/Lax544225Proofs/Decomposition.lean"><code>proofs/Lax544225Proofs/Decomposition.lean</code></a> · <a href="index.html">lax-544225</a></span></p></div>
 </div>
 <div class="block block-evidence"><h3>What this proof establishes</h3>
 <div class="judgment">
 <div class="judgment-assumptions"><ul><li><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-544225/Lax544225.DecompositionObstruction.html" title="Lax544225.DecompositionObstruction.theorem5"><code>Lax544225.DecompositionObstruction</code></a></span></li>
+<li><span class="claim-entry"><span class="type-badge proven">thm✓</span><a href="../lax-544225/Lax544225.GeneralExistence.html" title="Lax544225.GeneralExistence.theorem2"><code>Lax544225.GeneralExistence</code></a></span></li>
 <li><span class="claim-entry"><span class="type-badge proven">cor✓</span><a href="../lax-544225/Lax544225.PrecisionObstruction.html" title="Lax544225.PrecisionObstruction.corollary2"><code>Lax544225.PrecisionObstruction</code></a></span></li></ul></div>
 <span class="judgment-arrow" aria-hidden="true">→</span>
 <div class="judgment-conclusion"><span class="claim-entry"><span class="type-badge proven">cor✓</span><a href="../lax-544225/Lax544225.PartialOrderPrecisionBound.html" title="Lax544225.PartialOrderPrecisionBound.corollary3"><code>Lax544225.PartialOrderPrecisionBound</code></a></span></div>
 </div>
 <p class="honesty-note">Assuming the claims on the left, the claim on the right holds — checked by the archive's pipeline. Proof code is not displayed here.</p>
-<p class="source-action"><a class="source-button" href="https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/62ba21d994907b076c31bc2328e0c3209bd1ea17/proofs/Lax544225Proofs/Decomposition.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
+<p class="source-action"><a class="source-button" href="https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/80545d45f49c9ec084a98a6882ac37409889ee1f/proofs/Lax544225Proofs/Decomposition.lean"><svg class="source-mark" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5.22 3.22a.75.75 0 0 1 1.06 1.06L2.56 8l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06Zm5.56 0 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L13.44 8 9.72 4.28a.75.75 0 1 1 1.06-1.06Z"/></svg><span>Read the Lean proof on GitHub</span></a></p>
 </div>
 
 <div class="block block-statement"><h3>Description</h3><div class="latex-content"><p>Precision bounds on totally ordered decomposition pieces imply global triviality.</p>
 </div></div>
 <div class="block"><h3>Proof strategy</h3><div class="latex-content"><p>Give each piece its inherited linear order, preserving the interval steps in
-its precision measures. Apply the total-order precision obstruction on each
-piece, then use the closed overlap decomposition theorem.</p>
+its precision measures. A singleton has no nonempty proper cut, so the general
+existence criterion gives triviality. Apply the total-order precision obstruction
+on every nontrivial piece, then use the closed overlap decomposition theorem.</p>
 </div></div>
-<div class="block"><h3>Attribution</h3><div class="latex-content"><p>Corollary 3 of Aleksandrov, Kuske and Völlinger, <em>(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds</em>, revised FSEN 2027 manuscript (9 November 2026).</p>
+<div class="block"><h3>Attribution</h3><div class="latex-content"><p>Corollary 3 of Aleksandrov, Kuske and Völlinger, <em>(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds</em>, revised FSEN 2027 manuscript (TeX update received 11 November 2026).</p>
 </div></div>
 </div>
 <footer class="site-footer">
