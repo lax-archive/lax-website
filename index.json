@@ -16479,6 +16479,25 @@
       ]
     },
     {
+      "id": "lax-834858",
+      "state": "registered",
+      "environment": "v4.33.0",
+      "title": "Two oscillators of the rule B37/S2378 that Conway's rule does not sustain",
+      "concepts": [
+        {
+          "id": "Lax834858.Oscillators",
+          "title": "Two oscillators of the rule B37/S2378 that Conway's rule does not sustain",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax834858Proofs.Oscillators.p10_not_conway",
+        "Lax834858Proofs.Oscillators.p10_period",
+        "Lax834858Proofs.Oscillators.p10_period_minimal",
+        "Lax834858Proofs.Oscillators.p32_period"
+      ]
+    },
+    {
       "id": "lax-842588",
       "state": "registered",
       "environment": "v4.33.0",
