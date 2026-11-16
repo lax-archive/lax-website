@@ -10148,6 +10148,1647 @@
       ]
     },
     {
+      "id": "lax-369799",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Tree algebras and bisimulation-invariant MSO on finite graphs",
+      "concepts": [
+        {
+          "id": "Lax369799.AcceptanceObservations",
+          "title": "Acceptance through resolution values",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AcceptanceTheorems",
+          "title": "Acceptance and the syntactic preorder",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AlgebraicBranchCondition",
+          "title": "A common condition for finite and infinite algebraic branch words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AlgebraicDecomposition",
+          "title": "Algebraic decomposition with boundary data",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AlgebraicOmegaWords",
+          "title": "The algebraic condition on infinite branch words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AlgebraicTransitions",
+          "title": "Algebraic transition tables for unfold-automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.Algebras",
+          "title": "Algebras and recognition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.AlgebraToAutomaton",
+          "title": "Rankwise-finite recognition implies automaton recognition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AlgebraToMuCalculus",
+          "title": "Bisimulation-invariant algebraic recognition implies mu-calculus definability",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AutomatonProperty",
+          "title": "Deterministic elements and the earlier replacement property",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.AutomatonPropertyTheorem",
+          "title": "The automaton property of syntactic set-algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.AutomatonRunGame",
+          "title": "Accepting runs and modal game plays",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.BisimAutomata",
+          "title": "Clone-automata",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.BisimAutomatonTheorem",
+          "title": "Clone-automaton normal form and modal translation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.BisimulationQuotient",
+          "title": "Quotients of graphs by vertex bisimilarity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.BoundedProfileRefinement",
+          "title": "Bounded profiles refine finite contextual equivalence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.BranchMonotonicity",
+          "title": "Monotonicity of algebraic branch conditions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ChoicePreservingUnary",
+          "title": "Unary types preserving explicit choices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.CloneGameRun",
+          "title": "Realizing winning clone-automaton strategies",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.CloneRunRefinement",
+          "title": "Refining runs of the clone table",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.CloneTransitions",
+          "title": "Compressed transitions and their clone closure",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ClosedExtremal",
+          "title": "The closed extremal witness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ClosedUnaryLift",
+          "title": "Closed values as unary pieces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.CombinedWordCondition",
+          "title": "Combining finite and infinite branch conditions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextChoices",
+          "title": "Splitting outgoing choices in cyclic unary contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextDecomposition",
+          "title": "Context decomposition with hole boundary data",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextPorts",
+          "title": "Restricting and resizing the directions of a context",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextRelabelling",
+          "title": "Relabelling and deterministic context substitution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextResolutionApproximation",
+          "title": "Finite resolution approximation in a context",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ContextSmallification",
+          "title": "Smallification preserving identity continuations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DeterministicElements",
+          "title": "Unary normal form of deterministic elements",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DeterministicNormalForms",
+          "title": "Deterministic normal forms with identity continuations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DeterministicPieces",
+          "title": "Unary continuations of deterministic contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DeterministicSyntacticOrder",
+          "title": "Contextual equivalence of deterministic systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DirectionProjections",
+          "title": "Direction projections of extremal elements",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.DirectionReindexing",
+          "title": "Reindexing the outgoing directions at each vertex",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.EffectiveFiniteTranslation",
+          "title": "Effective translation of bisimulation-invariant finite MSO",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.EncodingTheorems",
+          "title": "Correctness of ranked transition encodings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.EvaluationTheorems",
+          "title": "Evaluation of sums and contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExpandedCertificates",
+          "title": "Acceptance certificates retaining expanded resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExpandedContinuity",
+          "title": "Continuity through expanded representatives",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExpandedSyntacticAlgebra",
+          "title": "Syntactic algebras with expanded continuity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExpandedTransitions",
+          "title": "Transition tables for the algebra with expanded continuity",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtendedContextDecomposition",
+          "title": "Evaluation of closed contexts through extended unary pieces",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtendedContexts",
+          "title": "Formal unary pieces and extremal accepted situations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtendedSetAlgebras",
+          "title": "Extended set-algebras and extremal accepted situations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtremalContexts",
+          "title": "Planted normal contexts and deterministic witnesses",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.ExtremalPaths",
+          "title": "The path criterion and the automaton property",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtremalSituations",
+          "title": "Extremal accepted situations in the syntactic algebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtremalSuccessors",
+          "title": "Successor confinement in the extremal witness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ExtremalUnaryTypes",
+          "title": "Unary types selected by extremal refinement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteAcceptance",
+          "title": "Yield acceptance of finite presentations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.FiniteAlgebraMeets",
+          "title": "Finite meets in a set-algebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteAutomatonProperty",
+          "title": "Automaton property of the unpruned syntactic algebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteBisimulationTheorem",
+          "title": "Bisimulation-invariant MSO on finite graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteBranchWords",
+          "title": "Finite-state evaluation of terminating branch words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteContextCongruence",
+          "title": "Context tests and simultaneous substitution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteContexts",
+          "title": "Contexts over finite presentations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.FiniteContextualOrder",
+          "title": "Contextual preorders on finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteContinuityOrder",
+          "title": "Finite yield approximation of contextual acceptance and order",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteCoverFamilies",
+          "title": "Acceptance from finite families of covering components",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteDecomposition",
+          "title": "Context decomposition without pruning",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteDeterministicElements",
+          "title": "Substitution closure of deterministic values",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteEvaluation",
+          "title": "Context evaluation in finite-presentation algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteExtremal",
+          "title": "Extremal unary data for finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteFlatteningMorphisms",
+          "title": "Unpruned substitution preserves morphisms and unfold-equivalence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteLocalReplacement",
+          "title": "Finite iteration of context-preserving local choices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteMarkUnion",
+          "title": "Unions of initial and root marks",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteModalData",
+          "title": "Executable modal compilation from finite Boolean tables",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteModelChecking",
+          "title": "Executable finite model checking for both logics",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteMorphisms",
+          "title": "Morphisms of unpruned finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteMuEquations",
+          "title": "Scalar formulas for finite fixed-point equation systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteNormalForms",
+          "title": "Unary normal forms without pruning",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteOrderedAlgebra",
+          "title": "Ordered syntactic algebras of finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteParityGames",
+          "title": "Positional determinacy of finite parity games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FinitePathEvaluation",
+          "title": "Evaluation of finite path graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FinitePlant",
+          "title": "Planting finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FinitePresentations",
+          "title": "Finite presentations without reachability pruning",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.FiniteProfiles",
+          "title": "Small profiles of finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteRecurrence",
+          "title": "Eventual membership in finite families",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteRenaming",
+          "title": "Variable renaming and inverse renaming without pruning",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteResolutionApproximation",
+          "title": "Finite approximation of a flattening resolution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteResolutionNormalForms",
+          "title": "Normal forms retaining split-variable resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteStructureTheorems",
+          "title": "Composition and pullbacks without reachability pruning",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteSyntacticAlgebra",
+          "title": "Contextual quotient algebras of finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteTesting",
+          "title": "Executable bounded comparison of MSO and modal formulas",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteVertexReplacement",
+          "title": "Simultaneous deterministic replacements in finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteYieldContinuity",
+          "title": "Yield continuity for finite-presentation contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FiniteYieldMeets",
+          "title": "Finite sums are contextual meets",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FixedPointElimination",
+          "title": "Elimination of simultaneous fixed points",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.FixedPointRetraction",
+          "title": "Fixed points through a monotone retraction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.Flattening",
+          "title": "Flattening and contexts",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.FlatteningTheorems",
+          "title": "Flattening, resolutions, and yield congruence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.GeneratedAlgebra",
+          "title": "The subalgebra generated by a recognizing alphabet",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.GraphChoices",
+          "title": "Functional restrictions of selected unary graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.InfiniteRamsey",
+          "title": "Infinite Ramsey theorem for pairs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.InitialAlgebra",
+          "title": "The initial-label algebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.InitialResolutionApproximation",
+          "title": "Finite support for initial observations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.LinkedPairFactorizations",
+          "title": "Recurrent cuts in a linked-pair factorization",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.LocalRecognition",
+          "title": "Recognition of local vertex and edge tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ModalAcceptanceGame",
+          "title": "The finite modal acceptance game",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ModalGameEquations",
+          "title": "Modal equations on input vertices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ModalGameTranslation",
+          "title": "Translating the modal acceptance game to a sentence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ModalMuCalculus",
+          "title": "Modal mu-calculus",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.ModalSmallModels",
+          "title": "Small finite models for modal parity acceptance",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ModalTransitions",
+          "title": "Modal transitions obtained from type supports",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.MonadicSecondOrder",
+          "title": "Monadic second-order logic on transition systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.Morphisms",
+          "title": "Morphisms, unfoldings, and yields",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.MorphismTheorems",
+          "title": "Morphism and yield theorems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.MSORecognition",
+          "title": "MSO-definable languages are algebraically recognisable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.MuCalculusTheorems",
+          "title": "MSO translation and bisimulation invariance of the mu-calculus",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.MuSubstitution",
+          "title": "Substitution in modal fixed-point formulas",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.NonemptyPowersets",
+          "title": "Nonempty powerset algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ObservedSubstitution",
+          "title": "Bounded profiles in root-free substitution patterns",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.OmegaDeterminization",
+          "title": "Determinization of infinite-word automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.OmegaProducts",
+          "title": "Regular infinite products of linked pairs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.OptimalResolutions",
+          "title": "Bounded optimal flatten-resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParallelCompression",
+          "title": "Evaluation after compressing parallel tuples",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParallelReplacement",
+          "title": "Parallel replacements in accepting contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParityFixedPoints",
+          "title": "Eliminating one priority by a fixed point",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParityGameEquations",
+          "title": "Nested fixed-point equations for finite parity games",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParityGameSimulation",
+          "title": "Transfer of winning through alternating game simulation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ParityWinningRegions",
+          "title": "Winning regions and controlled predecessors",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PathAlgebra",
+          "title": "Finite path-summary algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PeriodicPaths",
+          "title": "Ultimately periodic witnesses in finite parity graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PolynomialContexts",
+          "title": "Polynomial contexts of a system algebra",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PolynomialQuotient",
+          "title": "Quotients by polynomial acceptance tests",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PolynomialUnfolding",
+          "title": "Unfolding through polynomial contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PortReindexing",
+          "title": "Substitution after reindexing directions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PresentationCovers",
+          "title": "Locally surjective maps of finite presentations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.PresentationObservations",
+          "title": "Resolution values of finite presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.PriorityCompilation",
+          "title": "Executable compilation of modal priority equations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ProfileSubstitution",
+          "title": "Transfer of resolutions through bounded profiles",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeAutomata",
+          "title": "Quantitative automata for the finite bisimulation theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeDeterminization",
+          "title": "Explicit state and priority bounds for word determinization",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeFiniteTheorem",
+          "title": "A computable finite-model bound under bisimulation invariance",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeProfiles",
+          "title": "Computable bounds on the syntactic nullary and unary sorts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeRecognition",
+          "title": "Computable bounds for MSO recognizing algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.QuantitativeWordConditions",
+          "title": "Computable bounds for the algebraic branch automaton",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RankedBisimulation",
+          "title": "Bisimulation under ranked decoding",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RankedLifting",
+          "title": "Ranking a functional bisimulation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RankedSystems",
+          "title": "Ranked sets, set-systems, and systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.RecognitionClosure",
+          "title": "Boolean closure and inverse relabelling of recognizable languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RecognitionProjection",
+          "title": "Existential projection of recognizable languages",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RegularBranchWords",
+          "title": "Testing infinite runs on finite branch graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.Regularization",
+          "title": "Regular-tree recognition from unfold-invariant recognition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.Renaming",
+          "title": "Renaming variables in systems and resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ResolutionCompression",
+          "title": "Compression of the variables of flatten-resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ResolutionFamilies",
+          "title": "Finite families of split-variable resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.ResolutionLifting",
+          "title": "Lifting unfoldings through variable renaming",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.Resolutions",
+          "title": "Resolutions and bounded profiles",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.RootExpansion",
+          "title": "Root entries in substituted presentations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RootlessFlattening",
+          "title": "Reachable substitution with root-free components",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RootObservations",
+          "title": "Initial and root observations of set-systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RootProfileSubstitution",
+          "title": "Initial and root observations under bounded-profile substitution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RootResolutionApproximation",
+          "title": "Finite support for root observations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RunAcceptance",
+          "title": "Word acceptance and evaluation of algebraic runs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RunBranchObservations",
+          "title": "Finite branch observations of a run",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RunPresentations",
+          "title": "Unary presentations associated with legal runs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.RunWordCondition",
+          "title": "The terminating-word condition for algebraic runs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SelectedChoicePreservation",
+          "title": "Choice preservation of extremally selected unary types",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SelectedParallel",
+          "title": "Parallel transitions with selected unary components",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SemigroupFactorization",
+          "title": "Stable factorization with recurrent vertices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SetAlgebras",
+          "title": "The earlier continuity-bearing set-algebra interface",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.SetAlgebraTheorems",
+          "title": "Order and yield properties of set-algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SetLogic",
+          "title": "Pure second-order syntax",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SetLogicRecognition",
+          "title": "Recognition induction for pure second-order logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SetLogicTranslation",
+          "title": "Translation to pure second-order logic",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SetSystemAlgebras",
+          "title": "Set-algebras with retained vertices",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SmallProfileRefinement",
+          "title": "Small profiles and the yield-syntactic congruence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SplitExtremal",
+          "title": "Extremal witnesses with separate rooted components",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SubstitutionProfiles",
+          "title": "Substitution congruence for compacted evaluations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportCompaction",
+          "title": "Factoring out unused output variables",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedAlgebras",
+          "title": "Algebras on fully supported systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedCompletion",
+          "title": "Extending supported algebras and preserving recognition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedContextSmallification",
+          "title": "Smallification in supported contexts",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedMorphisms",
+          "title": "Selection and common unfoldings of fully supported systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedProfiles",
+          "title": "Profiles of fully supported resolutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedRecognition",
+          "title": "Language invariance, closure, and syntactic finiteness for supported algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedResolutions",
+          "title": "Flatten-resolutions with supported systems and explicit output maps",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedSystems",
+          "title": "Systems with all output variables reachable",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedYieldComparison",
+          "title": "Supported yields, contextual order, and substitution congruence",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedYieldContinuity",
+          "title": "Finite yield approximation with supported witnesses",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportedYields",
+          "title": "Yields with explicit variable maps and full support",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportEvaluation",
+          "title": "Finite observations after output compaction",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportIsomorphism",
+          "title": "Isomorphisms and compacted output values",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SupportPorts",
+          "title": "Substitution after restricting inner output ports",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SyntacticAlgebraTheorems",
+          "title": "Syntactic set-algebras and rankwise finiteness",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SyntacticOrder",
+          "title": "Yield-syntactic order and quotient",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.SystemEvaluation",
+          "title": "Evaluation and variable renaming in regular-tree algebras",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SystemIsomorphisms",
+          "title": "Isomorphisms of deterministic substitutions",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SystemMonad",
+          "title": "Unit and associativity for deterministic substitution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.SystemSubstitution",
+          "title": "Unfolding congruence for deterministic substitution",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.TransitionEncoding",
+          "title": "Ranked encodings of transition systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.TransitionSystems",
+          "title": "Finite transition systems and bisimulation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.UnaryChains",
+          "title": "Evaluation of unary chains in every sort",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnaryComposition",
+          "title": "The unary semigroup and its action",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnaryFactorization",
+          "title": "Stable factorization of algebraic branch words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnaryGraphEvaluation",
+          "title": "Evaluation of finite unary branch graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnarySystemEvaluation",
+          "title": "Algebraic evaluation and the words of a regular branch",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnarySystems",
+          "title": "Variable exits of unary systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnaryTestContexts",
+          "title": "Normal data for a unary type with a closed continuation",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnboundedSubstitution",
+          "title": "Full-profile transfer in every output rank",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnfoldAutomata",
+          "title": "Unfold-automata and regular-tree acceptance",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.UnfoldBranches",
+          "title": "Periodic branch test for unfold-automata",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnrestrictedLogic",
+          "title": "Logic on arbitrary transition systems",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.UnrestrictedTransitionSystems",
+          "title": "Arbitrary transition systems and bisimulations",
+          "type": "definition"
+        },
+        {
+          "id": "Lax369799.VariableCompression",
+          "title": "Compression of variable maps by finite observations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.VertexContexts",
+          "title": "Contexts obtained by marking a vertex",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.WordFactorization",
+          "title": "Idempotent factorization of infinite words",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.WordParity",
+          "title": "Recurring priorities in finite-state runs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.YieldContinuity",
+          "title": "Continuity of yields in a context",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax369799.YieldSubstitution",
+          "title": "Substitution and yield inclusion",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax369799Proofs.Acceptance.accepting_system",
+        "Lax369799Proofs.Acceptance.accepting_unfold",
+        "Lax369799Proofs.Acceptance.syntactic_acceptance",
+        "Lax369799Proofs.Acceptance.syntactic_morphism",
+        "Lax369799Proofs.AcceptanceObservations.accepting_iff_values",
+        "Lax369799Proofs.AlgebraicBranchCondition.exists_condition",
+        "Lax369799Proofs.AlgebraicDecomposition.algebraic_decomposition",
+        "Lax369799Proofs.AlgebraicOmegaWords.recurrent_factorization",
+        "Lax369799Proofs.AlgebraicOmegaWords.regular",
+        "Lax369799Proofs.AlgebraicTransitions.accepting_transition",
+        "Lax369799Proofs.AlgebraToAutomaton.algebra_to_automaton",
+        "Lax369799Proofs.AtomicFlattening.atomic_flatten_cover",
+        "Lax369799Proofs.AtomicFlattening.outer_atomic_cover",
+        "Lax369799Proofs.AutomatonProperty.automaton_property",
+        "Lax369799Proofs.AutomatonRunGame.parity_interleave",
+        "Lax369799Proofs.AutomatonRunGame.run_winning",
+        "Lax369799Proofs.BisimAutomatonTheorem.bisim_automaton_to_mu",
+        "Lax369799Proofs.BisimulationQuotient.common_quotient",
+        "Lax369799Proofs.BisimulationQuotient.quotient_projection",
+        "Lax369799Proofs.BisimulationQuotient.related_equivalence",
+        "Lax369799Proofs.BoundedProfileRefinement.finite_carrier",
+        "Lax369799Proofs.BoundedProfileRefinement.finite_carrier_recognizable",
+        "Lax369799Proofs.BoundedProfileRefinement.refines",
+        "Lax369799Proofs.BoundedProfiles.bounded_profile_finite",
+        "Lax369799Proofs.BranchMonotonicity.act_mono",
+        "Lax369799Proofs.BranchMonotonicity.block_append",
+        "Lax369799Proofs.BranchMonotonicity.block_mono",
+        "Lax369799Proofs.BranchMonotonicity.condition",
+        "Lax369799Proofs.BranchMonotonicity.finite_mono",
+        "Lax369799Proofs.BranchMonotonicity.infinite_mono",
+        "Lax369799Proofs.BranchMonotonicity.lasso_mono",
+        "Lax369799Proofs.BranchMonotonicity.product_mono",
+        "Lax369799Proofs.ChoicePreservingUnary.finite_branch_test",
+        "Lax369799Proofs.ChoicePreservingUnary.finite_types",
+        "Lax369799Proofs.ChoicePreservingUnary.word_preserves_choices",
+        "Lax369799Proofs.CloneGameRun.winning_run",
+        "Lax369799Proofs.CloneNormalization.bisim_automaton_exists",
+        "Lax369799Proofs.CloneNormalization.bisim_automaton_runs",
+        "Lax369799Proofs.CloneRunRefinement.run_refinement",
+        "Lax369799Proofs.CloneTransitions.clone_automaton",
+        "Lax369799Proofs.CloneTransitions.closure_closed",
+        "Lax369799Proofs.CloneTransitions.component",
+        "Lax369799Proofs.CloneTransitions.refinement",
+        "Lax369799Proofs.CloneTransitions.stabilizes",
+        "Lax369799Proofs.CloneTransitions.uniform_stabilization",
+        "Lax369799Proofs.ClosedExtremal.below",
+        "Lax369799Proofs.ClosedExtremal.comparison",
+        "Lax369799Proofs.ClosedExtremal.in_context",
+        "Lax369799Proofs.ClosedExtremal.normal_test",
+        "Lax369799Proofs.ClosedExtremal.witness_value",
+        "Lax369799Proofs.ClosedUnaryLift.preserves_sum",
+        "Lax369799Proofs.CombinedWordCondition.finite_iff",
+        "Lax369799Proofs.CombinedWordCondition.infinite_iff",
+        "Lax369799Proofs.CompressionEvaluation.evaluation",
+        "Lax369799Proofs.ContextChoices.accepting_all_choices",
+        "Lax369799Proofs.ContextChoices.accepting_finite",
+        "Lax369799Proofs.ContextChoices.accepting_union",
+        "Lax369799Proofs.ContextCongruence.unfold_context_congruence",
+        "Lax369799Proofs.ContextDecomposition.decomposition_cover",
+        "Lax369799Proofs.ContextDecomposition.decomposition_equivalence",
+        "Lax369799Proofs.ContextDecomposition.piece_has_no_hole",
+        "Lax369799Proofs.ContextPorts.plug_resize",
+        "Lax369799Proofs.ContextPorts.resize_exists",
+        "Lax369799Proofs.ContextRelabelling.evaluation_congruence",
+        "Lax369799Proofs.ContextRelabelling.plug_system",
+        "Lax369799Proofs.ContextRelabelling.relabel_plug",
+        "Lax369799Proofs.ContextResolutionApproximation.direct_approximation",
+        "Lax369799Proofs.ContextResolutionApproximation.initial_yields",
+        "Lax369799Proofs.ContextResolutionApproximation.root_yields",
+        "Lax369799Proofs.ContextResolutionApproximation.yields",
+        "Lax369799Proofs.ContinuationCompression.context_smallification",
+        "Lax369799Proofs.ContinuationCompression.mapped_context_smallification",
+        "Lax369799Proofs.DeltaComparison.delta_below",
+        "Lax369799Proofs.DeltaComparison.delta_boundary_comparison",
+        "Lax369799Proofs.DeltaComparison.delta_piece_comparison",
+        "Lax369799Proofs.DeltaContext.delta_in_context",
+        "Lax369799Proofs.DeterministicElements.unary_normal_form",
+        "Lax369799Proofs.DeterministicNormalForms.normal_form",
+        "Lax369799Proofs.DeterministicNormalForms.pattern_exists",
+        "Lax369799Proofs.DeterministicPieces.compress_continuations",
+        "Lax369799Proofs.DeterministicPieces.continuation_boundary",
+        "Lax369799Proofs.DeterministicPieces.direction_piece",
+        "Lax369799Proofs.DeterministicPieces.entry_piece",
+        "Lax369799Proofs.DeterministicSyntacticOrder.accepting_class",
+        "Lax369799Proofs.DeterministicSyntacticOrder.closed_membership",
+        "Lax369799Proofs.DeterministicSyntacticOrder.finite_carrier",
+        "Lax369799Proofs.DeterministicSyntacticOrder.unfold_refines",
+        "Lax369799Proofs.DeterministicSyntacticOrder.value_refines",
+        "Lax369799Proofs.DirectionProjections.extremal_decomposition",
+        "Lax369799Proofs.DirectionProjections.extremal_direction",
+        "Lax369799Proofs.DirectionProjections.monotone",
+        "Lax369799Proofs.DirectionProjections.parallel_projection_bound",
+        "Lax369799Proofs.DirectionProjections.reconstruction_bound",
+        "Lax369799Proofs.DirectionReindexing.decode_isomorphic",
+        "Lax369799Proofs.DirectionReindexing.realization",
+        "Lax369799Proofs.DirectionReindexing.zero_iff",
+        "Lax369799Proofs.EffectiveFiniteTranslation.mu_translation_correct",
+        "Lax369799Proofs.Encoding.encoding_exists",
+        "Lax369799Proofs.EncodingBisimulation.bisimulation_iff",
+        "Lax369799Proofs.Evaluation.context_evaluation",
+        "Lax369799Proofs.Evaluation.context_monotone",
+        "Lax369799Proofs.Evaluation.relabel_monotone",
+        "Lax369799Proofs.ExpandedCertificates.acceptance_iff_certificate",
+        "Lax369799Proofs.ExpandedCertificates.input_evaluation",
+        "Lax369799Proofs.ExpandedCertificates.language_iff_certificate",
+        "Lax369799Proofs.ExpandedContinuity.closed_continuity",
+        "Lax369799Proofs.ExpandedContinuity.contextual_continuity",
+        "Lax369799Proofs.ExpandedContinuity.evaluation",
+        "Lax369799Proofs.ExpandedContinuity.finite_approximation",
+        "Lax369799Proofs.ExpandedContinuity.representative_independence",
+        "Lax369799Proofs.ExpandedContinuity.yield_lower_bound",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.automaton_property",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.expanded_normal_form",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.expanded_yield_order",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.recognition",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.representatives_exist",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.syntactic_algebra_exists",
+        "Lax369799Proofs.ExpandedSyntacticAlgebra.syntactic_automaton_property",
+        "Lax369799Proofs.ExpandedTransitions.accepting_transition",
+        "Lax369799Proofs.ExpandedTransitions.edge_preserves_choices",
+        "Lax369799Proofs.ExpandedTransitions.evaluated_run_exists",
+        "Lax369799Proofs.ExpandedTransitions.evaluated_run_sound",
+        "Lax369799Proofs.ExpandedTransitions.run_label_below",
+        "Lax369799Proofs.ExtendedContextDecomposition.context_decomposition",
+        "Lax369799Proofs.ExtendedContexts.acceptance_normalize",
+        "Lax369799Proofs.ExtendedContexts.canonical_order",
+        "Lax369799Proofs.ExtendedContexts.element_iff",
+        "Lax369799Proofs.ExtendedContexts.extremal_choice",
+        "Lax369799Proofs.ExtendedContexts.extremal_iff",
+        "Lax369799Proofs.ExtendedContexts.normal_test",
+        "Lax369799Proofs.ExtendedContexts.normalize_canonical",
+        "Lax369799Proofs.ExtendedContexts.replacement",
+        "Lax369799Proofs.ExtendedContexts.simultaneous",
+        "Lax369799Proofs.ExtendedSetAlgebras.context_monotone",
+        "Lax369799Proofs.ExtendedSetAlgebras.extremal_choice",
+        "Lax369799Proofs.ExtendedSetAlgebras.pieces_evaluation",
+        "Lax369799Proofs.ExtendedSetAlgebras.replacement",
+        "Lax369799Proofs.ExtendedSetAlgebras.simultaneous",
+        "Lax369799Proofs.ExtremalContexts.delta_deterministic",
+        "Lax369799Proofs.ExtremalContexts.extremal_choice",
+        "Lax369799Proofs.ExtremalPaths.path_criterion",
+        "Lax369799Proofs.ExtremalPaths.selected_path_criterion",
+        "Lax369799Proofs.ExtremalPaths.syntactic_automaton_property",
+        "Lax369799Proofs.ExtremalSituations.choice",
+        "Lax369799Proofs.ExtremalSituations.fixed_element",
+        "Lax369799Proofs.ExtremalSituations.normal_test",
+        "Lax369799Proofs.ExtremalSituations.parallel_decomposition",
+        "Lax369799Proofs.ExtremalSituations.replacement",
+        "Lax369799Proofs.ExtremalSituations.simultaneous",
+        "Lax369799Proofs.ExtremalSituations.split_value",
+        "Lax369799Proofs.ExtremalSituations.unary_selected",
+        "Lax369799Proofs.ExtremalSuccessors.component_step",
+        "Lax369799Proofs.ExtremalUnaryTypes.normal_test",
+        "Lax369799Proofs.ExtremalUnaryTypes.replacement",
+        "Lax369799Proofs.FiniteAcceptance.accepting_empty",
+        "Lax369799Proofs.FiniteAcceptance.accepting_isomorphic",
+        "Lax369799Proofs.FiniteAcceptance.accepting_sum",
+        "Lax369799Proofs.FiniteAcceptance.accepting_system",
+        "Lax369799Proofs.FiniteAcceptance.syntactic_substitution_algebra",
+        "Lax369799Proofs.FiniteAlgebraMeets.component",
+        "Lax369799Proofs.FiniteAlgebraMeets.lower_iff",
+        "Lax369799Proofs.FiniteAlgebraMeets.monotone",
+        "Lax369799Proofs.FiniteAutomatonProperty.automaton_property",
+        "Lax369799Proofs.FiniteAutomatonProperty.recognizable_automaton_property",
+        "Lax369799Proofs.FiniteBranchWords.accepts",
+        "Lax369799Proofs.FiniteBranchWords.chain_evaluation",
+        "Lax369799Proofs.FiniteBranchWords.evaluate",
+        "Lax369799Proofs.FiniteBranchWords.finite_states",
+        "Lax369799Proofs.FiniteContextCongruence.context_iff_substitution",
+        "Lax369799Proofs.FiniteContexts.composition",
+        "Lax369799Proofs.FiniteContexts.extension",
+        "Lax369799Proofs.FiniteContextualOrder.class_order",
+        "Lax369799Proofs.FiniteContextualOrder.contextual_acceptance",
+        "Lax369799Proofs.FiniteContextualOrder.contextual_congruence",
+        "Lax369799Proofs.FiniteContextualOrder.contextual_iso",
+        "Lax369799Proofs.FiniteContextualOrder.flatten_monotone",
+        "Lax369799Proofs.FiniteContinuityOrder.accepting_approximation",
+        "Lax369799Proofs.FiniteContinuityOrder.order_approximation",
+        "Lax369799Proofs.FiniteCoverFamilies.acceptance",
+        "Lax369799Proofs.FiniteCovers.contextual_cover",
+        "Lax369799Proofs.FiniteCovers.sum_idempotent",
+        "Lax369799Proofs.FiniteCovers.sum_meet",
+        "Lax369799Proofs.FiniteDecomposition.decomposition_cover",
+        "Lax369799Proofs.FiniteDecomposition.decomposition_evaluation",
+        "Lax369799Proofs.FiniteDecomposition.piece_has_no_hole",
+        "Lax369799Proofs.FiniteDecomposition.recompose_one_hole",
+        "Lax369799Proofs.FiniteDeltaComparison.delta_below",
+        "Lax369799Proofs.FiniteDeltaComparison.delta_boundary_comparison",
+        "Lax369799Proofs.FiniteDeltaComparison.delta_piece_comparison",
+        "Lax369799Proofs.FiniteDeltaContext.delta_in_context",
+        "Lax369799Proofs.FiniteDeterministicElements.realization",
+        "Lax369799Proofs.FiniteDeterministicElements.substitution_closed",
+        "Lax369799Proofs.FiniteEvaluation.context_evaluation",
+        "Lax369799Proofs.FiniteEvaluation.order_separating",
+        "Lax369799Proofs.FiniteEvaluation.quotient_context",
+        "Lax369799Proofs.FiniteExtremal.data_monotone",
+        "Lax369799Proofs.FiniteExtremal.delta_deterministic",
+        "Lax369799Proofs.FiniteExtremal.extremal_choice",
+        "Lax369799Proofs.FiniteFlatteningMorphisms.inner",
+        "Lax369799Proofs.FiniteFlatteningMorphisms.inner_congruence",
+        "Lax369799Proofs.FiniteFlatteningMorphisms.outer",
+        "Lax369799Proofs.FiniteFlatteningMorphisms.outer_congruence",
+        "Lax369799Proofs.FiniteLocalReplacement.simultaneous",
+        "Lax369799Proofs.FiniteMarkUnion.evaluation_union",
+        "Lax369799Proofs.FiniteModalData.exists_table",
+        "Lax369799Proofs.FiniteModelChecking.mso_correct",
+        "Lax369799Proofs.FiniteModelChecking.mu_correct",
+        "Lax369799Proofs.FiniteMorphisms.accepting_morphism",
+        "Lax369799Proofs.FiniteMorphisms.contextual_morphism",
+        "Lax369799Proofs.FiniteMorphisms.sum_lower",
+        "Lax369799Proofs.FiniteMuEquations.solve_correct",
+        "Lax369799Proofs.FiniteNormalForms.algebraic_decomposition",
+        "Lax369799Proofs.FiniteOrderedAlgebra.language_recognition",
+        "Lax369799Proofs.FiniteOrderedAlgebra.principal_acceptance",
+        "Lax369799Proofs.FiniteOrderedAlgebra.sum_value_meet",
+        "Lax369799Proofs.FiniteOuterMorphisms.evaluation_cover",
+        "Lax369799Proofs.FiniteOuterMorphisms.evaluation_morphism",
+        "Lax369799Proofs.FiniteParityGames.positional_determinacy",
+        "Lax369799Proofs.FinitePathEvaluation.evaluation",
+        "Lax369799Proofs.FinitePlant.accepting_evaluation_plant",
+        "Lax369799Proofs.FinitePlant.accepting_plant",
+        "Lax369799Proofs.FinitePlant.flatten_plant",
+        "Lax369799Proofs.FiniteProfiles.reachable_representative",
+        "Lax369799Proofs.FiniteProfiles.small_profile_finite",
+        "Lax369799Proofs.FiniteRecurrence.eventual_subset",
+        "Lax369799Proofs.FiniteRecurrence.simultaneous",
+        "Lax369799Proofs.FiniteRenaming.adjunction",
+        "Lax369799Proofs.FiniteRenaming.pull_flatten",
+        "Lax369799Proofs.FiniteRenaming.pull_morphism",
+        "Lax369799Proofs.FiniteRenaming.push_morphism",
+        "Lax369799Proofs.FiniteResolutionApproximation.direct_approximation",
+        "Lax369799Proofs.FiniteResolutionApproximation.finite_support",
+        "Lax369799Proofs.FiniteResolutionNormalForms.bounded_normal_form",
+        "Lax369799Proofs.FiniteResolutionNormalForms.contextual_normal_form",
+        "Lax369799Proofs.FiniteStructureTheorems.composition",
+        "Lax369799Proofs.FiniteStructureTheorems.pullback",
+        "Lax369799Proofs.FiniteStructureTheorems.unfold_equivalence",
+        "Lax369799Proofs.FiniteSums.flatten_binary",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.accepting_classes",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.accepting_sum_value",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.contextual_algebra",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.contextual_recognition",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.evaluation_monotone",
+        "Lax369799Proofs.FiniteSyntacticAlgebra.sum_value",
+        "Lax369799Proofs.FiniteTesting.test_correct",
+        "Lax369799Proofs.FiniteVertexReplacement.simultaneous_replacement",
+        "Lax369799Proofs.FiniteVertexReplacement.vertex_context",
+        "Lax369799Proofs.FiniteYieldContinuity.context_mono",
+        "Lax369799Proofs.FiniteYieldContinuity.continuity",
+        "Lax369799Proofs.FiniteYieldMeets.finite_meet",
+        "Lax369799Proofs.FiniteYieldMeets.yield_lower_bound",
+        "Lax369799Proofs.FixedPointElimination.greatest",
+        "Lax369799Proofs.FixedPointElimination.least",
+        "Lax369799Proofs.FixedPointRetraction.greatest",
+        "Lax369799Proofs.FixedPointRetraction.least",
+        "Lax369799Proofs.Flattening.flatten_resolution_sound",
+        "Lax369799Proofs.Flattening.flatten_system",
+        "Lax369799Proofs.GeneratedAlgebra.algebra",
+        "Lax369799Proofs.GeneratedAlgebra.finite_carrier",
+        "Lax369799Proofs.GeneratedAlgebra.recognition",
+        "Lax369799Proofs.GraphChoices.admissible_test",
+        "Lax369799Proofs.GraphChoices.chosen_functional",
+        "Lax369799Proofs.GraphChoices.finite_choices",
+        "Lax369799Proofs.GraphChoices.row_choices",
+        "Lax369799Proofs.InfiniteRamsey.pairs",
+        "Lax369799Proofs.InitialAlgebra.algebra",
+        "Lax369799Proofs.InitialAlgebra.recognizes",
+        "Lax369799Proofs.InitialResolutionApproximation.finite_support",
+        "Lax369799Proofs.LinkedPairFactorizations.recurrent_factorization",
+        "Lax369799Proofs.LocalRecognition.edge",
+        "Lax369799Proofs.LocalRecognition.occurrence",
+        "Lax369799Proofs.MainTheorems.algebra_to_mu",
+        "Lax369799Proofs.MainTheorems.effective_finite_bisimulation_invariant_mso",
+        "Lax369799Proofs.MainTheorems.finite_bisimulation_invariant_mso",
+        "Lax369799Proofs.ModalAcceptanceGame.determined",
+        "Lax369799Proofs.ModalAcceptanceGame.finite",
+        "Lax369799Proofs.ModalAcceptanceGame.predecessor",
+        "Lax369799Proofs.ModalAcceptanceGame.priority_positive",
+        "Lax369799Proofs.ModalAcceptanceGame.reverse_parity",
+        "Lax369799Proofs.ModalAcceptanceGame.terminal_winning",
+        "Lax369799Proofs.ModalAcceptanceGame.winning_equation",
+        "Lax369799Proofs.ModalAcceptanceGame.winning_nested",
+        "Lax369799Proofs.ModalGameEquations.solve_stopped",
+        "Lax369799Proofs.ModalGameEquations.winning",
+        "Lax369799Proofs.ModalGameTranslation.formulas_correct",
+        "Lax369799Proofs.ModalGameTranslation.game_to_mu",
+        "Lax369799Proofs.ModalGameTranslation.sentence_correct",
+        "Lax369799Proofs.ModalSmallModels.small_model",
+        "Lax369799Proofs.ModalTransitions.eval_transition",
+        "Lax369799Proofs.ModalTransitions.realized_nonempty",
+        "Lax369799Proofs.ModalTransitions.run_marking",
+        "Lax369799Proofs.MorphismTheorems.composition",
+        "Lax369799Proofs.MorphismTheorems.system_morphism_locally_surjective",
+        "Lax369799Proofs.MorphismTheorems.unfold_equivalence",
+        "Lax369799Proofs.MSORecognition.mso_recognizable",
+        "Lax369799Proofs.MuBisimulation.mu_bisimulation_invariant",
+        "Lax369799Proofs.MuCalculus.eval_monotone",
+        "Lax369799Proofs.MuSubstitution.eval_rename",
+        "Lax369799Proofs.MuSubstitution.eval_substitute",
+        "Lax369799Proofs.MuToMSO.mu_to_mso",
+        "Lax369799Proofs.NonemptyPowersets.algebra",
+        "Lax369799Proofs.NonemptyPowersets.finite_carrier",
+        "Lax369799Proofs.NormalMonotonicity.data_monotone",
+        "Lax369799Proofs.ObservedSubstitution.transfer_value",
+        "Lax369799Proofs.OmegaDeterminization.determinization",
+        "Lax369799Proofs.OmegaProducts.regular",
+        "Lax369799Proofs.OptimalResolutions.optimal_flatten_resolution",
+        "Lax369799Proofs.ParallelCompression.evaluation",
+        "Lax369799Proofs.ParallelReplacement.accepting_parallel",
+        "Lax369799Proofs.ParityFixedPoints.greatest",
+        "Lax369799Proofs.ParityFixedPoints.least",
+        "Lax369799Proofs.ParityGameEquations.solve_cut",
+        "Lax369799Proofs.ParityGameEquations.winning",
+        "Lax369799Proofs.ParityGameSimulation.winning",
+        "Lax369799Proofs.ParityWinningRegions.complementary",
+        "Lax369799Proofs.ParityWinningRegions.disjoint",
+        "Lax369799Proofs.ParityWinningRegions.move",
+        "Lax369799Proofs.ParityWinningRegions.predecessor",
+        "Lax369799Proofs.ParityWinningRegions.uniform",
+        "Lax369799Proofs.PathAlgebra.algebra",
+        "Lax369799Proofs.PathAlgebra.finite_carrier",
+        "Lax369799Proofs.PeriodicPaths.periodic_test",
+        "Lax369799Proofs.PeriodicPaths.periodic_witness",
+        "Lax369799Proofs.PlantAcceptance.accepting_plant",
+        "Lax369799Proofs.PolynomialContexts.composition",
+        "Lax369799Proofs.PolynomialContexts.evaluation_congruence",
+        "Lax369799Proofs.PolynomialQuotient.accepting_class",
+        "Lax369799Proofs.PolynomialQuotient.algebra",
+        "Lax369799Proofs.PolynomialQuotient.finite_carrier",
+        "Lax369799Proofs.PolynomialQuotient.recognition",
+        "Lax369799Proofs.PolynomialUnfolding.quotient_unfold_invariant",
+        "Lax369799Proofs.PolynomialUnfolding.realization",
+        "Lax369799Proofs.PortReindexing.evaluation",
+        "Lax369799Proofs.PresentationCovers.surjective_of_reachable",
+        "Lax369799Proofs.PresentationObservations.root_values_cover",
+        "Lax369799Proofs.PresentationObservations.values_cover",
+        "Lax369799Proofs.PresentationObservations.values_remove_roots",
+        "Lax369799Proofs.PriorityCompilation.compile_correct",
+        "Lax369799Proofs.PriorityCompilation.sentence_correct",
+        "Lax369799Proofs.Profiles.small_profile_finite",
+        "Lax369799Proofs.ProfileSubstitution.transfer_resolution",
+        "Lax369799Proofs.Pullbacks.pullback",
+        "Lax369799Proofs.QuantitativeAutomata.automaton_bound",
+        "Lax369799Proofs.QuantitativeDeterminization.determinization_bound",
+        "Lax369799Proofs.QuantitativeFiniteTheorem.modal_certificate",
+        "Lax369799Proofs.QuantitativeFiniteTheorem.nonempty_bound",
+        "Lax369799Proofs.QuantitativeProfiles.syntactic_bound",
+        "Lax369799Proofs.QuantitativeRecognition.mso_bound",
+        "Lax369799Proofs.QuantitativeWordConditions.exists_condition",
+        "Lax369799Proofs.RankedBisimulation.bisimilarity_equivalence",
+        "Lax369799Proofs.RankedBisimulation.ranked_forward",
+        "Lax369799Proofs.RankedLifting.map_lift",
+        "Lax369799Proofs.ReachableFiniteness.syntactic_rankwise_finite",
+        "Lax369799Proofs.RecognitionClosure.complement",
+        "Lax369799Proofs.RecognitionClosure.intersection",
+        "Lax369799Proofs.RecognitionClosure.inverse_relabel",
+        "Lax369799Proofs.RecognitionClosure.union",
+        "Lax369799Proofs.RecognitionProjection.recognizable",
+        "Lax369799Proofs.RegularBranchWords.periodic",
+        "Lax369799Proofs.RegularBranchWords.regular_test",
+        "Lax369799Proofs.RegularBranchWords.represents",
+        "Lax369799Proofs.Regularization.generated_closed_invariant",
+        "Lax369799Proofs.Regularization.regular_tree_recognizable",
+        "Lax369799Proofs.Renaming.rename_composition",
+        "Lax369799Proofs.Renaming.rename_identity",
+        "Lax369799Proofs.Renaming.rename_morphism",
+        "Lax369799Proofs.Renaming.rename_relabel",
+        "Lax369799Proofs.Renaming.resolution_factor",
+        "Lax369799Proofs.ResolutionCompression.compress_flatten_resolution",
+        "Lax369799Proofs.ResolutionFactorization.resolution_to_flatten_resolution",
+        "Lax369799Proofs.ResolutionFamilies.finite_family",
+        "Lax369799Proofs.ResolutionLifting.rename_lift",
+        "Lax369799Proofs.ResolutionLifting.transfer",
+        "Lax369799Proofs.RootExpansion.expansion_cover",
+        "Lax369799Proofs.RootExpansion.expansion_folding",
+        "Lax369799Proofs.RootlessFlattening.flatten_cover",
+        "Lax369799Proofs.RootObservations.initial_profile",
+        "Lax369799Proofs.RootObservations.resolution_initial_part",
+        "Lax369799Proofs.RootObservations.rootless_outer_cover",
+        "Lax369799Proofs.RootProfileSubstitution.transfer_initial_value",
+        "Lax369799Proofs.RootProfileSubstitution.transfer_root_value",
+        "Lax369799Proofs.RootResolutionApproximation.finite_support",
+        "Lax369799Proofs.RunAcceptance.accepting_run_value",
+        "Lax369799Proofs.RunAcceptance.evaluated_run_accepting",
+        "Lax369799Proofs.RunAcceptance.evaluated_run_iff",
+        "Lax369799Proofs.RunAcceptance.exists_condition",
+        "Lax369799Proofs.RunAcceptance.labelling_accepting",
+        "Lax369799Proofs.RunAcceptance.shape",
+        "Lax369799Proofs.RunBranchObservations.path_accepting",
+        "Lax369799Proofs.RunBranchObservations.path_evaluation",
+        "Lax369799Proofs.RunBranchObservations.path_morphism",
+        "Lax369799Proofs.RunBranchObservations.regularPath_accepting",
+        "Lax369799Proofs.RunBranchObservations.regularPath_morphism",
+        "Lax369799Proofs.RunPresentations.evaluation",
+        "Lax369799Proofs.RunPresentations.functional_test",
+        "Lax369799Proofs.RunPresentations.observation_accepting",
+        "Lax369799Proofs.RunPresentations.selected",
+        "Lax369799Proofs.RunPresentations.unary",
+        "Lax369799Proofs.RunWordCondition.finite_path_iff",
+        "Lax369799Proofs.RunWordCondition.infinite_iff",
+        "Lax369799Proofs.SelectedChoicePreservation.selected_preserves_choices",
+        "Lax369799Proofs.SelectedParallel.accepting_parallel",
+        "Lax369799Proofs.SemigroupFactorization.factorization",
+        "Lax369799Proofs.SetAlgebraTheorems.low_rank_deterministic",
+        "Lax369799Proofs.SetAlgebraTheorems.order_laws",
+        "Lax369799Proofs.SetAlgebraTheorems.yield_order",
+        "Lax369799Proofs.SetLogic.empty_iff",
+        "Lax369799Proofs.SetLogic.singleton_iff",
+        "Lax369799Proofs.SetLogicRecognition.atomic_recognizable",
+        "Lax369799Proofs.SetLogicRecognition.initial_recognizable",
+        "Lax369799Proofs.SetLogicRecognition.recognizable",
+        "Lax369799Proofs.SetLogicTranslation.correct",
+        "Lax369799Proofs.SetSystemAlgebras.eval_sum",
+        "Lax369799Proofs.SetSystemAlgebras.evaluation_monotone",
+        "Lax369799Proofs.SetSystemAlgebras.folding_invariance",
+        "Lax369799Proofs.SetSystemAlgebras.meet_laws",
+        "Lax369799Proofs.SetSystemAlgebras.order_laws",
+        "Lax369799Proofs.SetSystemAlgebras.syntactic_order",
+        "Lax369799Proofs.SetSystemAlgebras.syntactic_structure",
+        "Lax369799Proofs.SmallProfileRefinement.refines",
+        "Lax369799Proofs.SplitExtremal.acceptance_iff_dataBelow",
+        "Lax369799Proofs.SplitExtremal.accepting_meetData",
+        "Lax369799Proofs.SplitExtremal.delta_below",
+        "Lax369799Proofs.SplitExtremal.delta_boundary_comparison",
+        "Lax369799Proofs.SplitExtremal.delta_in_context",
+        "Lax369799Proofs.SplitExtremal.delta_piece_comparison",
+        "Lax369799Proofs.SplitExtremal.parallel_value",
+        "Lax369799Proofs.SubstitutionProfiles.pointwise_congruence",
+        "Lax369799Proofs.SumEvaluation.eval_sum",
+        "Lax369799Proofs.SumEvaluation.meet_laws",
+        "Lax369799Proofs.SumYields.accepting_sum",
+        "Lax369799Proofs.SumYields.yield_sum",
+        "Lax369799Proofs.SupportCompaction.compact_exists",
+        "Lax369799Proofs.SupportCompaction.compact_unique",
+        "Lax369799Proofs.SupportCompaction.rename_set_injective",
+        "Lax369799Proofs.SupportCompaction.rename_supported_iff",
+        "Lax369799Proofs.SupportCompaction.rename_system_injective",
+        "Lax369799Proofs.SupportCompaction.support_image",
+        "Lax369799Proofs.SupportedAlgebras.legacy_recognizable",
+        "Lax369799Proofs.SupportedAlgebras.rename_evaluation",
+        "Lax369799Proofs.SupportedAlgebras.restrict_invariant",
+        "Lax369799Proofs.SupportedCompletion.algebra",
+        "Lax369799Proofs.SupportedCompletion.eval_letters",
+        "Lax369799Proofs.SupportedCompletion.legacy_recognizable",
+        "Lax369799Proofs.SupportedCompletion.profile_morphism",
+        "Lax369799Proofs.SupportedCompletion.profile_unfold",
+        "Lax369799Proofs.SupportedCompletion.recognizable_iff",
+        "Lax369799Proofs.SupportedCompletion.regular_completion",
+        "Lax369799Proofs.SupportedCompletion.unary_card_bound",
+        "Lax369799Proofs.SupportedContextSmallification.smallification",
+        "Lax369799Proofs.SupportedMorphisms.common_system_unfolding",
+        "Lax369799Proofs.SupportedMorphisms.rename_lift",
+        "Lax369799Proofs.SupportedMorphisms.source_support",
+        "Lax369799Proofs.SupportedMorphisms.system_folding",
+        "Lax369799Proofs.SupportedMorphisms.system_pullback",
+        "Lax369799Proofs.SupportedMorphisms.system_selection",
+        "Lax369799Proofs.SupportedProfiles.closed_congruence",
+        "Lax369799Proofs.SupportedProfiles.closed_small_profile",
+        "Lax369799Proofs.SupportedProfiles.congruence",
+        "Lax369799Proofs.SupportedProfiles.full_completion",
+        "Lax369799Proofs.SupportedProfiles.full_refines",
+        "Lax369799Proofs.SupportedProfiles.small_completion",
+        "Lax369799Proofs.SupportedProfiles.small_profile_finite",
+        "Lax369799Proofs.SupportedProfiles.small_refines",
+        "Lax369799Proofs.SupportedProfiles.yield_profile",
+        "Lax369799Proofs.SupportedRecognition.complement",
+        "Lax369799Proofs.SupportedRecognition.intersection",
+        "Lax369799Proofs.SupportedRecognition.inverse_relabel",
+        "Lax369799Proofs.SupportedRecognition.language_invariant",
+        "Lax369799Proofs.SupportedRecognition.projection",
+        "Lax369799Proofs.SupportedRecognition.syntactic_rankwise_finite",
+        "Lax369799Proofs.SupportedRecognition.union",
+        "Lax369799Proofs.SupportedResolutions.small_resolution",
+        "Lax369799Proofs.SupportedResolutions.sound",
+        "Lax369799Proofs.SupportedSystems.flatten_reachable",
+        "Lax369799Proofs.SupportedSystems.flatten_system",
+        "Lax369799Proofs.SupportedYieldComparison.context_mono",
+        "Lax369799Proofs.SupportedYieldComparison.flatten_congruence",
+        "Lax369799Proofs.SupportedYieldComparison.flatten_mono",
+        "Lax369799Proofs.SupportedYieldComparison.initial_yield",
+        "Lax369799Proofs.SupportedYieldComparison.legacy_below",
+        "Lax369799Proofs.SupportedYieldComparison.root_yield",
+        "Lax369799Proofs.SupportedYieldComparison.yield_order",
+        "Lax369799Proofs.SupportedYieldContinuity.initial_continuity",
+        "Lax369799Proofs.SupportedYieldContinuity.root_continuity",
+        "Lax369799Proofs.SupportedYields.morphism_yields",
+        "Lax369799Proofs.SupportedYields.system_yield_equivalence",
+        "Lax369799Proofs.SupportedYields.unfold_invariance",
+        "Lax369799Proofs.SupportedYields.unfold_yields",
+        "Lax369799Proofs.SupportEvaluation.closed_carrier",
+        "Lax369799Proofs.SupportEvaluation.closed_equivalent_iff",
+        "Lax369799Proofs.SupportEvaluation.equivalent_iff",
+        "Lax369799Proofs.SupportEvaluation.finite_carrier",
+        "Lax369799Proofs.SupportEvaluation.finite_observations",
+        "Lax369799Proofs.SupportEvaluation.profile_nonempty",
+        "Lax369799Proofs.SupportIsomorphism.compact_along",
+        "Lax369799Proofs.SupportIsomorphism.occurs_isomorphic",
+        "Lax369799Proofs.SupportIsomorphism.profile_injective_rename",
+        "Lax369799Proofs.SupportIsomorphism.profile_isomorphic",
+        "Lax369799Proofs.SupportIsomorphism.reflect_morphism",
+        "Lax369799Proofs.SupportPorts.flatten_iso",
+        "Lax369799Proofs.SupportPorts.restricted_system",
+        "Lax369799Proofs.SyntacticRecognition.syntactic_recognition",
+        "Lax369799Proofs.SystemEvaluation.context_evaluation",
+        "Lax369799Proofs.SystemEvaluation.rename_congruence",
+        "Lax369799Proofs.SystemEvaluation.rename_evaluation",
+        "Lax369799Proofs.SystemIsomorphisms.flatten_from_trim",
+        "Lax369799Proofs.SystemIsomorphisms.flatten_output_rename",
+        "Lax369799Proofs.SystemIsomorphisms.injective_isomorphic",
+        "Lax369799Proofs.SystemIsomorphisms.iso_symm",
+        "Lax369799Proofs.SystemIsomorphisms.iso_trans",
+        "Lax369799Proofs.SystemIsomorphisms.trim_isomorphic",
+        "Lax369799Proofs.SystemMonad.associative",
+        "Lax369799Proofs.SystemMonad.flatten_isomorphic",
+        "Lax369799Proofs.SystemMonad.inner_unit",
+        "Lax369799Proofs.SystemMonad.outer_unit",
+        "Lax369799Proofs.SystemSubstitution.evaluation",
+        "Lax369799Proofs.SystemSubstitution.outer_morphism",
+        "Lax369799Proofs.SystemSubstitution.pointwise_unfold",
+        "Lax369799Proofs.trim_cover",
+        "Lax369799Proofs.UnaryChains.evaluation",
+        "Lax369799Proofs.UnaryChains.word_evaluation",
+        "Lax369799Proofs.UnaryComposition.action_law",
+        "Lax369799Proofs.UnaryComposition.associative",
+        "Lax369799Proofs.UnaryComposition.nullary_action",
+        "Lax369799Proofs.UnaryFactorization.stable_factorization",
+        "Lax369799Proofs.UnaryGraphEvaluation.agreement",
+        "Lax369799Proofs.UnaryGraphEvaluation.cycle_folding",
+        "Lax369799Proofs.UnarySystemEvaluation.agreement",
+        "Lax369799Proofs.UnarySystems.unique_exit",
+        "Lax369799Proofs.UnarySystems.variable_decomposition",
+        "Lax369799Proofs.UnaryTestContexts.data_sum",
+        "Lax369799Proofs.UnboundedSubstitution.transfer_initial_value",
+        "Lax369799Proofs.UnboundedSubstitution.transfer_resolution",
+        "Lax369799Proofs.UnboundedSubstitution.transfer_root_value",
+        "Lax369799Proofs.UnboundedSubstitution.transfer_value",
+        "Lax369799Proofs.UnfoldBranches.periodic_test",
+        "Lax369799Proofs.UnrestrictedLogic.eval_monotone",
+        "Lax369799Proofs.UnrestrictedLogic.finite_bisimulation",
+        "Lax369799Proofs.UnrestrictedLogic.finite_mso",
+        "Lax369799Proofs.UnrestrictedLogic.finite_mso_models",
+        "Lax369799Proofs.UnrestrictedLogic.finite_mu",
+        "Lax369799Proofs.UnrestrictedLogic.finite_mu_models",
+        "Lax369799Proofs.UnrestrictedLogic.mu_bisimulation_invariant",
+        "Lax369799Proofs.UnrestrictedLogic.mu_definable_implies_mso_invariant",
+        "Lax369799Proofs.UnrestrictedLogic.mu_to_mso",
+        "Lax369799Proofs.UnrestrictedLogic.translate_correct",
+        "Lax369799Proofs.UntrimmedFlattening.flatten_associative",
+        "Lax369799Proofs.UntrimmedFlattening.flatten_natural",
+        "Lax369799Proofs.UntrimmedFlattening.inner_atomic",
+        "Lax369799Proofs.UntrimmedFlattening.outer_atomic",
+        "Lax369799Proofs.VariableCompression.compress",
+        "Lax369799Proofs.VertexContexts.deterministic",
+        "Lax369799Proofs.VertexContexts.fill_vertex",
+        "Lax369799Proofs.VertexContexts.smallification",
+        "Lax369799Proofs.WordFactorization.factorization",
+        "Lax369799Proofs.WordParity.acceptance_iff",
+        "Lax369799Proofs.WordParity.least_recurring",
+        "Lax369799Proofs.WordParity.minimum_cycle",
+        "Lax369799Proofs.WordParity.recurrent_shift",
+        "Lax369799Proofs.YieldContinuity.continuity",
+        "Lax369799Proofs.YieldObservations.flatten_mono",
+        "Lax369799Proofs.YieldObservations.yield_context_congruence",
+        "Lax369799Proofs.Yields.morphism_yields",
+        "Lax369799Proofs.Yields.system_yield_equivalence",
+        "Lax369799Proofs.YieldSubstitution.transfer_resolution"
+      ]
+    },
+    {
       "id": "lax-379983",
       "state": "registered",
       "environment": "v4.33.0",
