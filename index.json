@@ -12959,6 +12959,23 @@
       ]
     },
     {
+      "id": "lax-523824",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Exact Schrödinger kinetic split and quartic remainder bound",
+      "concepts": [
+        {
+          "id": "Lax523824.SchrodingerRemainderBound",
+          "title": "Exact Schrödinger kinetic split and quartic remainder bound",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax523824Proofs.SchrodingerRemainderBound.exactSchrodingerKineticSplit_proof",
+        "Lax523824Proofs.SchrodingerRemainderBound.schrodingerRemainderBound_proof"
+      ]
+    },
+    {
       "id": "lax-535992",
       "state": "registered",
       "environment": "v4.33.0",
