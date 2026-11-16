@@ -10503,6 +10503,22 @@
       ]
     },
     {
+      "id": "lax-423666",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Cubical C19 first-order factorization",
+      "concepts": [
+        {
+          "id": "Lax423666.CubicalC19",
+          "title": "Cubical C19 first-order factorization",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax423666Proofs.cubicalC19Factorization_proof"
+      ]
+    },
+    {
       "id": "lax-426240",
       "state": "registered",
       "environment": "v4.33.0",
