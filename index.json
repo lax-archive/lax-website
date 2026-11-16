@@ -2763,6 +2763,20 @@
       "proofs": []
     },
     {
+      "id": "lax-161794",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "C19 isotropic symbol and quartic finite-spacing error",
+      "concepts": [
+        {
+          "id": "Lax161794.C19IsotropicSymbol",
+          "title": "C19 isotropic symbol and quartic finite-spacing error",
+          "type": "theorem"
+        }
+      ],
+      "proofs": []
+    },
+    {
       "id": "lax-175070",
       "state": "registered",
       "environment": "v4.33.0",
