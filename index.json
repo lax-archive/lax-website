@@ -14851,6 +14851,23 @@
       ]
     },
     {
+      "id": "lax-725166",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "C19 structure factor and coupled phase gap",
+      "concepts": [
+        {
+          "id": "Lax725166.C19CoupledPhaseGap",
+          "title": "C19 structure factor and coupled phase gap",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax725166Proofs.C19CoupledPhaseGap.phaseOmegaSquared_positive",
+        "Lax725166Proofs.C19CoupledPhaseGap.structureFactor_nonnegative"
+      ]
+    },
+    {
       "id": "lax-733996",
       "state": "registered",
       "environment": "v4.33.0",
