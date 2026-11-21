@@ -221,6 +221,59 @@
   <url><loc>https://laxarchive.org/lax-117614/Lax117614Proofs.Bridge.wfGraphCrawling_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117614/paper-pdf.html</loc></url>
   <url><loc>https://laxarchive.org/lax-117614/paper.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.BinaryEncodings.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ColoredGraphs.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ColoredHomomorphisms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ContradictionTrees.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.DeterministicTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.EXPTIMEHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ExponentialLowerBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ExponentialTimeHierarchy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.GameCharacterization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.HomomorphismCharacterization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ImplicitParitySystems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ImplicitSystemEncodings.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.IterationNumber.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.MachineTranslations.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.MatrixCompiler.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.PackedRepresentation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ParameterizedComplexity.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.ParitySystems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.PebbleGame.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.RowSpaceCompiler.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.RuntimeLowerBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.Stabilization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.TimeHierarchy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.TreewidthClasses.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.UncoloredWitnessUpperBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.WLProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.WeisfeilerLeman.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.WitnessFromRounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.WitnessLowerBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.WitnessUpperBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563.XPHardness.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Bridges.singleTape_simulation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Bridges.tm2_of_polyTime.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Counter.iteration_number_lower_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Game.distinguishesAfter_of_spoilerWinsWithin.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Game.duplicatorWins_iff.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Game.spoilerWinsWithin_of_distinguishesAfter.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Hardness.exponential_lower_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Hardness.wl_exptime_hard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Hardness.wl_xp_hard.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Hierarchy.exp_time_hierarchy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Hierarchy.time_hierarchy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.HomChar.distinguishes_iff_exists_hom_ne.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.HomTensors.witness_from_rounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Main.runtime_lower_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Matrix.matrix_compiler.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Reduction.packed_representation.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.RowSpace.rowspace_compiler.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Stabilization.stabilization_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.UpperBound.uncolored_witness_upper_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.UpperBound.witness_upper_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-119563/Lax119563Proofs.Witness.witness_lower_bound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.Admissibility.html</loc></url>
   <url><loc>https://laxarchive.org/lax-12/Lax12.AdmissibilityBound.html</loc></url>

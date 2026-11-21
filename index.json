@@ -2068,6 +2068,192 @@
       ]
     },
     {
+      "id": "lax-119563",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Lower Bounds for the Weisfeiler–Leman Algorithm via Implicit Parity Systems",
+      "concepts": [
+        {
+          "id": "Lax119563.BinaryEncodings",
+          "title": "Binary encodings of numbers and graph pairs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ColoredGraphs",
+          "title": "Colored graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ColoredHomomorphisms",
+          "title": "Homomorphism counts and treewidth of colored graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ContradictionTrees",
+          "title": "Derivation and contradiction trees",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.DeterministicTime",
+          "title": "Deterministic multitape Turing machines and running time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ExponentialLowerBound",
+          "title": "An exponential time lower bound for WL Distinguishing",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax119563.ExponentialTimeHierarchy",
+          "title": "The deterministic time hierarchy theorem for exponential time",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.EXPTIMEHardness",
+          "title": "WL Distinguishing is EXPTIME-hard",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.GameCharacterization",
+          "title": "The pebble game characterization of Weisfeiler–Leman",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.HomomorphismCharacterization",
+          "title": "The homomorphism characterization of Weisfeiler–Leman",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.ImplicitParitySystems",
+          "title": "Implicit parity systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ImplicitSystemEncodings",
+          "title": "Binary encodings of implicit parity systems",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.IterationNumber",
+          "title": "A lower bound on the iteration number of k-WL",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.MachineTranslations",
+          "title": "Translations between machine models",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.MatrixCompiler",
+          "title": "The matrix compiler",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.PackedRepresentation",
+          "title": "Packed implicit parity systems for deterministic computations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.ParameterizedComplexity",
+          "title": "Parameterized problems, XP and fpt-reductions",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.ParitySystems",
+          "title": "Parity systems and unit propagation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.PebbleGame",
+          "title": "The bijective pebble game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.RowSpaceCompiler",
+          "title": "The row-space compiler",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.RuntimeLowerBound",
+          "title": "An unconditional time lower bound for k-WL Distinguishing",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.Stabilization",
+          "title": "Stabilization of k-WL",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.TimeHierarchy",
+          "title": "The deterministic time hierarchy theorem",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.TreewidthClasses",
+          "title": "Graphs of bounded treewidth",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.UncoloredWitnessUpperBound",
+          "title": "An upper bound on the size of homomorphism witnesses for uncolored graphs",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax119563.WeisfeilerLeman",
+          "title": "The Weisfeiler–Leman algorithm",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.WitnessFromRounds",
+          "title": "Homomorphism witnesses from rounds",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.WitnessLowerBound",
+          "title": "A lower bound on the size of homomorphism witnesses",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax119563.WitnessUpperBound",
+          "title": "An upper bound on the size of homomorphism witnesses",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax119563.WLProblems",
+          "title": "WL Distinguishing as a language and as a parameterized problem",
+          "type": "definition"
+        },
+        {
+          "id": "Lax119563.XPHardness",
+          "title": "WL Distinguishing is XP-hard",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax119563Proofs.Bridges.singleTape_simulation",
+        "Lax119563Proofs.Bridges.tm2_of_polyTime",
+        "Lax119563Proofs.Counter.iteration_number_lower_bound",
+        "Lax119563Proofs.Game.distinguishesAfter_of_spoilerWinsWithin",
+        "Lax119563Proofs.Game.duplicatorWins_iff",
+        "Lax119563Proofs.Game.spoilerWinsWithin_of_distinguishesAfter",
+        "Lax119563Proofs.Hardness.exponential_lower_bound",
+        "Lax119563Proofs.Hardness.wl_exptime_hard",
+        "Lax119563Proofs.Hardness.wl_xp_hard",
+        "Lax119563Proofs.Hierarchy.exp_time_hierarchy",
+        "Lax119563Proofs.Hierarchy.time_hierarchy",
+        "Lax119563Proofs.HomChar.distinguishes_iff_exists_hom_ne",
+        "Lax119563Proofs.HomTensors.witness_from_rounds",
+        "Lax119563Proofs.Main.runtime_lower_bound",
+        "Lax119563Proofs.Matrix.matrix_compiler",
+        "Lax119563Proofs.Reduction.packed_representation",
+        "Lax119563Proofs.RowSpace.rowspace_compiler",
+        "Lax119563Proofs.Stabilization.stabilization_bound",
+        "Lax119563Proofs.UpperBound.uncolored_witness_upper_bound",
+        "Lax119563Proofs.UpperBound.witness_upper_bound",
+        "Lax119563Proofs.Witness.witness_lower_bound"
+      ]
+    },
+    {
       "id": "lax-132576",
       "state": "registered",
       "environment": "v4.33.0",
