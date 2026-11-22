@@ -5356,6 +5356,22 @@
       ]
     },
     {
+      "id": "lax-277496",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Two cubical Dirac sectors from one eight-corner fiber",
+      "concepts": [
+        {
+          "id": "Lax277496.CubicalTwoFlavor",
+          "title": "Two cubical Dirac sectors from one eight-corner fiber",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax277496Proofs.twoFlavorClassification_proof"
+      ]
+    },
+    {
       "id": "lax-280166",
       "state": "registered",
       "environment": "v4.33.0",
