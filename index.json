@@ -19663,6 +19663,288 @@
       ]
     },
     {
+      "id": "lax-977378",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Order-invariant cluster first-order logic on finite graphs of bounded degree",
+      "concepts": [
+        {
+          "id": "Lax977378.Blocks",
+          "title": "Context labels in the intervals of an ordered partition",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.CallAgreement",
+          "title": "Comparison of different representatives of a recursive call",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Catalogue",
+          "title": "Finite catalogue of bounded-degree neighbourhoods",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.CheckedEntries",
+          "title": "Finite selection of tests with a replayable final table",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Collapse",
+          "title": "Elimination of order from invariant cluster sentences",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax977378.ColouredRun",
+          "title": "Bounded source run from a coloured graph and its rare vertices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.ColouredTypes",
+          "title": "The list of coloured frequent neighbourhood types",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.CommonPalette",
+          "title": "A common palette of frequent coloured types determined by the count vector",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.ContextLabels",
+          "title": "Finitely many outer-context labels at each level",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.CountParameters",
+          "title": "The threshold and rare set determined by a truncated count vector",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.CoverReplay",
+          "title": "Independent order from coverage of full-rank local calls",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Endpoints",
+          "title": "Choosing and realising endpoints in the ordinary blocks",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Extraction",
+          "title": "Extracting the unordered test from an exceptional set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.FiniteTests",
+          "title": "A uniform finite list of count and window tests",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.InitialLevel",
+          "title": "The initial case of the order construction",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.LocalCalls",
+          "title": "Agreement of all recursive calls in a common coloured and tagged ball",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.LocalCover",
+          "title": "Coverage of full local calls by the named window and the coloured requests",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.LocalNames",
+          "title": "Local recovery of source block names at all ranks",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Logic",
+          "title": "Finite coloured graphs and the cluster fragment",
+          "type": "definition"
+        },
+        {
+          "id": "Lax977378.MarkedSets",
+          "title": "Transporting the exceptional stages through a shared window",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.OrdinaryCalls",
+          "title": "The recursive calculation without tags at ordinary vertices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.OuterContexts",
+          "title": "Agreement of outer contexts in two ordered graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax977378.Planting",
+          "title": "Prescribing coloured neighbourhoods outside the exceptional set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.RecordTests",
+          "title": "Unordered neighbourhood and exceptional-window tests",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Refinement",
+          "title": "One level of outer-context evaluation using the previous block table",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Replay",
+          "title": "Assembling checked record tests after replay",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Representatives",
+          "title": "Representatives of all child blocks on a passing graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Reservoir",
+          "title": "A coloured realisation survives each bounded exceptional set",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.RunReplay",
+          "title": "Replaying every level from matching recursive local data",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Separation",
+          "title": "Simultaneous separated choices and extension of a partial colouring",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.SourceRecord",
+          "title": "A source graph yields its bounded record and final order",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.SourceRun",
+          "title": "Constructing the bounded history of the source partitions",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.SourceTables",
+          "title": "Reading all source tables in a single final order",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Stage",
+          "title": "Constructing a refinement and proving invariance under internal orders",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.TableFacts",
+          "title": "Structural properties of the tables read from a source run",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.TagSafety",
+          "title": "Locality of the calculation without tags",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.TargetOrder",
+          "title": "An independent order on a graph with the same window and coloured types",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.TargetWindow",
+          "title": "Recovering the target exceptional vertices from one successful test",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Threshold",
+          "title": "Uniform threshold for a finite list of type counts",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Transport",
+          "title": "Transport of a refinement to an independently ordered graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Types",
+          "title": "A list of neighbourhood types without duplicate isomorphism classes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.Window",
+          "title": "Exact distances in the record's exceptional window",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.WindowColour",
+          "title": "Transporting the exceptional precolouring to a passing graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax977378.WindowMap",
+          "title": "Corresponding recursive balls inside a common named window",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax977378Proofs.CallAgreement.compareReps",
+        "Lax977378Proofs.CallAgreement.lowerRanks",
+        "Lax977378Proofs.Catalogue.catalogue",
+        "Lax977378Proofs.CheckedEntries.selectEntries",
+        "Lax977378Proofs.collapse",
+        "Lax977378Proofs.ColouredRun.colouredRun",
+        "Lax977378Proofs.ColouredTypes.colouredTypes",
+        "Lax977378Proofs.CommonPalette.uniform",
+        "Lax977378Proofs.Comparison.comparison",
+        "Lax977378Proofs.ContextLabels.finiteLabels",
+        "Lax977378Proofs.CountParameters.countTestValue",
+        "Lax977378Proofs.CountParameters.fixedParameters",
+        "Lax977378Proofs.CountParameters.parameters",
+        "Lax977378Proofs.CoverReplay.orderFromCover",
+        "Lax977378Proofs.Endpoints.admissible",
+        "Lax977378Proofs.Endpoints.twoCentres",
+        "Lax977378Proofs.extendColouring",
+        "Lax977378Proofs.Extraction.extract",
+        "Lax977378Proofs.FiniteTests.finiteTests",
+        "Lax977378Proofs.InitialLevel.initialRecords",
+        "Lax977378Proofs.interval",
+        "Lax977378Proofs.LocalCalls.commonCalls",
+        "Lax977378Proofs.LocalCalls.innerCalls",
+        "Lax977378Proofs.LocalCover.coverCalls",
+        "Lax977378Proofs.LocalNames.names",
+        "Lax977378Proofs.MarkedSets.moveStages",
+        "Lax977378Proofs.OrdinaryCalls.untagged",
+        "Lax977378Proofs.outerIntervals",
+        "Lax977378Proofs.Planting.plant",
+        "Lax977378Proofs.Records.records",
+        "Lax977378Proofs.RecordTests.recordTest",
+        "Lax977378Proofs.Refinement.levelStep",
+        "Lax977378Proofs.relativeCollapse",
+        "Lax977378Proofs.Replay.assemble",
+        "Lax977378Proofs.Representatives.representatives",
+        "Lax977378Proofs.Reservoir.reserve",
+        "Lax977378Proofs.RunReplay.runReplay",
+        "Lax977378Proofs.separated",
+        "Lax977378Proofs.SourceRecord.sourceRecord",
+        "Lax977378Proofs.SourceRun.construct",
+        "Lax977378Proofs.SourceTables.sourceTables",
+        "Lax977378Proofs.Stage.refineBlocks",
+        "Lax977378Proofs.TableFacts.facts",
+        "Lax977378Proofs.TagSafety.ordinaryCalls",
+        "Lax977378Proofs.TargetOrder.targetOrder",
+        "Lax977378Proofs.TargetWindow.targetWindow",
+        "Lax977378Proofs.Transport.transport",
+        "Lax977378Proofs.Types.uniqueTypes",
+        "Lax977378Proofs.uniformGap",
+        "Lax977378Proofs.Window.exactBall",
+        "Lax977378Proofs.WindowColour.precolour",
+        "Lax977378Proofs.WindowMap.matchBall"
+      ]
+    },
+    {
       "id": "lax-979537",
       "state": "draft",
       "environment": "v4.30.0",
