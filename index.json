@@ -18632,6 +18632,66 @@
       ]
     },
     {
+      "id": "lax-869952",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Formal Tree Bounds for the Sum Network Creation Game",
+      "concepts": [
+        {
+          "id": "Lax869952.BlockGeometry",
+          "title": "Maximal biconnected blocks and their attachment weights",
+          "type": "definition"
+        },
+        {
+          "id": "Lax869952.GirthAtPopulationPrice",
+          "title": "Girth at least eight at price above the player count",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax869952.LeafAdditionInequality",
+          "title": "Weighted leaf addition inequality for a maximal block",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax869952.NashEquilibrium",
+          "title": "Pure Nash equilibrium",
+          "type": "definition"
+        },
+        {
+          "id": "Lax869952.NetworkCreationGame",
+          "title": "Network creation game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax869952.PlayerCost",
+          "title": "Individual cost in the network creation game",
+          "type": "definition"
+        },
+        {
+          "id": "Lax869952.ReceiverDeletionBound",
+          "title": "Deletion bound for a purchase into a degree-two block vertex",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax869952.SmallGames",
+          "title": "The Tree Conjecture for up to ten players",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax869952.TreeAtDoublePrice",
+          "title": "Tree equilibria above twice the player count",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax869952Proofs.girth_at_population_price",
+        "Lax869952Proofs.leaf_addition_inequality",
+        "Lax869952Proofs.receiver_deletion_bound",
+        "Lax869952Proofs.tree_above_twice_population",
+        "Lax869952Proofs.tree_for_up_to_ten_players"
+      ]
+    },
+    {
       "id": "lax-871432",
       "state": "registered",
       "environment": "v4.33.0",
