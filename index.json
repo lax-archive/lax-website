@@ -19269,6 +19269,33 @@
       ]
     },
     {
+      "id": "lax-906450",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "The Strong Nemhauser–Trotter Theorem for Vertex Cover",
+      "concepts": [
+        {
+          "id": "Lax906450.Deficiency",
+          "title": "Maximum deficiency and persistency",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax906450.Partition",
+          "title": "A persistent vertex-cover partition",
+          "type": "definition"
+        },
+        {
+          "id": "Lax906450.StrongNemhauserTrotter",
+          "title": "The strong Nemhauser–Trotter theorem",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax906450Proofs.Algorithm.polynomial_partition",
+        "Lax906450Proofs.Deficiency.partition_of_maximum"
+      ]
+    },
+    {
       "id": "lax-916827",
       "state": "registered",
       "environment": "v4.33.0",
