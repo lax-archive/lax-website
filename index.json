@@ -5308,6 +5308,40 @@
       ]
     },
     {
+      "id": "lax-266678",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Order-invariant cluster first-order logic is included in first-order logic on bounded-degree graphs",
+      "concepts": [
+        {
+          "id": "Lax266678.Collapse",
+          "title": "Order-invariant cluster first-order logic is included in first-order logic on bounded-degree graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax266678.Definability",
+          "title": "First-order definability from agreement at bounded rank",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax266678.Transfer",
+          "title": "Transferring a refinement order between first-order equivalent graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax266678.WindowRank",
+          "title": "Quantifier rank of a sentence describing counts and a marked neighbourhood",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax266678Proofs.Definability.definable",
+        "Lax266678Proofs.orderInvariantCFO_in_FO",
+        "Lax266678Proofs.Transfer.transferOrder",
+        "Lax266678Proofs.WindowRank.windowSentence"
+      ]
+    },
+    {
       "id": "lax-271696",
       "state": "registered",
       "environment": "v4.33.0",
