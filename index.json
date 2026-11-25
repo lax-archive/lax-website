@@ -17739,6 +17739,340 @@
       ]
     },
     {
+      "id": "lax-793645",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "A counterexample to Hadwiger's conjecture using quadratic frames and linear partitions",
+      "concepts": [
+        {
+          "id": "Lax793645.AdaptivePartitions",
+          "title": "Common partitions for filters depending on both leaves",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.AffinePointMatrices",
+          "title": "Symmetry and diagonal identities for affine points",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.BaseQueryHits",
+          "title": "Hits by a base query",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ChromaticBound",
+          "title": "The chromatic lower bound for independence number two",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ClippedExposure",
+          "title": "The loss from revealing a matching edge",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.CliqueMinor",
+          "title": "Clique minors and the Hadwiger number",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.ClosedPins",
+          "title": "Conditioning on frame images",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ConnectedMatching",
+          "title": "Connected matchings",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.ConstructionData",
+          "title": "Finite spaces and maps used by the construction",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.CoordinateCompletion",
+          "title": "Completing a quadratic form in coordinates",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.Counterexample",
+          "title": "A counterexample to Hadwiger's conjecture",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.FilteredQueryPartition",
+          "title": "One partition for all filters on a leaf",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.FiniteObstruction",
+          "title": "Finite overlap obstruction for independently sampled leaves",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.FiniteProbability",
+          "title": "Finite probability tables and cell averages",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.FiniteScores",
+          "title": "Suppression of options above a fixed overlap threshold",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.FourHoles",
+          "title": "Four holes between two random units",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.FourierComparison",
+          "title": "Fourier comparison for a conditional frame law",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.FractionalColoring",
+          "title": "Ordinary fractional coloring",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.FractionalCounterexample",
+          "title": "The fractional-coloring counterexample",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.FrameRealization",
+          "title": "Realizing four witness lists",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.FreshWitnessLists",
+          "title": "Seven generators with independent labels",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.FrozenConstraints",
+          "title": "Obstructions from frozen directions",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.Holes",
+          "title": "The hole relation",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.LabelDeletion",
+          "title": "Deleting labels preserves the edge span",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.LargeFrequencies",
+          "title": "Large Fourier coefficients of filtered queries",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.MatchingExposure",
+          "title": "From a conflict probability to a sampled graph",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.MatchingMinorBound",
+          "title": "Clique minors from connected matchings",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.MidpointEntropy",
+          "title": "Entropy progress from a deleted neighborhood",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.MixingMatrices",
+          "title": "Choosing the mixing matrices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.OrdinaryTesterSupport",
+          "title": "Private tester support and component rank",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.OverlapTransfer",
+          "title": "Finite transfer of successful-query overlaps",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.PhaseAlternative",
+          "title": "Four parity bits for two marked units",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax793645.PredictedScalarSystem",
+          "title": "Solving the scalar system with exact predictors",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.PreparedUnits",
+          "title": "Preparing the distribution of units",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ProjectedOverlap",
+          "title": "A one-sided comparison of overlaps",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.QuadraticFrameCounts",
+          "title": "Counting a new frame column",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.QueryCollision",
+          "title": "From matching keys to four holes",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.RankOfIndependentSums",
+          "title": "The rank of a sum of dispersed tensors",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.RareObstructions",
+          "title": "How often a dual obstruction can occur",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ResidualRegularity",
+          "title": "A common partition by energy increments",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SafeCompatiblePairs",
+          "title": "Safety on a rare compatible pair",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ScalarDuality",
+          "title": "Duality for the four scalar equations",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.ScalarPrescriptions",
+          "title": "Prescribing pairings on a witness list",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SelectedAtoms",
+          "title": "Isolating selected point matrices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SelectorConfinement",
+          "title": "The selector space of a low rank matrix",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SevenPredictions",
+          "title": "Seven possible pairs of common predictors",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SharedFrequencies",
+          "title": "Frequencies shared by independent leaves",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.SolublePairs",
+          "title": "Positive mass of soluble scalar systems",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.StatusGenerators",
+          "title": "Available scalar generators",
+          "type": "definition"
+        },
+        {
+          "id": "Lax793645.SupportScores",
+          "title": "Suppression of large support scores",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.TriangleFreeHoles",
+          "title": "Three holes cannot form a triangle",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.UnpredictedOverlap",
+          "title": "Overlap without common predictions",
+          "type": "lemma"
+        }
+      ],
+      "proofs": [
+        "Lax793645Proofs.AdaptivePartitions.common_partition",
+        "Lax793645Proofs.Construction.arbitrarily_large_small_connected_matching",
+        "Lax793645Proofs.Counterexample.arbitrarily_large_hadwiger_counterexample",
+        "Lax793645Proofs.FiniteObstruction.threshold_bound",
+        "Lax793645Proofs.FiniteScores.large_score_probability",
+        "Lax793645Proofs.FiniteScores.squared_score_probability",
+        "Lax793645Proofs.FractionalColoring.fractional_chromatic_le_chromatic",
+        "Lax793645Proofs.FractionalColoring.fractional_chromatic_lower_bound",
+        "Lax793645Proofs.FractionalCounterexample.arbitrarily_large_fractional_counterexample",
+        "Lax793645Proofs.HadwigerMatching.card_le_twice_chromaticNumber_of_indepNum",
+        "Lax793645Proofs.HadwigerMatching.hadwiger_matching_bound",
+        "Lax793645Proofs.Manuscript.AffinePointMatrices.affineTensor_identities",
+        "Lax793645Proofs.Manuscript.AffinePointMatrices.mem_span_pointSquare_iff",
+        "Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_hit_calendar",
+        "Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_relative_hit",
+        "Lax793645Proofs.Manuscript.ClippedExposure.dyadic_exposure_joint",
+        "Lax793645Proofs.Manuscript.ClosedPins.one_first_leaves",
+        "Lax793645Proofs.Manuscript.CoordinateCompletion.coordinate_quadratic_extension",
+        "Lax793645Proofs.Manuscript.Counterexample.arbitrarily_large_small_connected_matching",
+        "Lax793645Proofs.Manuscript.FilteredQueryPartition.one_query_all_filters_linear_partition",
+        "Lax793645Proofs.Manuscript.FourHoles.eventual_conflict_lower_bound",
+        "Lax793645Proofs.Manuscript.FourierComparison.one_direct_capped_leaf_fourier",
+        "Lax793645Proofs.Manuscript.FrameRealization.one_reciprocal_realization",
+        "Lax793645Proofs.Manuscript.FreshWitnessLists.seven_list",
+        "Lax793645Proofs.Manuscript.FrozenConstraints.one_selected_obstructions",
+        "Lax793645Proofs.Manuscript.LabelDeletion.generic_status_band_stable",
+        "Lax793645Proofs.Manuscript.LargeFrequencies.filtered_large_spectrum",
+        "Lax793645Proofs.Manuscript.MatchingExposure.transfer_scales",
+        "Lax793645Proofs.Manuscript.MixingMatrices.goodReducedMixers",
+        "Lax793645Proofs.Manuscript.OrdinaryTesterSupport.ordinaryBit_support",
+        "Lax793645Proofs.Manuscript.PhaseAlternative.one_phase_alternative",
+        "Lax793645Proofs.Manuscript.PredictedScalarSystem.one_attained_scalar_soluble",
+        "Lax793645Proofs.Manuscript.PreparedUnits.one_finite_preparation",
+        "Lax793645Proofs.Manuscript.ProjectedOverlap.one_sided_projected_mend",
+        "Lax793645Proofs.Manuscript.QuadraticFrameCounts.quadratic_column_mass",
+        "Lax793645Proofs.Manuscript.QuadraticFrameCounts.quadratic_column_partner",
+        "Lax793645Proofs.Manuscript.QueryCollision.one_collision_calendar",
+        "Lax793645Proofs.Manuscript.RankOfIndependentSums.no_cover_rank",
+        "Lax793645Proofs.Manuscript.RareObstructions.witnessed_cost",
+        "Lax793645Proofs.Manuscript.SafeCompatiblePairs.coded_safety",
+        "Lax793645Proofs.Manuscript.ScalarDuality.counter_score",
+        "Lax793645Proofs.Manuscript.ScalarDuality.critic_nz",
+        "Lax793645Proofs.Manuscript.ScalarPrescriptions.choose_reduced_script",
+        "Lax793645Proofs.Manuscript.ScalarPrescriptions.one_recipe_atoms",
+        "Lax793645Proofs.Manuscript.ScalarPrescriptions.one_recipe_effective",
+        "Lax793645Proofs.Manuscript.SelectedAtoms.selected_tensor_independent_mod_cross",
+        "Lax793645Proofs.Manuscript.SelectedAtoms.tensor_atom_isolation",
+        "Lax793645Proofs.Manuscript.SelectorConfinement.reshape_rank_le",
+        "Lax793645Proofs.Manuscript.SelectorConfinement.selector_confinement",
+        "Lax793645Proofs.Manuscript.SevenPredictions.exact_seven_alternative",
+        "Lax793645Proofs.Manuscript.SevenPredictions.seven_prediction_pairs_card",
+        "Lax793645Proofs.Manuscript.SharedFrequencies.shared_leaf_frequencies",
+        "Lax793645Proofs.Manuscript.SolublePairs.no_out",
+        "Lax793645Proofs.Manuscript.SupportScores.one_generic_lightmap",
+        "Lax793645Proofs.Manuscript.TriangleFreeHoles.one_hole_irrefl",
+        "Lax793645Proofs.Manuscript.TriangleFreeHoles.one_hole_sym",
+        "Lax793645Proofs.Manuscript.TriangleFreeHoles.one_hole_triangle",
+        "Lax793645Proofs.Manuscript.TriangleFreeHoles.triangle_free",
+        "Lax793645Proofs.Manuscript.UnpredictedOverlap.one_quiet_end",
+        "Lax793645Proofs.MidpointEntropy.midpoint_gap",
+        "Lax793645Proofs.MidpointEntropy.progress",
+        "Lax793645Proofs.OverlapTransfer.clipped_transfer",
+        "Lax793645Proofs.OverlapTransfer.finite_transfer",
+        "Lax793645Proofs.ResidualRegularity.common_partition"
+      ]
+    },
+    {
       "id": "lax-794877",
       "state": "registered",
       "environment": "v4.33.0",
