@@ -16377,6 +16377,56 @@
       ]
     },
     {
+      "id": "lax-637351",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Population Size versus Crossover Probability: Dichotomies for the $(\\mu+1)$ GA on $\\mathrm{Jump}_k$",
+      "concepts": [
+        {
+          "id": "Lax637351.Algorithm",
+          "title": "The $(\\mu+1)$ GA and the function $\\mathrm{Jump}_k$",
+          "type": "definition"
+        },
+        {
+          "id": "Lax637351.Runtime",
+          "title": "Expected optimization time",
+          "type": "definition"
+        },
+        {
+          "id": "Lax637351.Theorem1i",
+          "title": "Theorem 1(i)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax637351.Theorem1ii",
+          "title": "Theorem 1(ii)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax637351.Theorem2i",
+          "title": "Theorem 2(i)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax637351.Theorem2ii",
+          "title": "Theorem 2(ii)",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax637351.Theorem2iii",
+          "title": "Theorem 2(iii)",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax637351Proofs.Theorem1i.bound",
+        "Lax637351Proofs.Theorem1ii.bound",
+        "Lax637351Proofs.Theorem2i.bound",
+        "Lax637351Proofs.Theorem2ii.bound",
+        "Lax637351Proofs.Theorem2iii.bound"
+      ]
+    },
+    {
       "id": "lax-666725",
       "state": "registered",
       "environment": "v4.33.0",
