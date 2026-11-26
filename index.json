@@ -19892,6 +19892,60 @@
       ]
     },
     {
+      "id": "lax-919488",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Bounded Twin-Width Refinement of Triangulations",
+      "concepts": [
+        {
+          "id": "Lax919488.FacePairings",
+          "title": "Generalized triangulations and their dual graphs",
+          "type": "definition"
+        },
+        {
+          "id": "Lax919488.MultigraphTwinWidth",
+          "title": "Twin-width of a dual multigraph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax919488.PillowSubdivision",
+          "title": "Realization of the stacked pillow refinement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax919488.RefinedDual",
+          "title": "Contraction sequence for the refined dual graph",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax919488.RefinementBounds",
+          "title": "Bounded twin-width refinement of triangulations",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax919488.RefinementSize",
+          "title": "Size of the refinement",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax919488.StackedPillows",
+          "title": "Stacked pillow refinement",
+          "type": "definition"
+        }
+      ],
+      "proofs": [
+        "Lax919488Proofs.bounded_twin_width_refinement",
+        "Lax919488Proofs.DualWidth.dual_width",
+        "Lax919488Proofs.DualWidth.short_dual_width",
+        "Lax919488Proofs.Multiplicities.lift_sequence",
+        "Lax919488Proofs.Realization.pillow_refinement",
+        "Lax919488Proofs.Size.logarithmic_bound",
+        "Lax919488Proofs.Size.short_size",
+        "Lax919488Proofs.Size.size_bound",
+        "Lax919488Proofs.two_d_refinement"
+      ]
+    },
+    {
       "id": "lax-920634",
       "state": "registered",
       "environment": "v4.33.0",
