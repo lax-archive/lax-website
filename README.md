@@ -464,8 +464,9 @@ gh api --method POST repos/lax-archive/lax-website/dispatches \
   -f event_type=lax-db-updated
 ```
 
-The scheduled build makes deployment correct even before the archive server
-or database mirror sends that event.
+Each deployed artifact serves the generated commit at `/deployment-version.txt`.
+The workflow checks that file on the public domain. If publishing failed after
+the commit reached `gh-pages`, the next build retries the same revision.
 
 ### When a rebuild goes wrong
 
