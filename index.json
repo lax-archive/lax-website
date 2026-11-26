@@ -19905,17 +19905,17 @@
         {
           "id": "Lax919488.MultigraphTwinWidth",
           "title": "Twin-width of a dual multigraph",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax919488.PillowSubdivision",
           "title": "Realization of the stacked pillow refinement",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax919488.RefinedDual",
           "title": "Contraction sequence for the refined dual graph",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax919488.RefinementBounds",
@@ -19925,7 +19925,7 @@
         {
           "id": "Lax919488.RefinementSize",
           "title": "Size of the refinement",
-          "type": "theorem"
+          "type": "lemma"
         },
         {
           "id": "Lax919488.StackedPillows",
