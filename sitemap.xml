@@ -5759,6 +5759,63 @@
   <url><loc>https://laxarchive.org/lax-523824/Lax523824.SchrodingerRemainderBound.html</loc></url>
   <url><loc>https://laxarchive.org/lax-523824/Lax523824Proofs.SchrodingerRemainderBound.exactSchrodingerKineticSplit_proof.html</loc></url>
   <url><loc>https://laxarchive.org/lax-523824/Lax523824Proofs.SchrodingerRemainderBound.schrodingerRemainderBound_proof.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.AuxiliaryTree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.BinaryRefinement.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.BoundedMimAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.ChainCuts.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.CliqueConstruction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.ColoringGadgets.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.ColoringInstances.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.ColoringReduction.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.ContractionInput.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.DisjointPaths.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.Fringes.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.GraphAlgorithms.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.GraphProblems.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.MimWidth.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.MimWidthBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.MinimumColoring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.PartitionHierarchy.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.TreeBags.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.TreeIndependence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502.TreeIndependenceBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.AuxiliaryTree.construct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.BagConstruction.compute.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.BinaryRefinement.width_le_eight.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.BranchProgram.construct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ChainHistory.one_sequence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ChainIndependence.independence_bounds.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.CliqueConstruction.padding_aligns.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ColoringGadgets.proper_iff_allows.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ColoringMembership.membership.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ConnectedDomination.solve.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.CutMatching.chain_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.DisjointPaths.np_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.DominationAlgorithms.domination.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.FeedbackProgram.solve.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.FixedColoring.fixedColoring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.FringeCover.four_chains.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.GraphAlgorithms.fixedColoring.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.GraphAlgorithms.optimization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.HierarchyProgram.construct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.HierarchyTree.exists_tree.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.MinimumColoring.hardness_with_sequence.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.MinimumColoring.np_complete.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.OptimizationAlgorithms.optimization.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.PartitionHierarchy.child_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.PartitionHierarchy.refines.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.PartitionTables.compute_partitions.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.PathProgram.solve.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.PlanSequence.image.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.ReductionProgram.reduce.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.TreeBags.bag_bound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.TreeBags.construct.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.TreeDecomposition.decomposition.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.WidthBounds.mimWidth_le_eight.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/Lax528502Proofs.WidthBounds.treeIndependence_le.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/paper-pdf.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-528502/paper.html</loc></url>
   <url><loc>https://laxarchive.org/lax-53/</loc></url>
   <url><loc>https://laxarchive.org/lax-53/Lax53.AutomatonLinearTime.html</loc></url>
   <url><loc>https://laxarchive.org/lax-53/Lax53.Determinization.html</loc></url>

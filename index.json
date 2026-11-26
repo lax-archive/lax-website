@@ -14883,6 +14883,150 @@
       ]
     },
     {
+      "id": "lax-528502",
+      "state": "draft",
+      "environment": "v4.33.0",
+      "title": "Graphs of twin-width at most 2 have bounded mim-width",
+      "concepts": [
+        {
+          "id": "Lax528502.AuxiliaryTree",
+          "title": "The auxiliary tree of a 2-sequence",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.BinaryRefinement",
+          "title": "Resolving the auxiliary tree into a branch decomposition",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.BoundedMimAlgorithms",
+          "title": "Algorithms supplied with a bounded-mim-width decomposition",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax528502.ChainCuts",
+          "title": "Covers of a cut by chain graphs",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.CliqueConstruction",
+          "title": "The ordered-clique graph and its contraction sequence",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.ColoringGadgets",
+          "title": "Color propagation between ordered cliques",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.ColoringInstances",
+          "title": "Minimum Coloring with a witnessing 2-sequence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax528502.ColoringReduction",
+          "title": "Reduction to Minimum Coloring with a 2-sequence",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.ContractionInput",
+          "title": "Graphs with a supplied contraction sequence",
+          "type": "definition"
+        },
+        {
+          "id": "Lax528502.DisjointPaths",
+          "title": "Vertex-disjoint paths in directed acyclic graphs",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax528502.Fringes",
+          "title": "Fringes and auxiliary partitions",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.GraphAlgorithms",
+          "title": "Polynomial-time graph problems given a 2-sequence",
+          "type": "corollary"
+        },
+        {
+          "id": "Lax528502.GraphProblems",
+          "title": "Domination, feedback vertex sets, and induced paths",
+          "type": "definition"
+        },
+        {
+          "id": "Lax528502.MimWidth",
+          "title": "Maximum induced matching width",
+          "type": "definition"
+        },
+        {
+          "id": "Lax528502.MimWidthBound",
+          "title": "Twin-width at most 2 implies mim-width at most 8",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax528502.MinimumColoring",
+          "title": "Minimum Coloring is NP-complete at twin-width 2",
+          "type": "theorem"
+        },
+        {
+          "id": "Lax528502.PartitionHierarchy",
+          "title": "The hierarchy of auxiliary parts",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.TreeBags",
+          "title": "Bags of the auxiliary tree",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax528502.TreeIndependence",
+          "title": "Tree-independence number and induced bicliques",
+          "type": "definition"
+        },
+        {
+          "id": "Lax528502.TreeIndependenceBound",
+          "title": "Tree-independence number of induced-biclique-free graphs of twin-width at most 2",
+          "type": "theorem"
+        }
+      ],
+      "proofs": [
+        "Lax528502Proofs.AuxiliaryTree.construct",
+        "Lax528502Proofs.BagConstruction.compute",
+        "Lax528502Proofs.BinaryRefinement.width_le_eight",
+        "Lax528502Proofs.BranchProgram.construct",
+        "Lax528502Proofs.ChainHistory.one_sequence",
+        "Lax528502Proofs.ChainIndependence.independence_bounds",
+        "Lax528502Proofs.CliqueConstruction.padding_aligns",
+        "Lax528502Proofs.ColoringGadgets.proper_iff_allows",
+        "Lax528502Proofs.ColoringMembership.membership",
+        "Lax528502Proofs.ConnectedDomination.solve",
+        "Lax528502Proofs.CutMatching.chain_bound",
+        "Lax528502Proofs.DisjointPaths.np_complete",
+        "Lax528502Proofs.DominationAlgorithms.domination",
+        "Lax528502Proofs.FeedbackProgram.solve",
+        "Lax528502Proofs.FixedColoring.fixedColoring",
+        "Lax528502Proofs.FringeCover.four_chains",
+        "Lax528502Proofs.GraphAlgorithms.fixedColoring",
+        "Lax528502Proofs.GraphAlgorithms.optimization",
+        "Lax528502Proofs.HierarchyProgram.construct",
+        "Lax528502Proofs.HierarchyTree.exists_tree",
+        "Lax528502Proofs.MinimumColoring.hardness_with_sequence",
+        "Lax528502Proofs.MinimumColoring.np_complete",
+        "Lax528502Proofs.OptimizationAlgorithms.optimization",
+        "Lax528502Proofs.PartitionHierarchy.child_bound",
+        "Lax528502Proofs.PartitionHierarchy.refines",
+        "Lax528502Proofs.PartitionTables.compute_partitions",
+        "Lax528502Proofs.PathProgram.solve",
+        "Lax528502Proofs.PlanSequence.image",
+        "Lax528502Proofs.ReductionProgram.reduce",
+        "Lax528502Proofs.TreeBags.bag_bound",
+        "Lax528502Proofs.TreeBags.construct",
+        "Lax528502Proofs.TreeDecomposition.decomposition",
+        "Lax528502Proofs.WidthBounds.mimWidth_le_eight",
+        "Lax528502Proofs.WidthBounds.treeIndependence_le"
+      ]
+    },
+    {
       "id": "lax-535992",
       "state": "registered",
       "environment": "v4.33.0",
