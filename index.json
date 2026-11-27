@@ -14884,7 +14884,7 @@
     },
     {
       "id": "lax-528502",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Graphs of twin-width at most 2 have bounded mim-width",
       "concepts": [
