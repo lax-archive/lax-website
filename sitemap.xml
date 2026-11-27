@@ -6960,7 +6960,6 @@
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.AffinePointMatrices.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.BaseQueryHits.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.ChromaticBound.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-793645/Lax793645.ClippedExposure.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.CliqueMinor.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.ClosedPins.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.ConnectedMatching.html</loc></url>
@@ -6983,8 +6982,10 @@
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.LargeFrequencies.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.MatchingExposure.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.MatchingMinorBound.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-793645/Lax793645.MatchingNeighborhoods.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.MidpointEntropy.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.MixingMatrices.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-793645/Lax793645.OrderedSlotCompletion.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.OrdinaryTesterSupport.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.OverlapTransfer.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645.PhaseAlternative.html</loc></url>
@@ -7023,7 +7024,6 @@
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.AffinePointMatrices.mem_span_pointSquare_iff.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_hit_calendar.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_relative_hit.html</loc></url>
-  <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.ClippedExposure.dyadic_exposure_joint.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.ClosedPins.one_first_leaves.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.CoordinateCompletion.coordinate_quadratic_extension.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.Counterexample.arbitrarily_large_small_connected_matching.html</loc></url>
@@ -7036,7 +7036,10 @@
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.LabelDeletion.generic_status_band_stable.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.LargeFrequencies.filtered_large_spectrum.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.MatchingExposure.transfer_scales.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.MatchingNeighborhoods.hitting_all_neighborhoods.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.MatchingNeighborhoods.hitting_list.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.MixingMatrices.goodReducedMixers.html</loc></url>
+  <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.OrderedSlotCompletion.ordered_slot_completion.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.OrdinaryTesterSupport.ordinaryBit_support.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.PhaseAlternative.one_phase_alternative.html</loc></url>
   <url><loc>https://laxarchive.org/lax-793645/Lax793645Proofs.Manuscript.PredictedScalarSystem.one_attained_scalar_soluble.html</loc></url>

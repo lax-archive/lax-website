@@ -17909,11 +17909,6 @@
           "type": "lemma"
         },
         {
-          "id": "Lax793645.ClippedExposure",
-          "title": "The loss from revealing a matching edge",
-          "type": "lemma"
-        },
-        {
           "id": "Lax793645.CliqueMinor",
           "title": "Clique minors and the Hadwiger number",
           "type": "definition"
@@ -18024,6 +18019,11 @@
           "type": "theorem"
         },
         {
+          "id": "Lax793645.MatchingNeighborhoods",
+          "title": "A list meeting conflict neighborhoods",
+          "type": "lemma"
+        },
+        {
           "id": "Lax793645.MidpointEntropy",
           "title": "Entropy progress from a deleted neighborhood",
           "type": "lemma"
@@ -18031,6 +18031,11 @@
         {
           "id": "Lax793645.MixingMatrices",
           "title": "Choosing the mixing matrices",
+          "type": "lemma"
+        },
+        {
+          "id": "Lax793645.OrderedSlotCompletion",
+          "title": "Completing a Gram matrix by ordering its slots",
           "type": "lemma"
         },
         {
@@ -18165,7 +18170,6 @@
         "Lax793645Proofs.Manuscript.AffinePointMatrices.mem_span_pointSquare_iff",
         "Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_hit_calendar",
         "Lax793645Proofs.Manuscript.BaseQueryHits.one_base_product_relative_hit",
-        "Lax793645Proofs.Manuscript.ClippedExposure.dyadic_exposure_joint",
         "Lax793645Proofs.Manuscript.ClosedPins.one_first_leaves",
         "Lax793645Proofs.Manuscript.CoordinateCompletion.coordinate_quadratic_extension",
         "Lax793645Proofs.Manuscript.Counterexample.arbitrarily_large_small_connected_matching",
@@ -18178,7 +18182,10 @@
         "Lax793645Proofs.Manuscript.LabelDeletion.generic_status_band_stable",
         "Lax793645Proofs.Manuscript.LargeFrequencies.filtered_large_spectrum",
         "Lax793645Proofs.Manuscript.MatchingExposure.transfer_scales",
+        "Lax793645Proofs.Manuscript.MatchingNeighborhoods.hitting_all_neighborhoods",
+        "Lax793645Proofs.Manuscript.MatchingNeighborhoods.hitting_list",
         "Lax793645Proofs.Manuscript.MixingMatrices.goodReducedMixers",
+        "Lax793645Proofs.Manuscript.OrderedSlotCompletion.ordered_slot_completion",
         "Lax793645Proofs.Manuscript.OrdinaryTesterSupport.ordinaryBit_support",
         "Lax793645Proofs.Manuscript.PhaseAlternative.one_phase_alternative",
         "Lax793645Proofs.Manuscript.PredictedScalarSystem.one_attained_scalar_soluble",
