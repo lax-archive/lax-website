@@ -16522,7 +16522,7 @@
     },
     {
       "id": "lax-637351",
-      "state": "draft",
+      "state": "registered",
       "environment": "v4.33.0",
       "title": "Population Size versus Crossover Probability: Dichotomies for the $(\\mu+1)$ GA on $\\mathrm{Jump}_k$",
       "concepts": [
