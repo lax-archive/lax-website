@@ -14934,6 +14934,11 @@
           "type": "definition"
         },
         {
+          "id": "Lax528502.DecompositionAlgorithms",
+          "title": "Computing decompositions from a given 2-sequence",
+          "type": "definition"
+        },
+        {
           "id": "Lax528502.DisjointPaths",
           "title": "Vertex-disjoint paths in directed acyclic graphs",
           "type": "theorem"
@@ -14965,7 +14970,7 @@
         },
         {
           "id": "Lax528502.MinimumColoring",
-          "title": "Minimum Coloring is NP-complete at twin-width 2",
+          "title": "Minimum Coloring is NP-complete on graphs of twin-width at most 2",
           "type": "theorem"
         },
         {
@@ -15022,6 +15027,7 @@
         "Lax528502Proofs.TreeBags.bag_bound",
         "Lax528502Proofs.TreeBags.construct",
         "Lax528502Proofs.TreeDecomposition.decomposition",
+        "Lax528502Proofs.WidthBounds.exists_branchDecomposition",
         "Lax528502Proofs.WidthBounds.mimWidth_le_eight",
         "Lax528502Proofs.WidthBounds.treeIndependence_le"
       ]
